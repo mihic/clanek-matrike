@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# ostalo
+*.zip
+
+#latex
+*.aux
+*.log
+*.out
+*.pdf
