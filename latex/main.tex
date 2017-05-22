@@ -10,9 +10,10 @@
      
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{hyperref}
 
 
-\title{Matrix multiplication: Practical use of the Strassen like algorithm}
+\title{Matrix multiplication: Practical use of a Strassen like algorithm}
 \author{Rozman, Mitja and Eleršič, Miha}
 \date{}
 
@@ -69,29 +70,19 @@
 \maketitle
 
 
-(*** POPRAVI)
+
 \begingroup
 \renewcommand\thefootnote{}
-\footnotetext{Manuscript received Nov, 2016.}
+\footnotetext{TODO: Manuscript received Nov, 2016.}
 \footnotetext{This work was partially supported by the Slovenian Research Agency and the projects "P2-0095 Parallel and distributed systems" and "N2-0053 Graph Optimisation and Big Data".}
 \footnotetext{The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: jurij.mihelic@fri.uni-lj.si).}
 \endgroup
 
 \begin{abstract} %
-In this paper we make a quick overwiev of matrix multiplication problems.
-We explain how the standard algorithms are implemented (*** POPRAVI) 
-and test their efficiancy. We also implement a Strassen like algorithm 
-and compare it with other methods. 
-
-In the end we also compare (*** POPRAVI) our method with existing algorithms 
-in standard libarys (*** SUCH AS ....).
-
-%Additional (*** Aditionaly) we show 
-We also show 
-that algorithms of type divide and conquer
-are (*** MORE NUMERICALY STABLE AS OTHERS ALGORITHMS). 
+In this paper we make an overview of practical matrix multiplication algorithms.
+We explain and implement the standard algorithms and implement a new algorithm based on the original Strassen algorithm.
+We compare our implementation with algorithms from the standard library openBLAS. Additionally we show that divide and conquer algorithms are more numerically stable compared to other algorithms.
 \end{abstract}
-
 \vspace{0.5cm}
 \begin{spacing}{0.9}
 \small\textbf{Index Terms}: \textbf{\textit{guidelines, issues, experiments, algorithmics, dataflow, architecture, efficiency, generality}}
@@ -102,18 +93,10 @@ are (*** MORE NUMERICALY STABLE AS OTHERS ALGORITHMS).
 \section{Introduction}
 
 \lettrine{M}{atrix multiplication} 
-is one of the basic methods used in many different fields. 
-Because of this it is important to implement efficiant and 
-numericly stable algoritem for this problem. 
-This article deals manly with matrix multiplication 
-efficiatciy and not so much with it's numerical stability 
-because in this article we also show that 
-numerical stability for typical need 
-of users is easy accomplished.
+is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algortihms important. 
 
-Aditionaly we want that our work could be of 
-some use for others so all the code is publicly 
-aviable at: (*** LINK)
+Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
+
 
 \subsection{Known algorithms overview}
 (*** 1/4 strani)
