@@ -1,0 +1,407 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[textwidth=16cm,textheight=24cm]{geometry}
+
+\usepackage{lmodern}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{textcomp} 
+     
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\title{Matrix multiplication: Practical use of the Strassen like algorithm}
+\author{Rozman, Mitja and Eleršič, Miha}
+\date{}
+
+% # very important concept
+% \def\vic#1{\emph{#1}}
+% # identifier
+% \def\id#1{\textsf{#1}}
+% # quotes
+% \def\q#1{"\textit{#1}"}
+
+\sloppy
+
+
+% % % % % % % % % % % Try to match IPSI style
+\usepackage{lettrine}
+\usepackage{setspace}
+
+\usepackage{balance}
+\setlength{\columnsep}{1cm}
+\twocolumn
+
+\pagenumbering{gobble}
+
+% title
+\makeatletter
+\def\@maketitle{
+\newpage
+\let \footnote \thanks
+\begin{center}
+ 	{\@setfontsize\Huge{26}{30}\@title\par}
+	\vskip 2em
+	{\large \@author \par}
+\end{center}
+\vskip 2em \par
+}
+
+% abstract
+\renewenvironment{abstract}
+{\begin{spacing}{1}\small\textbf{Abstract:}\bfseries\itshape}
+{\end{spacing}}
+
+%\usepackage[sc]{titlesec}
+\usepackage{titlesec}
+\titleformat{\section}[hang]{\normalfont\scshape\centering}{\sf\thesection.}{1em}{}
+\titleformat{\subsection}[hang]{\normalfont}{\sf\thesubsection}{1em}{}
+
+\usepackage{natbib}
+\def\bibfont{\footnotesize}
+\setlength{\bibsep}{0.0pt}
+% % % % % % % % % % %
+
+
+\begin{document}
+\maketitle
+
+
+(*** POPRAVI)
+\begingroup
+\renewcommand\thefootnote{}
+\footnotetext{Manuscript received Nov, 2016.}
+\footnotetext{This work was partially supported by the Slovenian Research Agency and the projects "P2-0095 Parallel and distributed systems" and "N2-0053 Graph Optimisation and Big Data".}
+\footnotetext{The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: jurij.mihelic@fri.uni-lj.si).}
+\endgroup
+
+\begin{abstract} %
+In this paper we make a quick overwiev of matrix multiplication problems.
+We explain how the standard algorithms are implemented (*** POPRAVI) 
+and test their efficiancy. We also implement a Strassen like algorithm 
+and compare it with other methods. 
+
+In the end we also compare (*** POPRAVI) our method with existing algorithms 
+in standard libarys (*** SUCH AS ....).
+
+%Additional (*** Aditionaly) we show 
+We also show 
+that algorithms of type divide and conquer
+are (*** MORE NUMERICALY STABLE AS OTHERS ALGORITHMS). 
+\end{abstract}
+
+\vspace{0.5cm}
+\begin{spacing}{0.9}
+\small\textbf{Index Terms}: \textbf{\textit{guidelines, issues, experiments, algorithmics, dataflow, architecture, efficiency, generality}}
+\end{spacing}
+
+%\tableofcontents
+
+\section{Introduction}
+
+\lettrine{M}{atrix multiplication} 
+is one of the basic methods used in many different fields. 
+Because of this it is important to implement efficiant and 
+numericly stable algoritem for this problem. 
+This article deals manly with matrix multiplication 
+efficiatciy and not so much with it's numerical stability 
+because in this article we also show that 
+numerical stability for typical need 
+of users is easy accomplished.
+
+Aditionaly we want that our work could be of 
+some use for others so all the code is publicly 
+aviable at: (*** LINK)
+
+\subsection{Known algorithms overview}
+(*** 1/4 strani)
+\subsection{Existing implementations}
+(*** 1/4 strani)
+
+%%\section{Iterative algorithem with transposed matrix (*** mogoce samo Iterative algorithem)}
+
+\section{Iterative algorithm}
+(*** 1/2 strani)
+\subsection{Numerical stability}
+
+\subsection{Transposed matrix}
+
+\section{Recursive algorithm}
+(*** 3/2 strani)
+\subsection{Implementation}
+
+\subsection{Numerical stability}
+
+\section{Strassen algorithm}
+(*** 3 strani)
+\subsection{Time gain}
+
+\subsection{Implementation}
+
+\subsection{Numerical stability}
+
+\section{Algorithms from libarys}
+(*** 2 strani)
+\section{Overview}
+(*** 2 strani)
+
+
+\end{document}
+Here we briefly describe the dataflow architecture as implemented by the Maxeler. As opposed to the control-flow architecture, where the operations to be executed by the processor are delegated by the sequence of the instructions, in the data-flow architecture, the operation is executed when its operands are available. Hence, one of the main dataflow programming challenges is to organize the data in such a way that it is readily available and processed by the data-flow processor.
+
+In general, Maxeler's dataflow architecture consists of a set of dataflow engines. Each engine executes one or more \vic{kernels}, i.e., self-contained computing modules with specified input and output. The execution of kernels is controlled from the control-flow computer, and a dataflow engines may be viewed at as a co-processors.
+
+Consequently, the algorithm designer must carefully think about the separation of work between the control-flow and the dataflow part. Considering the former, her job is to implement the code (usually in the C programming language) which controls the whole computation process, e.g., to read the input from the user, to pre-process the data, to send the data to the dataflow engine, to execute the dataflow computation, to transfer the results back to the memory of the control-flow part, and finally, to print the results to the user.
+
+Considering the dataflow part, her job is to implement each kernel (in the MaxJ programming language similar to Java), which can be viewed at as a construction of the dataflow graph, where nodes corresponds to operations and edges connect inputs and outputs of particular operations. Additionally, the implementor must also provide an implementation of the so-called \vic{manager} part, which configures dataflow engine, i.e., specifies the interface to interact with the control-flow part, connects the data streams and interconnects the implemented kernels.
+
+There are two main parallelization mechanisms available in the dataflow engines. The first is in the pipeline, which is hidden behind each dataflow operation, and the second is the parallelization via \vic{pipes}, which is like executing several kernels of the same type at once, each with its own element from the input data stream. Other acceleration mechanism consists of using the large memory available for each dataflow unit or using the fast memory, which is part of each kernel.
+
+
+\section{Conducting Experiments}
+\label{sec:expconduct}
+
+In this section we first give a few reasons for performing experiments, then we present an overall perspective of the experimental process, next we discuss important experimental principles in a dataflow setting, followed by some examples of experimental goals for dataflow algorithms.
+
+In what follows we always assume that at least one of the algorithms examined in the experiments is utilizing the dataflow architecture; such utilization may be partial, the rest of the algorithm may be control-flow based.
+
+The purpose and motivation behind experimental evaluation of dataflow algorithms may be justified with several reasons; to name just a few:
+\begin{itemize}
+\item as a proof of concept that a problem can be solved in practice by a dataflow algorithm,
+\item to improve upon the state of the art algorithm for solving a problem,
+\item to compare different dataflow programming techniques.
+\end{itemize}
+
+\subsection{Experimental Process}
+
+When conducting the experiments, the desig\-ner of experiments, i.e., the experimenter, customarily follows a process, which is depicted in Figure \ref{fig:process}.
+It consists of two phases, i.e., planning and execution of an experiment.
+The first phase begins with formulation of the goals of the experiment, and is followed by definition of measures and factors of influence, preparation of tests and setting up the experimental tools.
+Afterwards, the experiment is executed and the obtained results are analyzed.
+Finally, the results, if beneficial, are reported.
+See also \cite{McGeoch12,Muller10} for more detailed discussion on this topic.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{fig-process.pdf}
+\caption{Experimental process}
+\label{fig:process}
+\end{figure}
+
+Usually the main experiments (also known as workhorse experiments) are preceded by a preliminary study, which is of exploratory nature. It enables the experimenter to plan the experiment by checking basic assumptions and learning about the test environment.
+This process is not strictly linear,  and some steps may be customized, repeated, and/or omitted.
+
+\subsection{Experimental Principles}
+Several general experimental principles need to be followed when planning any experiment.
+In what follows we enlist these principles and discuss their particularities regarding the data\-flow environment considerations.
+
+\paragraph{Reproducibility.}
+Retaking the same experiment should produce similar results.
+The performance of control-flow algorithms is often susceptible to environmental or noise parameters, which cannot be explicitly manipulated.
+For example, the load of computer system, the behavior of operating system.
+Often the performance depends on the actual data in the input, e.g., insertion sort or quicksort, which may taint the results.
+
+In contrast, the performance of dataflow algorithms is more predictable. The system executes one process at a time.
+Additionally, dataflow kernels cannot contain branch instructions, and their execution takes exactly the same number of clock ticks.
+
+\paragraph{Correctness.}
+Indicators obtained from the experiment must accurately reflect the properties being studied.
+Performance indicators that are less influenced by external or noisy factors should be used.
+
+In the dataflow experimentation running time, space and power consumption are often measured.
+The last one is the hardest to measure accurately. 
+
+\paragraph{Validity.}
+Conclusions drawn from the experimental results are based on the correct interpretations of data.
+
+The dataflow architecture has many speci\-fics that must be taken into account when analyzing data.
+For example, a root cause for not achieving desired speedups may be in low throughput of the fetched input data from the host or in low parallelism.
+In the former case, one may increase throughput by pre-fetching the data into the large memory, and in the latter one increase the number of pipes.
+
+\paragraph{Generality.}
+Analysis of the results and conclusions should apply broadly.
+The experiment should be carefully designed by choosing proper performance measures as well as producing explanatory test scenarios.
+
+The experimenter should be able to deduce which dataflow techniques have a positive effect on the selected measures.
+Test scenarios should allow for the control of parameters and isolation of components by focusing on one artifact at one time.
+
+\paragraph{Efficiency.}
+To produce correct results without wasting time and other resources, i.e., maximize information gained per unit of experimental effort.
+
+Dataflow programs are known to have long compile times.
+Hence, the use of simulator to check correctness and obtain preliminary results -- before performing the workhorse experiments -- is a must.
+Additionally, the test program must be flexible enough to support testing in various experimental settings.
+To achieve this usually the best is to support test configuration via a command line arguments.
+
+\paragraph{Newsworthiness.}
+To produce interesting results and conclusions.
+The designer of the experiment should look forward to create an experiment which is worth performing in order to provide new insights into the problem and/or the algorithm.
+Notice that, this is important in academic, i.e., to publish the results, as well as industrial setting, i.e., to create better products.
+
+
+\subsection{Experimental Goals}
+
+The first planning step, which is necessary for good experimental research, is to define experimental goals.
+The experimenter needs to think about and define
+the motivation for the experiments, questions needing answers, statements needed to be verified, and newsworthiness of the experiment.
+
+Obviously, the common goal of all papers presenting an experimentally successful implementation of a dataflow algorithm satisfy the goal of showing suitability of a particular algorithm for the dataflow architecture.
+Besides that, several additional goals are usually pursued within the paper.
+Here we give several examples of goals from the literature on experiments with dataflow algorithms.
+\begin{itemize}
+%\cite{Rankovic13bitonic,kos2015chapter,CibejSimplex,Kenter14Stereo,Niu12Stencil}.
+\item To compare performance of an algorithm for a dataflow architecture to the state-of-the-art (sequential) control flow algorithms, e.g., bitonic sort vs. quicksort \cite{kos2015chapter}, fast Fourier transform \cite{FFT}.
+\item To compare performance of an algorithm for a dataflow architecture to the algorithm on other parallel architectures, such as general purpose graphics processing units (GPGPU), e.g., FPGA, GPGPU \cite{Niu12Stencil}, multi-core \cite{Guo14SetCover,Weston12Derivatives}.
+\item To compare performance (and resource consumption) of both control flow and dataflow version of the same algorithm, e.g., simplex algorithm \cite{CibejSimplex}, fast Fourier transform \cite{FFT}.
+\item To rank different variants of a dataflow algorithm, e.g., main memory vs. dataflow large memory, number of pipes \cite{CibejSimplex}.
+\item To show the relevance of an algorithm for a specific application, e.g., seismic imaging \cite{Niu12Stencil}, solving dense linear programs \cite{CibejSimplex}, stereo matching \cite{Kenter14Stereo}, credit derivatives \cite{Weston12Derivatives}.
+\item To evaluate an estimation model for dataflow resource consumption \cite{Niu12Stencil}.
+\item To determine energy efficiency and compare power consumption \cite{Niu12Stencil}.
+\item To compare performance for a standard rack unit (1U) compute nodes \cite{Weston12Derivatives}.
+\item Qualitative comparison \cite{Guo14SetCover}.
+\end{itemize}
+
+
+\section{Algorithm as a Test Subject}
+
+%\subsection{Test subject}
+Before the experiments are actually performed, the experimenter must determine the test subject, which, in our case, is the algorithm (and accompanying data structures) in its broad interpretation.
+
+In general, there are two options concerning the preparation of the test subject: it may be a real application or a dedicated test program \cite{McGeoch12}.
+The former usually exhibits many difficulties comparing to the latter.
+For example, it may be hard to obtain accurate results measuring the algorithm since the application may contain additional code unrelated to the algorithm.
+On the other hand, the test program interface is designed to support experiments, measure performance, and print statistics.
+
+In practice, to perform the experiments, a test program is most often used and the dataflow experimentation is no exception.
+The test program on the dataflow architecture consists of two parts: the CPU code and the dataflow code (containing one or more kernels and their manager).
+The former implements the main program and controls the process by utilizing the dataflow part at least once, and the latter implements the critical parts of the algorithm that are expected to be accelerated.
+
+\subsection{Semantic Hierarchy}
+Observe that the experiment is actually not performed with the algorithm but with the process running on a particular platform and created from the corresponding implementation.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{fig-semanticgaps}
+\caption{Semantic hierarchy of the algorithm as a test subject.}
+\label{fig:semantichierarchy}
+\end{figure}
+
+See Figure \ref{fig:semantichierarchy} for an overview of the semantic hierarchy relating to the algorithm as a test subject.
+When solving a computational problem, there are many ways to represent the algorithm for solving the problem and each offering distinct level of abstraction.
+First, usually an idea for an algorithm is explored, which is, if applicable, then transformed through many levels of abstraction, i.e., from formal specification (e.g., pseudo-code), implementation (e.g., source code), and executable (e.g., machine code), to the last level containing the executing process.
+
+As the dataflow model of computation is a very specific one, there are a few peculiarities to observe.
+At the top level of semantic hierarchy one may explore the following ideas \cite{Milutinovic15guide}:
+\begin{itemize}
+\item appropriate algorithmic modifications
+\item exploiting pipelining concepts
+\item appropriate input data choreography
+\item exploiting FPGA possibility for arbitrary floating-point precision
+\end{itemize}
+Notice that the top two levels basically correspond to algorithm design, which is already well explored in the literature on classical (control-flow) algorithms \cite{CLRS}.
+Often, the main challenge is not in designing a new algorithm but in finding an existing control-flow algorithm suitable to be used as a basis for the dataflow algorithm.
+See \cite{KorolijaControl,MaxTutorial,Milutinovic15guide} for more on this topic as well as \cite{creativity} for systematic approach on generating new ideas.
+
+\subsection{Implementation Efficiency}
+
+An important aspect of the correctness principle in the experimental process is to ensure fairness of comparison to all engaging algorithms.
+In particular, besides obtaining efficient dataflow implementation, one must also be careful when implementing a control-flow algorithm or any other competing algorithm.
+
+As discussed in \cite{Johnson02} this aspect is somewhat controversial: at first the aim for efficiency seems to be obvious (at least for the algorithm to be exemplified), but efficiency often requires a non-negligible effort of a skilled programmer.
+When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity. 
+Hence, algorithms examined by the experimental evaluation should have publicly available implementations.
+This increases trust in the results and analysis of the experiment and also makes any further experimental research easier. In such cases it is advisable to take the original implementation.
+
+On the other hand, one must be careful not to dig too much into the efficiency issues and perform too much code tuning, which is best summarized with the following Johnson's principle: \q{Use Reasonably Efficient Implementations} \cite{Johnson02}.
+
+\paragraph{Code tuning.}
+In the remainder of this section we present and discuss several examples of the above code optimization issues. To start with a simple example, concerning the level of compiler optimization, one should use the same level in all algorithms tested, e.g., enable the \id{-O3} option in C compiler.
+
+Observe also, that even a few simple optimizations can greatly improve a particular implementation.
+As an illustrative example, see Figure \ref{fig:comparecpu} showing comparison of running times for several implementations of the classical simplex algorithm for solving linear programs.
+The worst implementation, denoted with \id{cpu-cache}, is accessing the data in a cache unfriendly manner; the second worst, \id{cpu-div} is not particularly careful with the use of  floating-point division operations, whereas the best implementation (\id{cpu}) is optimized by moving the divisions out of the body loop and pre-calculating the inverse of the pivot.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.35]{cpu-times.png}
+\caption{Comparison of (in-)efficient implementations}
+\label{fig:comparecpu}
+\end{figure}
+
+Straightforward implementions  of textbook algorithms often produce programs which are not useful in practice.
+A significant amount of engineering needs to be put into a particular algorithm before its implementation is considered efficient.
+A classical example of this is the well-known Quicksort algorithm and its carefully optimized implementation in the standard C library \cite{BentleyQS}.
+
+\subsection{Implementation Generality}
+
+Besides efficiency, generality of the implementation is another concern of the correctness principle.
+By generality we mean the algorithm (or to be more concrete, its implementation and respective compiled code) is able to solve (in principle) all instances (limited only with the available memory and possibly other resources) of the corresponding problem.
+
+\paragraph{Parametrization of kernel construction.}
+Usually, from this perspective, control-flow implementations are prone to be as general as possible.
+On the other hand, dataflow implementations are sometimes usable only on a specific subset of problem instances.
+One of the reasons behind this is that the construction of dataflow kernels is often parameterized, with the constructor parameters describing the allowed subset of problem instances.
+To avoid confusion, notice the difference between the kernel construction parameter (e.g., specified as an argument of the kernel constructor) and the input parameter of the kernel (e.g., read by \id{io.input($\cdot$)} function).
+
+For the ease of explanation let us consider the size of an input as the kernel construction parameter.
+When such kernel is compiled, it produces a dataflow graph which is able to be run only for the instances of the specified size.
+A straightforward example of such specificity would be an implementation of fast Fourier transform described in \cite{FFT} or bitonic sort \cite{kos2015chapter}.
+In order to solve instances of different size, a new kernel has to be compiled.
+
+An example of a general implementation can be found in \cite{CibejSimplex}. Here, any input up to a given size (determined by the available FPGA resources) can be solved.
+Notice that, there is still a kernel construction parameter, but here it specifies only the upper bound on the input size.
+
+\paragraph{Alignment constraints.}
+Another interesting aspect of fairness are also alignment constraints, arising when implementing algorithms for the dataflow architecture, i.e., the size of input data streams must be divisible by a particular architecture-dependent number.
+In contrast, such constraints are usually not present in a control flow architecture, but may be inherently present in some algorithms such as \cite{FFT}.
+Now, the designer of experiments is faced with several dilemmas about the test data such as:
+\begin{itemize}
+\item Should it be constrained to fit the dataflow architecture?
+\item Should it be transformed with the respect to the alignment constraints?
+\item Should it be transformed before the actual experiment or on-the-fly?
+\item Should the transformation time be considered as a part of the performance measure?
+\end{itemize}
+
+Our answer would be that the implementation should be as general as possible and to clearly and correctly show the behavior of the algorithm.
+When the alignment transformation is complex and apparently influence the results, then we firmly believe that it must be done and also considered when measuring the performance.
+The decision may depend on the application of the algorithm: if misaligned inputs are not appearing in practice or are the constraint of the algorithm, than this issue might be ignored.
+
+
+
+\section{Conclusion}
+
+Concerning the experimental process presented in Figure \ref{fig:process} we mostly discussed the process in general, its main principles and guidelines as well as the algorithm as a test subject with a focus on implementation efficiency and generality.
+Additionally, we presented the first step of the process, i.e., formulation of experimental goals.
+
+There are many issues of experimental algorithmics with a focus on experiments with algorithms for the dataflow architecture that we did not dwell into.
+Concerning planning of experiments and performances measures we completely leave out an important discussion on performance measures and their indicators which are used in dataflow experimentation, to name a few: wall-clock running time, energy efficiency, robustness, and scalability.
+
+Another important part of planning for experimentation is the definition of parameters and factors influencing the experiment.
+According to the experimental algorithmics terminology, a \vic{parameter} is a property affecting performance indicators, it is assigned a value, which is usually called \vic{level}.
+A factor is a parameter that is explicitly manipulated in the experiment.
+
+There are many kinds of parameters.
+For example, algorithmic parameters are concerned with affecting the behavior of the algorithm.
+In the dataflow perspective such parameters are: size of fast memory to reserve, number of pipes, precision of integer numbers representation, precision of floating-point numbers representation, clock frequency, etc.
+
+Another important issue is generation of test instances and specifics to the dataflow setting.
+An important observation to be discussed is also that the running time of dataflow algorithms is often independent on the actual data in the input instance, i.e., it depends only on the instance size.
+And, finally, the experiment execution, analyzing results and reporting them is also an issue to be discussed from a dataflow perspective.
+
+\section*{Acknowledgements}
+Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxeler, Serbia.
+
+
+\bibliographystyle{plain}
+\bibliography{main}
+
+\vskip 1em
+\noindent\textbf{Jurij Mihelič} received his doctoral degree in Computer Science from the University of Ljubljana in 2006. Currently, he is with the Laboratory of Algorithms and Data Structures, Faculty of Computer and Information Science, University of Ljubljana, Slovenia, as an assistant professor. His research interests include algorithm engineering, combinatorial optimization, heuristics, approximation algorithms, and uncertainty in optimization problems.
+
+\vskip 1em
+\noindent\textbf{Uroš Čibej} received his doctoral degree in Computer Science from the University of Ljubljana in 2007. Currently, he is with the Laboratory of Algorithms and Data Structures. His research interests include location problems, distributed systems, computational
+models, halting probability, graph algorithms, and computational complexity.
+
+\balance
+
