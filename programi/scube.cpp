@@ -1,11 +1,8 @@
 #include <vector>
-#include <functional>
 #include <algorithm>
 #include "matrix.h"
 
-typedef std::vector<std::vector<double>> Tmat;
 
-//>> podkubicno mnozenje predpriprava
 Tmat vrni_obmocje_matrike(Tmat &mat1,
                           int x1, int x1max,
                           int x2, int x2max){
@@ -13,11 +10,10 @@ Tmat vrni_obmocje_matrike(Tmat &mat1,
     int x1D = x1max - x1;
     int x2D = x2max - x2;
     
-    std::vector<double> nicelni(x2D, 0.0);
-    Tmat mat3(x1D, nicelni);
+    Tmat mat3 = newMat(x2D,x1D);
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
-            mat3[i][j] += mat1[x1+i][x2+j];
+            mat3[i][j] = mat1[x1+i][x2+j];
         }
     }
     
@@ -47,7 +43,7 @@ void odstej_rezultatu(Tmat &mat1, Tmat &mat3,
     
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
-            mat3[x1+i][x2+j] += -mat1[i][j];
+            mat3[x1+i][x2+j] -= mat1[i][j];
         }
     }
 }
@@ -66,8 +62,7 @@ Tmat pomozno_sestevanje(Tmat &mat1, Tmat &mat2,
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
     
-    std::vector<double> nicelni(jMax, 0.0);
-    Tmat mat3(iMax, nicelni);
+    Tmat mat3 = newMat(jMax,iMax);
     
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
@@ -98,9 +93,8 @@ Tmat pomozno_odstevanje(Tmat &mat1, Tmat &mat2,
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
     
-    std::vector<double> nicelni(jMax, 0.0);
-    Tmat mat3(iMax, nicelni);
-    
+    Tmat mat3 = newMat(jMax,iMax);
+
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3[i][j] += mat1[x1+i][x2+j];
@@ -109,17 +103,12 @@ Tmat pomozno_odstevanje(Tmat &mat1, Tmat &mat2,
     
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
-            mat3[i][j] += -mat2[y1+i][y2+j];
+            mat3[i][j] -= mat2[y1+i][y2+j];
         }
     }
     
     return mat3;
 }
-//<< podkubicno mnozenje predpriprava
-
-
-
-//>> podkubicno mnozenje
 
 Tmat gl_podkubicen(Tmat &, Tmat &);
 
@@ -134,9 +123,8 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
     int aP = a1+aD/2;
     int bP = b1+bD/2;
     int cP = c1+cD/2;
-    int minDabc = std::min({aD, bD, cD});
     
-    if(minDabc<400){
+    if(std::min({aD, bD, cD})<400){
         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
@@ -241,81 +229,34 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           //Y1
                                           cP, c2, 
                                           b1, bP);
-                                          
-        std::function<Tmat(Tmat &,Tmat &)> lam_tra_mno = gl_podkubicen;
-        
-        Tmat matM1 = lam_tra_mno(matA1B1, matX1Y1);
-        Tmat matM2 = lam_tra_mno(matA2B2, matX2Y2);
-        Tmat matM3 = lam_tra_mno(matA1mB2, matX2Y1);
-        Tmat matM4 = lam_tra_mno(matA1, matX1mX2);
-        Tmat matM5 = lam_tra_mno(matA2A1, matX2);
-        Tmat matM6 = lam_tra_mno(matB2, matY2mY1);
-        Tmat matM7 = lam_tra_mno(matB1b2, matY1);
-        
-        pristej_rezultatu(matM4, mat3,
-                          //A1*
-                          a1, 
-                          c1);
-                                                    
-        pristej_rezultatu(matM5, mat3,
-                          //A1*
-                          a1, 
-                          c1);
 
+        Tmat matM1 = gl_podkubicen(matA1B1, matX1Y1);
+        Tmat matM2 = gl_podkubicen(matA2B2, matX2Y2);
+        Tmat matM3 = gl_podkubicen(matA1mB2, matX2Y1);
+        Tmat matM4 = gl_podkubicen(matA1, matX1mX2);
+        Tmat matM5 = gl_podkubicen(matA2A1, matX2);
+        Tmat matM6 = gl_podkubicen(matB2, matY2mY1);
+        Tmat matM7 = gl_podkubicen(matB1b2, matY1);
+        
+        //A1*
+        pristej_rezultatu(matM4, mat3, a1, c1);     
+        pristej_rezultatu(matM5, mat3, a1, c1);
 
-        pristej_rezultatu(matM2, mat3,
-                          //A2*
-                          a1, 
-                          cP);
+        //A2
+        pristej_rezultatu(matM2, mat3, a1, cP);
+        odstej_rezultatu(matM6, mat3, a1, cP);
+        pristej_rezultatu(matM3, mat3, a1, cP);
+        odstej_rezultatu(matM5, mat3, a1, cP);
                           
-        odstej_rezultatu(matM6, mat3,
-                          //A2*
-                          a1, 
-                          cP);
-                          
-        pristej_rezultatu(matM3, mat3,
-                          //A2*
-                          a1, 
-                          cP);
-                          
-        odstej_rezultatu(matM5, mat3,
-                          //A2*
-                          a1, 
-                          cP);
-                          
-                          
-                          
-        pristej_rezultatu(matM1, mat3,
-                          //B1*
-                          aP,
-                          c1);
-        
-        odstej_rezultatu(matM4, mat3,
-                          //B1*
-                          aP,
-                          c1);
-        
-        odstej_rezultatu(matM3, mat3,
-                          //B1*
-                          aP,
-                          c1);
-        
-        odstej_rezultatu(matM7, mat3,
-                          //B1*
-                          aP,
-                          c1);
-                          
-                          
-                          
-        pristej_rezultatu(matM6, mat3,
-                          //B2*
-                          aP,
-                          cP);
-                          
-        pristej_rezultatu(matM7, mat3,
-                          //B2*
-                          aP,
-                          cP);
+        //B1*                  
+        pristej_rezultatu(matM1, mat3, aP, c1);
+        odstej_rezultatu(matM4, mat3, aP, c1);
+        odstej_rezultatu(matM3, mat3, aP, c1);
+        odstej_rezultatu(matM7, mat3, aP, c1);
+
+        //B2*
+        pristej_rezultatu(matM6, mat3, aP, cP);
+        pristej_rezultatu(matM7, mat3, aP, cP);
     }
 }
 
@@ -323,14 +264,9 @@ Tmat gl_podkubicen(Tmat &mat1, Tmat &mat4){
     int a = mat1.size();
     int b = mat1[0].size();
     int c = mat4.size();
-    int a1 = 0; 
-    int b1 = 0;
-    int c1 = 0;
     
-    std::vector<double> nicelni(c, 0.0);
-    Tmat mat3(a, nicelni);
-    
-    podkubicen_pomozna(mat1, mat4, mat3, a1, a,  b1, b, c1, c);
+    Tmat mat3 = newMat(c,a);
+    podkubicen_pomozna(mat1, mat4, mat3, 0, a, 0, b, 0, c);
     
     return mat3;
 }
@@ -339,4 +275,3 @@ Tmat podkubicen(Tmat &mat1, Tmat &mat2){
     Tmat mat4 = transponiraj(mat2);
     return gl_podkubicen(mat1, mat4);
 }
-//<< podkubicno mnozenje
