@@ -12,7 +12,6 @@
 #include <boost/numeric/ublas/operation_blocked.hpp>
 #include "matrix.h"
 
-typedef std::vector<std::vector<double>> Tmat;
 
 void prikaz(Tmat &mat){
     for (auto &vrstica : mat){
