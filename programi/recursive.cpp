@@ -30,7 +30,7 @@ void rek_mno_pomozna(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     }
 }
 
-Tmat rekurzivno_mnozenje(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationRecursive(Tmat &mat1, Tmat &mat2){
     int a = mat1.size();
     int b = mat1[0].size();
     int c = mat2[0].size();

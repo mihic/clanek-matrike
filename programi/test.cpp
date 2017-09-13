@@ -334,7 +334,7 @@ void splosni_stari_testi(){
     std::string imeRezultata;
     //>>
     imeFunkcije = "kl";
-    mnozneje_mat = klasicno_mnozenje;
+    mnozneje_mat = MultiplicationClassic;
     
     imeRezultata = imeTesta+"_r_"+imeFunkcije;
     std::cout << imeFunkcije << std::endl;
@@ -345,7 +345,7 @@ void splosni_stari_testi(){
     
     //>>
     imeFunkcije = "tr";
-    mnozneje_mat = transponirano_mnozenje;
+    mnozneje_mat = MultiplicationClassicTransposed;
     
     imeRezultata = imeTesta+"_r_"+imeFunkcije;
     std::cout << imeFunkcije << std::endl;
@@ -356,7 +356,7 @@ void splosni_stari_testi(){
     
     //>>
     imeFunkcije = "re4";
-    mnozneje_mat = rekurzivno_mnozenje;
+    mnozneje_mat = MultiplicationRecursive;
     
     imeRezultata = imeTesta+"_r_"+imeFunkcije;
     std::cout << imeFunkcije << std::endl;
@@ -367,7 +367,7 @@ void splosni_stari_testi(){
     
     //>>
     imeFunkcije = "re4tr";
-    mnozneje_mat = rekurzivno_transponirano_mnozenje;
+    mnozneje_mat = MultiplicationRecursiveTransposed;
     
     imeRezultata = imeTesta+"_r_"+imeFunkcije;
     std::cout << imeFunkcije << std::endl;
@@ -389,7 +389,7 @@ void splosni_stari_testi(){
     
     //>>
     imeFunkcije = "podku2";
-    mnozneje_mat = podkubicen;
+    mnozneje_mat = MultiplicationSubcubic;
     
     imeRezultata = imeTesta+"_r_"+imeFunkcije;
     std::cout << imeFunkcije << std::endl;
@@ -665,16 +665,16 @@ void novejsi_testi(std::string izhodRez, std::vector<int> sezVelikosti) {
 
     std::vector<std::string> sezTestov = naredi_testne_primere(sezVelikosti);
     std::vector<std::function<Tmat(Tmat &, Tmat &)>> sezAlgoritmov({
-                                                                           klasicno_mnozenje,
-                                                                           transponirano_mnozenje,
-                                                                           rekurzivno_mnozenje,
-                                                                           rekurzivno_transponirano_mnozenje,
-                                                                           podkubicen
+                                                                           MultiplicationClassic,
+                                                                           MultiplicationClassicTransposed,
+                                                                           MultiplicationRecursive,
+                                                                           MultiplicationRecursiveTransposed,
+                                                                           MultiplicationSubcubic
                                                                    });
     std::vector<std::string> sezImen({
-                                             "klasicno_mnozenje",
-                                             "transponirano_mnozenje",
-                                             "rekurzivno_mnozenje",
+                                             "MultiplicationClassic",
+                                             "MultiplicationClassicTransposed",
+                                             "MultiplicationRecursive",
                                              "rekurzivno_transponirano",
                                              "podkubicen_algoritem"
                                      });

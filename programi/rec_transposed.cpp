@@ -32,7 +32,7 @@ void rek_tra_mno_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
 }
 
 
-Tmat rekurzivno_transponirano_mnozenje(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationRecursiveTransposed(Tmat &mat1, Tmat &mat2){
     Tmat mat4 = transponiraj(mat2);
     
     int a = mat1.size();

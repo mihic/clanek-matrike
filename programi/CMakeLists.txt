@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (MATRIKE)
-set (CMAKE_CXX_FLAGS "-O3 -march=native")
+set (CMAKE_CXX_FLAGS "-O3 -march=native -DNDEBUG -DBOOST_UBLAS_NDEBUG")
 file(GLOB SOURCES "*.cpp")
 
 find_package( Boost REQUIRED COMPONENTS program_options )

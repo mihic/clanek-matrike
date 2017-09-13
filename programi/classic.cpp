@@ -1,7 +1,7 @@
 #include <vector>
 #include "matrix.h"
 
-Tmat klasicno_mnozenje(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationClassic(Tmat &mat1, Tmat &mat2){
     int a = mat1.size();
     int b = mat1[0].size();
     int c = mat2[0].size();

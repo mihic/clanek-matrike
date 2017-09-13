@@ -271,7 +271,7 @@ Tmat gl_podkubicen(Tmat &mat1, Tmat &mat4){
     return mat3;
 }
 
-Tmat podkubicen(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationSubcubic(Tmat &mat1, Tmat &mat2){
     Tmat mat4 = transponiraj(mat2);
     return gl_podkubicen(mat1, mat4);
 }

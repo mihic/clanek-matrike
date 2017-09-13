@@ -1,7 +1,7 @@
 #include <vector>
 #include "matrix.h"
 
-Tmat transponirano_mnozenje(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationClassicTransposed(Tmat &mat1, Tmat &mat2){
     Tmat mat4 = transponiraj(mat2);
 
     int a = mat1.size();
