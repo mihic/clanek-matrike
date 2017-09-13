@@ -6,8 +6,8 @@
 
 \usepackage{lmodern}
 \renewcommand*\familydefault{\sfdefault}
-\usepackage{textcomp} 
-     
+\usepackage{textcomp}
+
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -43,7 +43,7 @@
 \newpage
 \let \footnote \thanks
 \begin{center}
- 	{\@setfontsize\Huge{26}{30}\@title\par}
+{\@setfontsize\Huge{26}{30}\@title\par}
 	\vskip 2em
 	{\large \@author \par}
 \end{center}
@@ -92,14 +92,19 @@ We compare our implementation with algorithms from the standard library openBLAS
 
 \section{Introduction}
 
-\lettrine{M}{atrix multiplication} 
-is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algortihms important. 
+\lettrine{M}{atrix multiplication}
+is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algortihms important.
 
 Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
 
 
 \subsection{Known algorithms overview}
 (*** 1/4 strani)
+
+>>
+-
+<<
+
 \subsection{Existing implementations}
 (*** 1/4 strani)
 
@@ -194,7 +199,7 @@ Indicators obtained from the experiment must accurately reflect the properties b
 Performance indicators that are less influenced by external or noisy factors should be used.
 
 In the dataflow experimentation running time, space and power consumption are often measured.
-The last one is the hardest to measure accurately. 
+The last one is the hardest to measure accurately.
 
 \paragraph{Validity.}
 Conclusions drawn from the experimental results are based on the correct interpretations of data.
@@ -293,7 +298,7 @@ An important aspect of the correctness principle in the experimental process is 
 In particular, besides obtaining efficient dataflow implementation, one must also be careful when implementing a control-flow algorithm or any other competing algorithm.
 
 As discussed in \cite{Johnson02} this aspect is somewhat controversial: at first the aim for efficiency seems to be obvious (at least for the algorithm to be exemplified), but efficiency often requires a non-negligible effort of a skilled programmer.
-When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity. 
+When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity.
 Hence, algorithms examined by the experimental evaluation should have publicly available implementations.
 This increases trust in the results and analysis of the experiment and also makes any further experimental research easier. In such cases it is advisable to take the original implementation.
 
@@ -387,4 +392,3 @@ Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxe
 models, halting probability, graph algorithms, and computational complexity.
 
 \balance
-
