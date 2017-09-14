@@ -151,9 +151,8 @@ int main(int ac, const char **av) {
     cerr << e.what();
   }
 
+
   //Execute the tests
-
-
   urd = std::uniform_real_distribution<double>(0, 1);
   re = std::default_random_engine(seed);
   Tmat m1 = RandomMatrix(b, a);
@@ -177,49 +176,83 @@ int main(int ac, const char **av) {
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
-
-  if (max_time > 0) {
-    int count = 0;
-    std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
-    auto time_total = std::chrono::milliseconds{0};
-    while (true) {
-      time_start = std::chrono::steady_clock::now();
-      if (method == BLAS) {
-        auto bm3 = blas_f(bm1, bm2);
-      } else {
-        Tmat m3 = f(m1, m2);
-      }
-      time_end = std::chrono::steady_clock::now();
-      auto time_of_test = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-      //cout << time_of_test.count() << endl;
-      time_total += time_of_test;
-      count++;
-      if (time_total.count() > max_time || count > 10000) {
-        //cout << "Total time:" << time_total.count() << "ms" << endl;
-        //cout << "Iteration time:" << time_total.count() / count << "ms" << endl;
-        cout << time_total.count() / count << endl;
-        break;
+  if (max_time == 1) {
+    //placeholder for testing
+    int n = 512;
+    Tmat mat1 = newMat(n, n);
+    Tmat mat2 = newMat(n, n);
+    double konst = 100000000.000002;
+    for (int i = 0; i < n; i += 1) {
+      for (int j = 0; j < n; j += 1) {
+        mat1[i][j] = konst;
+        mat2[i][j] = konst;
       }
     }
+    Tmat mat3 = f(mat1, mat2);
+    //prikaz1(mat3);
+    cout << setprecision(24);
+    cout << konst*konst*n << endl << mat3[0][0] << endl;
+    cout << mat3[0][0] - konst*konst*n << endl;
   } else {
 
-    std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
-    time_start = std::chrono::steady_clock::now();
-    if (method == BLAS) {
-      for (int i = 0; i < repeat; ++i) {
-        auto bm3 = blas_f(bm1, bm2);
+    if (max_time > 0) {
+      int count = 0;
+      std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
+      auto time_total = std::chrono::milliseconds{0};
+      while (true) {
+        time_start = std::chrono::steady_clock::now();
+        if (method == BLAS) {
+          auto bm3 = blas_f(bm1, bm2);
+        } else {
+          Tmat m3 = f(m1, m2);
+        }
+        time_end = std::chrono::steady_clock::now();
+        auto time_of_test = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
+//cout << time_of_test.count() << endl;
+        time_total +=
+            time_of_test;
+        count++;
+        if (time_total.
+            count()
+            > max_time || count > 10000) {
+//cout << "Total time:" << time_total.count() << "ms" << endl;
+//cout << "Iteration time:" << time_total.count() / count << "ms" << endl;
+          cout << time_total.
+              count()
+              / count <<
+               endl;
+          break;
+        }
       }
     } else {
-      for (int i = 0; i < repeat; ++i) {
-        Tmat m3 = f(m1, m2);
+
+      std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
+      time_start = std::chrono::steady_clock::now();
+      if (method == BLAS) {
+        for (
+            int i = 0;
+            i < repeat;
+            ++i) {
+          auto bm3 = blas_f(bm1, bm2);
+        }
+      } else {
+        for (
+            int i = 0;
+            i < repeat;
+            ++i) {
+          Tmat m3 = f(m1, m2);
+        }
       }
+
+      time_end = std::chrono::steady_clock::now();
+      auto time_total = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
+      std::cout << "Total time:" << time_total.
+          count()
+                << " ms\n";
+      std::cout << "Time per iteration:" << time_total.
+          count()
+          / repeat << " ms\n";
     }
-
-    time_end = std::chrono::steady_clock::now();
-    auto time_total = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-    std::cout << "Total time:" << time_total.count() << " ms\n";
-    std::cout << "Time per iteration:" << time_total.count() / repeat << " ms\n";
-
   }
 }
 
