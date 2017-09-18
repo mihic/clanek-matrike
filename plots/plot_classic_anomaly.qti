@@ -1,0 +1,216 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+tests_classic_anomaly	110	3	9/18/17 12:34 PM
+geometry	0	0	961	873	
+header	n[X]	time[Y]	1[Y]
+ColWidth	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0
+HiddenColumn	0	0	0
+Comments	n	classic		
+WindowLabel	/home/mihic/faks/clanek-matrike/clanek-matrike/programi/tests_classic_anomaly.csv	2
+<data>
+0	1370	5221	
+1	1370	5240	
+2	1370	5074	
+3	1370	5258	
+4	1370	4984	
+5	1370	5190	
+6	1370	5192	
+7	1370	5132	
+8	1370	5105	
+9	1370	5102	
+10	1371	5111	
+11	1371	5188	
+12	1371	5146	
+13	1371	5195	
+14	1371	5311	
+15	1371	5071	
+16	1371	5191	
+17	1371	5071	
+18	1371	5053	
+19	1371	5252	
+20	1372	6157	
+21	1372	6160	
+22	1372	6173	
+23	1372	6225	
+24	1372	6201	
+25	1372	6363	
+26	1372	6206	
+27	1372	6253	
+28	1372	6542	
+29	1372	6501	
+30	1373	6192	
+31	1373	6206	
+32	1373	6335	
+33	1373	6225	
+34	1373	6330	
+35	1373	6149	
+36	1373	6194	
+37	1373	6666	
+38	1373	6183	
+39	1373	6308	
+40	1374	10213	
+41	1374	9663	
+42	1374	10794	
+43	1374	10351	
+44	1374	10345	
+45	1374	9772	
+46	1374	10044	
+47	1374	10197	
+48	1374	10571	
+49	1374	10821	
+50	1375	10441	
+51	1375	9686	
+52	1375	10394	
+53	1375	10261	
+54	1375	10987	
+55	1375	9793	
+56	1375	9856	
+57	1375	11030	
+58	1375	10136	
+59	1375	10879	
+60	1376	6232	
+61	1376	6721	
+62	1376	6761	
+63	1376	6343	
+64	1376	6424	
+65	1376	6320	
+66	1376	6390	
+67	1376	6777	
+68	1376	6206	
+69	1376	6333	
+70	1377	6360	
+71	1377	6416	
+72	1377	6477	
+73	1377	6860	
+74	1377	6816	
+75	1377	6432	
+76	1377	6432	
+77	1377	6318	
+78	1377	6803	
+79	1377	6334	
+80	1378	5611	
+81	1378	5218	
+82	1378	5455	
+83	1378	5411	
+84	1378	5508	
+85	1378	5551	
+86	1378	5577	
+87	1378	5263	
+88	1378	5468	
+89	1378	5372	
+90	1379	5334	
+91	1379	5266	
+92	1379	5401	
+93	1379	5657	
+94	1379	5366	
+95	1379	5415	
+96	1379	5470	
+97	1379	5341	
+98	1379	5294	
+99	1379	5467	
+100	1380	6851	
+101	1380	6802	
+102	1380	6842	
+103	1380	6854	
+104	1380	6818	
+105	1380	6815	
+106	1380	6872	
+107	1380	7088	
+108	1380	6821	
+109	1380	7169	
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	9/18/17 12:35 PM
+geometry	961	0	959	873	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	18	-85	943	892
+<PageGeometry>0.0189274	-0.10303	0.991588	1.08121</PageGeometry>
+PlotTitle	<br>	#000000	4228
+<Antialiasing>1</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	n	time [ms]		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	27	75	0	0	0
+ScaleFont0	Ubuntu	23	75	0	0	0
+ScaleFont1	Ubuntu	23	75	0	0	0
+ScaleFont2	Ubuntu	23	75	0	0	0
+ScaleFont3	Ubuntu	23	75	0	0	0
+AxisFont0	Ubuntu	23	50	0	0	0
+AxisFont1	Ubuntu	23	50	0	0	0
+AxisFont2	Ubuntu	23	50	0	0	0
+AxisFont3	Ubuntu	23	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#000000	#000000	#000000	#000000
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	tests_classic_anomaly_n	tests_classic_anomaly_time	1	0	#000000	0	1	11	10	#000000	#000000	0	#000000	14	1	2	0	0	109	1
+scale	0	4000	12000	0	9	5	0	0
+scale	1	4000	12000	0	9	5	0	0
+scale	2	1369	1381	2	7	1	0	0
+scale	3	1369	1381	2	7	1	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>1369.4292379471</x>
+<y>11726.829268293</y>
+<right>1372.47122861586</right>
+<bottom>11128.4552845528</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+</Text>
+<Font>Ubuntu	23	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

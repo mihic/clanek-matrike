@@ -1,0 +1,193 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+tests_classic_large25	85	3	9/15/17 2:51 PM
+geometry	0	0	961	873	active
+header	n[X]	classic[Y]	classicT[Y]
+ColWidth	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0
+HiddenColumn	0	0	0
+Comments	a	time		
+WindowLabel	/home/mihic/faks/clanek-matrike/clanek-matrike/programi/tests_classic_large25.csv	2
+<data>
+0	100	1	0
+1	125	2	1
+2	150	3	3
+3	175	5	5
+4	200	9	8
+5	225	13	11
+6	250	17	16
+7	275	23	22
+8	300	31	29
+9	325	40	37
+10	350	50	46
+11	375	62	57
+12	400	75	70
+13	425	90	84
+14	450	106	100
+15	475	125	118
+16	500	147	139
+17	525	170	161
+18	550	198	185
+19	575	248	213
+20	600	260	242
+21	625	300	274
+22	650	340	309
+23	675	382	346
+24	700	439	387
+25	725	519	431
+26	750	568	480
+27	775	632	528
+28	800	735	583
+29	825	817	643
+30	850	915	703
+31	875	1028	769
+32	900	1291	838
+33	925	1462	915
+34	950	1255	990
+35	975	1400	1080
+36	1000	1988	1156
+37	1025	2148	1263
+38	1050	1997	1341
+39	1075	2210	1451
+40	1100	3311	1551
+41	1125	3146	1658
+42	1150	3213	1767
+43	1175	2680	1911
+44	1200	4049	2009
+45	1225	4336	2138
+46	1250	4052	2273
+47	1275	4150	2413
+48	1300	5436	2578
+49	1325	5770	2722
+50	1350	4686	2867
+51	1375	9290	3050
+52	1400	6573	3201
+53	1425	7154	3382
+54	1450	7303	3560
+55	1475	9059	3776
+56	1500	9532	3942
+57	1525	9919	4141
+58	1550	11093	4354
+59	1575	12409	4581
+60	1600	13292	4827
+61	1625	15668	5038
+62	1650	15576	5263
+63	1675	16641	5515
+64	1700	18493	5759
+65	1725	21124	6054
+66	1750	22535	6282
+67	1775	23767	6621
+68	1800	24548	6858
+69	1825	26999	7134
+70	1850	27487	7506
+71	1875	29500	7707
+72	1900	31609	8081
+73	1925	33543	8387
+74	1950	35159	8679
+75	1975	35897	9056
+76	2000	35315	9417
+77	2025	39536	9748
+78	2050	42870	10231
+79	2075	43821	10527
+80	2100	45468	10906
+81	2125	47233	11339
+82	2150	49819	11732
+83	2175	52233	12085
+84	2200	50651	12553
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	9/15/17 2:54 PM
+geometry	961	0	959	873	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	8	10	935	796
+<PageGeometry>0.0084122	0.0121212	0.983176	0.964848</PageGeometry>
+PlotTitle	Title	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	%(?X)	%(?Y)		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	27	75	0	0	0
+ScaleFont0	Ubuntu	23	75	0	0	0
+ScaleFont1	Ubuntu	23	75	0	0	0
+ScaleFont2	Ubuntu	23	75	0	0	0
+ScaleFont3	Ubuntu	23	75	0	0	0
+AxisFont0	Ubuntu	23	50	0	0	0
+AxisFont1	Ubuntu	23	50	0	0	0
+AxisFont2	Ubuntu	23	50	0	0	0
+AxisFont3	Ubuntu	23	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#000000	#000000	#000000	#000000
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	tests_classic_large25_n	tests_classic_large25_classicT	0	1	#000000	0	1	7	0	#000000	#000000	0	#000000	14	1	2	0	0	84	1
+curve	tests_classic_large25_n	tests_classic_large25_classic	0	1	#ff0000	0	1	7	0	#ff0000	#ff0000	0	#000000	14	1	2	0	0	84	1
+scale	0	-10000	60000	0	8	5	0	0
+scale	1	-10000	60000	0	8	5	0	0
+scale	2	0	2500	0	6	5	0	0
+scale	3	0	2500	0	6	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>62.65664160401</x>
+<y>57658.862876254</y>
+<right>682.957393483709</right>
+<bottom>50869.5652173913</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+</Text>
+<Font>Ubuntu	23	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

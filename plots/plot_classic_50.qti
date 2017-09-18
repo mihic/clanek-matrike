@@ -1,0 +1,130 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+tests_classic_large	22	3	9/15/17 1:33 PM
+geometry	961	0	959	873	active
+header	n[X]	classic[Y]	classicT[Y]
+ColWidth	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0
+HiddenColumn	0	0	0
+Comments	a	time		
+WindowLabel	/home/mihic/faks/clanek-matrike/clanek-matrike/programi/tests_classic_large.csv	2
+<data>
+0	100	1	0
+1	200	9	8
+2	300	31	29
+3	400	75	70
+4	500	147	139
+5	600	255	242
+6	700	453	389
+7	800	734	583
+8	900	1285	838
+9	1000	2077	1162
+10	1100	3264	1546
+11	1200	4033	2009
+12	1300	5504	2558
+13	1400	6530	3243
+14	1500	9492	3937
+15	1600	13127	4803
+16	1700	18685	5760
+17	1800	24943	6892
+18	1900	31863	8101
+19	2000	34986	9390
+20	2100	45060	10941
+21	2200	51105	12531
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	9/15/17 1:38 PM
+geometry	0	0	961	873	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	6	942	800
+<PageGeometry>0.00524659	0.00727273	0.988458	0.969697</PageGeometry>
+PlotTitle	Title	#000000	4228
+<Antialiasing>1</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	%(?X)	%(?Y)		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	27	75	0	0	0
+ScaleFont0	Ubuntu	23	75	0	0	0
+ScaleFont1	Ubuntu	23	75	0	0	0
+ScaleFont2	Ubuntu	23	75	0	0	0
+ScaleFont3	Ubuntu	23	75	0	0	0
+AxisFont0	Ubuntu	23	50	0	0	0
+AxisFont1	Ubuntu	23	50	0	0	0
+AxisFont2	Ubuntu	23	50	0	0	0
+AxisFont3	Ubuntu	23	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#000000	#000000	#000000	#000000
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	tests_classic_large_n	tests_classic_large_classic	2	1	#ff0000	0	2	7	1	#ff0000	#ff0000	0	#000000	14	1	2	0	0	21	1
+curve	tests_classic_large_n	tests_classic_large_classicT	2	1	#000000	0	2	7	4	#000000	#000000	0	#000000	14	1	2	0	0	21	1
+scale	0	-10000	60000	0	8	5	0	0
+scale	1	-10000	60000	0	8	5	0	0
+scale	2	0	2500	0	6	5	0	0
+scale	3	0	2500	0	6	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>62.65664160401</x>
+<y>57658.862876254</y>
+<right>682.957393483709</right>
+<bottom>50869.5652173913</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+</Text>
+<Font>Ubuntu	23	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

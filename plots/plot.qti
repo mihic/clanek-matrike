@@ -1,0 +1,288 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+Table1	30	7	9/15/17 12:44 PM
+geometry	0	0	961	873	active
+header	n[X]	classic[Y]	classicT[Y]	recursive[Y]	recursiveT[Y]	subcubic[Y]	blas[Y]
+ColWidth	100	100	100	100	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0	0
+Comments								
+WindowLabel		2
+<data>
+1	100	1	0	0	0	0	0
+2	150	3	3	3	2	2	2
+3	200	9	8	7	6	6	5
+4	250	18	16	15	12	12	10
+5	300	32	29	27	23	23	18
+6	350	51	48	46	39	39	28
+7	400	77	72	60	50	47	43
+8	450	110	104	91	73	68	62
+9	500	152	144	134	106	99	85
+10	550	204	192	183	145	131	114
+11	600	265	250	241	195	172	149
+12	650	338	319	309	256	226	189
+13	700	484	401	392	329	290	238
+14	750	594	495	479	413	365	292
+15	800	825	605	499	408	342	357
+16	850	994	728	618	497	410	426
+17	900	1401	867	748	617	500	508
+18	950	1342	1041	905	724	621	599
+19	1000	2172	1207	1070	849	700	700
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	9/15/17 12:49 PM
+geometry	961	0	959	873	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	8	11	934	795
+<PageGeometry>0.0084122	0.0133333	0.982124	0.963636</PageGeometry>
+PlotTitle	First comparison	#000000	4228
+<Antialiasing>1</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	n	 		Time [ms]	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	0	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	27	75	0	0	0
+ScaleFont0	Ubuntu	23	75	0	0	0
+ScaleFont1	Ubuntu	23	75	0	0	0
+ScaleFont2	Ubuntu	23	75	0	0	0
+ScaleFont3	Ubuntu	23	75	0	0	0
+AxisFont0	Ubuntu	23	50	0	0	0
+AxisFont1	Ubuntu	23	50	0	0	0
+AxisFont2	Ubuntu	23	50	0	0	0
+AxisFont3	Ubuntu	23	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#000000	#000000	#000000	#000000
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	Table1_n	Table1_subcubic	0	1	#000000	0	2	7	0	#000000	#000000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_n	Table1_recursiveT	0	1	#ff0000	0	2	7	0	#ff0000	#ff0000	0	#000000	14	1	2	0	0	29	1
+curve	Table1_n	Table1_recursive	0	1	#00ff00	0	2	7	0	#00ff00	#00ff00	0	#000000	14	1	2	0	0	29	1
+curve	Table1_n	Table1_classicT	0	1	#0000ff	0	2	7	0	#0000ff	#0000ff	0	#000000	14	1	2	0	0	29	1
+curve	Table1_n	Table1_classic	0	1	#00ffff	0	2	7	0	#00ffff	#00ffff	0	#000000	14	1	2	0	0	29	1
+curve	Table1_n	Table1_blas	0	1	#ff00ff	1	2	7	0	#ff00ff	#ff00ff	0	#000000	14	1	2	0	0	29	1
+scale	0	0	2500	0	6	5	0	0
+scale	1	0	2500	0	6	5	0	0
+scale	2	0	1200	0	7	5	0	0
+scale	3	0	1200	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>30.075187969925</x>
+<y>2399.6655518395</y>
+<right>327.81954887218</right>
+<bottom>2108.69565217391</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+\l(3)%(3)
+\l(4)%(4)
+\l(5)%(5)
+\l(6)%(6)
+</Text>
+<Font>Ubuntu	23	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>
+<log>
+[9/15/17 1:03 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619193916101313e+00 +/- 3.074469854245985e+01
+a1 = -1.213035163724143e-01 +/- 2.228810890191998e-01
+a2 = 3.744802975527535e-04 +/- 4.541482059607477e-04
+a3 = 5.735997873678647e-07 +/- 2.724254975132622e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348174e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 3
+Status = success
+---------------------------------------------------------------------------------------
+[9/15/17 1:04 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619193916101000e+00 +/- 3.074469959401046e+01
+a1 = -1.213035163724000e-01 +/- 2.228810963524142e-01
+a2 = 3.744802975528000e-04 +/- 4.541482172085996e-04
+a3 = 5.735997873679000e-07 +/- 2.724255023646526e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348166e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152225
+---------------------------------------------------------------------------------------
+Iterations = 1
+Status = cannot reach the specified tolerance in X
+---------------------------------------------------------------------------------------
+[9/15/17 1:05 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619193916101313e+00 +/- 3.074469854245985e+01
+a1 = -1.213035163724143e-01 +/- 2.228810890191998e-01
+a2 = 3.744802975527535e-04 +/- 4.541482059607477e-04
+a3 = 5.735997873678647e-07 +/- 2.724254975132622e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348174e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 3
+Status = success
+---------------------------------------------------------------------------------------
+[9/15/17 1:05 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619198783412461e+00 +/- 3.074469742186922e+01
+a1 = -1.213035468615738e-01 +/- 2.228810771931730e-01
+a2 = 3.744803513007938e-04 +/- 4.541481760137369e-04
+a3 = 5.735997589117704e-07 +/- 2.724254759589829e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348178e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271069
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 3
+Status = success
+---------------------------------------------------------------------------------------
+[9/15/17 1:06 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619198783411999e+00 +/- 3.074470046739243e+01
+a1 = -1.213035468616000e-01 +/- 2.228811056530214e-01
+a2 = 3.744803513008000e-04 +/- 4.541482407478256e-04
+a3 = 5.735997589118000e-07 +/- 2.724255157262830e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348174e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 1
+Status = cannot reach the specified tolerance in F
+---------------------------------------------------------------------------------------
+[9/15/17 1:07 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619193916101313e+00 +/- 3.074469854245985e+01
+a1 = -1.213035163724143e-01 +/- 2.228810890191998e-01
+a2 = 3.744802975527535e-04 +/- 4.541482059607477e-04
+a3 = 5.735997873678647e-07 +/- 2.724254975132622e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348174e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 3
+Status = success
+---------------------------------------------------------------------------------------
+[9/15/17 1:07 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2+a3*x^3
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 8.619193916101313e+00 +/- 3.074469854245985e+01
+a1 = -1.213035163724143e-01 +/- 2.228810890191998e-01
+a2 = 3.744802975527535e-04 +/- 4.541482059607477e-04
+a3 = 5.735997873678647e-07 +/- 2.724254975132622e-07
+--------------------------------------------------------------------------------------
+Chi^2/doF = 3.559790894348174e+02
+R^2 = 0.995826192182972
+Adjusted R^2 = 0.994633675663821
+RMSE (Root Mean Squared Error) = 18.8674081271068
+RSS (Residual Sum of Squares) = 5,339.68634152226
+---------------------------------------------------------------------------------------
+Iterations = 3
+Status = success
+---------------------------------------------------------------------------------------
+[9/15/17 1:07 PM	Plot: ''Graph2'']
+Non-linear Fit of dataset: Table1_recursiveT, using function: a0+a1*x+a2*x^2
+Weighting Method: No weighting
+Scaled Levenberg-Marquardt algorithm with tolerance = 0.0001
+From x = 1.000000000000000e+02 to x = 1.000000000000000e+03
+a0 = 6.161981425524159e+01 +/- 1.945414914455394e+01
+a1 = -5.646961522473245e-01 +/- 8.045914870992896e-02
+a2 = 1.320919947024146e-03 +/- 7.141000777031801e-05
+--------------------------------------------------------------------------------------
+Chi^2/doF = 4.323644626271561e+02
+R^2 = 0.994592622686811
+Adjusted R^2 = 0.993511147224173
+RMSE (Root Mean Squared Error) = 20.7933754505409
+RSS (Residual Sum of Squares) = 6,917.8314020345
+---------------------------------------------------------------------------------------
+Iterations = 2
+Status = success
+---------------------------------------------------------------------------------------
+</log>
