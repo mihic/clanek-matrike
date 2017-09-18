@@ -2,9 +2,8 @@
 #include <algorithm>
 #include "matrix.h"
 #include <SUBCUB>
-
-Tmat strassen_mul(Tmat &, Tmat &);
-
+                        
+                        
 void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                         int a1, int a2, 
                         int b1, int b2,
