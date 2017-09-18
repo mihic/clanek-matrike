@@ -1,0 +1,19 @@
+Testing parameters 
+Current time: 22:21:44 
+
+Best: 
+28
+Tests 
+Velikosti dim: 
+28;32;36;
+Velikosti matrik: 
+1500;1550;
+Parameter: 28
+1500;2827;
+1550;3149;
+Parameter: 32
+1500;2841;
+1550;3220;
+Parameter: 36
+1500;2889;
+1550;3094;
