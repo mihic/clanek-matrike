@@ -1,19 +1,136 @@
+#include <vector>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <boost/program_options.hpp>
 #include <random>
 #include <iomanip>
 #include <chrono>
+#include <boost/program_options.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/operation.hpp>
 #include <boost/numeric/ublas/operation_blocked.hpp>
-#include "matrix.h"
+
+//treba programsko nastaviti s skripto
+const int DIM = 16;
 
 namespace po = boost::program_options;
 using namespace std;
 std::uniform_real_distribution<double> urd;
 std::default_random_engine re;
+
+typedef std::vector<std::vector<double>> Tmat;
+
+Tmat newMat(int a, int b){
+    std::vector<double> nicelni(a, 0.0);
+    Tmat mat(b, nicelni);
+    return mat;
+}
+
+Tmat transponiraj(Tmat &mat){
+    int a = mat.size();
+    int b = mat[0].size();
+    
+    std::vector<double> nicelni1(a, 0.0);
+    Tmat mat3(b, nicelni1);
+    for (int i = 0; i<a; i+=1){
+        for (int j = 0; j<b; j+=1){
+            mat3[j][i] = mat[i][j];
+        }   
+    }
+    return mat3;
+}
+
+void pomozna_mno_kla(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+                     int a1, int a2, 
+                     int b1, int b2,
+                     int c1, int c2){
+
+    for (int i = a1; i<a2; i+=1){
+        for (int j = c1; j<c2; j+=1){
+            double s = 0;
+            for (int k = b1; k<b2; k+=1){
+                    s+=mat1[i][k]*mat2[k][j];
+            }
+            mat3[i][j] += s;
+        }
+    }
+}
+
+
+void pomozna_mno_kla_trans(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+                     int a1, int a2, 
+                     int b1, int b2,
+                     int c1, int c2){
+
+    //mat2 je transponirana
+    for (int i = a1; i<a2; i+=1){
+        for (int j = c1; j<c2; j+=1){
+            double s = 0;
+            for (int k = b1; k<b2; k+=1){
+                    s+=mat1[i][k]*mat2[j][k];
+            }
+            mat3[i][j] += s;
+        }
+    }
+}
+
+
+void rek_tra_mno_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
+                         int a1, int a2, 
+                         int b1, int b2,
+                         int c1, int c2){
+    
+    int aD = a2-a1;
+    int bD = b2-b1;
+    int cD = c2-c1;
+    int aP = a1+aD/2;
+    int bP = b1+bD/2;
+    int cP = c1+cD/2;
+    
+    if(std::min({aD, bD, cD}) < DIM){
+        pomozna_mno_kla_trans(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
+    }
+    else{
+        rek_tra_mno_pomozna(mat1, mat4, mat3, a1, aP,  b1, bP, c1, cP);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, a1, aP,  b1, bP, cP, c2);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, a1, aP,  bP, b2, c1, cP);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, a1, aP,  bP, b2, cP, c2);
+        
+        rek_tra_mno_pomozna(mat1, mat4, mat3, aP, a2,  b1, bP, c1, cP);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, aP, a2,  b1, bP, cP, c2);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, aP, a2,  bP, b2, c1, cP);
+        rek_tra_mno_pomozna(mat1, mat4, mat3, aP, a2,  bP, b2, cP, c2);
+    }
+}
+
+
+Tmat MultiplicationRecursiveTransposed(Tmat &mat1, Tmat &mat2){
+    Tmat mat4 = transponiraj(mat2);
+    
+    int a = mat1.size();
+    int b = mat1[0].size();
+    int c = mat4.size();
+
+    Tmat mat3 = newMat(c,a);
+    rek_tra_mno_pomozna(mat1, mat4, mat3, 0, a, 0, b, 0, c);
+    
+    return mat3;
+}
+
+Tmat MultiplicationClassicTransposed(Tmat &mat1, Tmat &mat2){
+    Tmat mat4 = transponiraj(mat2);
+
+    int a = mat1.size();
+    int b = mat1[0].size();
+    int c = mat4.size();
+    
+    Tmat mat3 = newMat(c,a);
+    pomozna_mno_kla_trans(mat1, mat4, mat3, 0, a, 0, b, 0, c);
+    return mat3;
+}
+
+
 
 Tmat RandomMatrix(int m, int n) {
   Tmat mat = newMat(m, n);
@@ -52,7 +169,7 @@ boost::numeric::ublas::matrix<double> MultiplicationBlas(boost::numeric::ublas::
 }
 
 enum Method {
-  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, SUBCUBIC, STRASSEN, BLAS
+  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, SUBCUBIC, BLAS
 };
 static map<string, Method> methodMap{
     {"classic",              CLASSIC},
@@ -60,7 +177,6 @@ static map<string, Method> methodMap{
     {"recursive",            RECURSIVE},
     {"recursive_transposed", RECURSIVE_T},
     {"subcubic",             SUBCUBIC},
-    {"strassen",             STRASSEN},
     {"blas",                 BLAS}
 };
 
@@ -81,7 +197,6 @@ int main(int ac, const char **av) {
             "  recursive\n"
             "  recursive_transposed\n"
             "  subcubic \n"
-            "  strassen \n"
             "  blas \n"
         )
         ("a,a", po::value<int>()->default_value(512), "A in (A,B)x(B,C) mutiplication  \n ")
@@ -165,94 +280,34 @@ int main(int ac, const char **av) {
   auto blas_f = MultiplicationBlas;
 
   switch (method) {
-    case CLASSIC:f = MultiplicationClassic;
-      break;
+    //case CLASSIC:f = MultiplicationClassic;
+    //  break;
     case CLASSIC_T:f = MultiplicationClassicTransposed;
       break;
-    case RECURSIVE:f = MultiplicationRecursive;
-      break;
+    //case RECURSIVE:f = MultiplicationRecursive;
+    //  break;
     case RECURSIVE_T:f = MultiplicationRecursiveTransposed;
-      break;
-    case SUBCUBIC:f = MultiplicationSubcubic;
-      break;
-    case STRASSEN: f = strassen_mul;
+    //  break;
+    //case SUBCUBIC:f = MultiplicationSubcubic;
       break;
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
-  if (max_time == 1) {
-    //placeholder for testing
-    int n = 512;
-    Tmat mat1 = newMat(n, n);
-    Tmat mat2 = newMat(n, n);
-    double konst = 100000000.000002;
-    for (int i = 0; i < n; i += 1) {
-      for (int j = 0; j < n; j += 1) {
-        mat1[i][j] = konst;
-        mat2[i][j] = konst;
-      }
+
+
+  std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
+  time_start = std::chrono::steady_clock::now();
+  if (method == BLAS) {
+    for (int i = 0; i < repeat; i+=1) {
+      auto bm3 = blas_f(bm1, bm2);
     }
-    Tmat mat3 = f(mat1, mat2);
-    //prikaz1(mat3);
-    cout << setprecision(24);
-    cout << konst * konst * n << endl << mat3[0][0] << endl;
-    cout << mat3[n / 2][n / 2] - konst * konst * n << endl;
   } else {
-
-    if (max_time > 0) {
-      int count = 0;
-      std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
-      auto time_total = std::chrono::milliseconds{0};
-      while (true) {
-        time_start = std::chrono::steady_clock::now();
-        if (method == BLAS) {
-          auto bm3 = blas_f(bm1, bm2);
-        } else {
-          Tmat m3 = f(m1, m2);
-        }
-        time_end = std::chrono::steady_clock::now();
-        auto time_of_test = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-//cout << time_of_test.count() << endl;
-        time_total +=
-            time_of_test;
-        count++;
-        if (time_total.
-            count()
-            > max_time || count > 10000) {
-//cout << "Total time:" << time_total.count() << "ms" << endl;
-//cout << "Iteration time:" << time_total.count() / count << "ms" << endl;
-          cout << time_total.
-              count()
-              / count <<
-               endl;
-          break;
-        }
-      }
-    } else {
-
-      std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
-      time_start = std::chrono::steady_clock::now();
-      if (method == BLAS) {
-        for (
-            int i = 0;
-            i < repeat;
-            ++i) {
-          auto bm3 = blas_f(bm1, bm2);
-        }
-      } else {
-        for (
-            int i = 0;
-            i < repeat;
-            ++i) {
-          Tmat m3 = f(m1, m2);
-        }
-      }
-
-      time_end = std::chrono::steady_clock::now();
-      auto time_total = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-      std::cout << time_total.count() / repeat << endl;
+    for (int i = 0; i < repeat; i+=1) {
+      Tmat m3 = f(m1, m2);
     }
   }
+
+  time_end = std::chrono::steady_clock::now();
+  auto time_total = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
+  std::cout << time_total.count() / repeat << endl;
 }
-
-
