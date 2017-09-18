@@ -52,7 +52,7 @@ boost::numeric::ublas::matrix<double> MultiplicationBlas(boost::numeric::ublas::
 }
 
 enum Method {
-  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, SUBCUBIC, BLAS
+  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, SUBCUBIC, STRASSEN, BLAS
 };
 static map<string, Method> methodMap{
     {"classic",              CLASSIC},
@@ -60,6 +60,7 @@ static map<string, Method> methodMap{
     {"recursive",            RECURSIVE},
     {"recursive_transposed", RECURSIVE_T},
     {"subcubic",             SUBCUBIC},
+    {"strassen",             STRASSEN},
     {"blas",                 BLAS}
 };
 
@@ -80,6 +81,7 @@ int main(int ac, const char **av) {
             "  recursive\n"
             "  recursive_transposed\n"
             "  subcubic \n"
+            "  strassen \n"
             "  blas \n"
         )
         ("a,a", po::value<int>()->default_value(512), "A in (A,B)x(B,C) mutiplication  \n ")
@@ -173,6 +175,8 @@ int main(int ac, const char **av) {
       break;
     case SUBCUBIC:f = MultiplicationSubcubic;
       break;
+    case STRASSEN: f = strassen_mul;
+      break;
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
@@ -191,8 +195,8 @@ int main(int ac, const char **av) {
     Tmat mat3 = f(mat1, mat2);
     //prikaz1(mat3);
     cout << setprecision(24);
-    cout << konst*konst*n << endl << mat3[0][0] << endl;
-    cout << mat3[0][0] - konst*konst*n << endl;
+    cout << konst * konst * n << endl << mat3[0][0] << endl;
+    cout << mat3[n / 2][n / 2] - konst * konst * n << endl;
   } else {
 
     if (max_time > 0) {
