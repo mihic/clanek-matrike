@@ -1,0 +1,69 @@
+test_parameters(){
+    file_name="resoults.txt"
+    resoult_string=""
+    a=8
+    b=2
+    c=80
+    d=100
+    e=100
+    f=2200
+    echo $a
+    echo $b
+    echo $c
+    
+    mkdir Output
+    resoult_string+="Tests \n"
+    
+    resoult_string+="Velikosti dim: \n"
+    for ((i=$a;i<$c;i+=b)); do
+        resoult_string+="${i};"
+    done
+    resoult_string+="\n"
+    
+    resoult_string+="Velikosti matrik: \n"
+    for ((j=$d;j<$f;j+=$e)); do
+        resoult_string+="${j};"
+    done
+    resoult_string+="\n"
+    printf ${resoult_string}
+    
+    for ((i=$a;i<$c;i+=b)); do
+        sed "15s/const int DIM = CONST;/const int DIM = ${i};/" matrix.cpp > matrix${i}.cpp
+        g++ matrix${i}.cpp -O3 -march=native -lboost_program_options -o matrix${i}
+        
+        printf "Parameter: ${i}\n"
+        resoult_string+="Parameter: ${i}\n"
+        for ((j=$d;j<$f;j+=$e)); do
+            x=$(./matrix${i} -m recursive_transposed -a ${j} -b ${j} -c ${j} -r 5)
+            printf "${j};${x};\n" 
+            resoult_string+="${j};${x};\n"
+        done
+        
+        rm "./matrix${i}"
+        rm "matrix${i}.cpp"
+    done
+    
+    printf ${resoult_string} > "Output/copy_${file_name}"
+    
+    now=$(date +"%T")
+    printf "Testing parameters \n" > "Output/${file_name}"
+    printf "Current time: $now \n" >> "Output/${file_name}"
+    sys_info="$(lscpu)"
+    printf "${sys_info}\n" >> "Output/${file_name}"
+    resoult_string="${resoult_string}"
+    
+    best_resoult=$(python3 extractBest.py "${resoult_string}" 2>&1)
+    echo "${best_resoult}"
+    
+    case "${best_resoult}" in
+        ''|*[!0-9]*) echo "error: Best resoult is not a number ${best_resoult}" ; return 1;;
+        *) echo "succes: Best resoult is number ${best_resoult}" ;;
+    esac
+    
+    sed "15s/const int DIM = CONST;/const int DIM = ${best_resoult};/" matrix.cpp > matrix${best_resoult}.cpp
+    g++ matrix${best_resoult}.cpp -O3 -march=native -lboost_program_options -o matrix${best_resoult}
+    
+    printf "Best: \n" >> "Output/${file_name}"
+    printf "${best_resoult}\n" >> "Output/${file_name}"
+    printf "${resoult_string}" >> "Output/${file_name}"
+}

@@ -12,7 +12,7 @@
 #include <boost/numeric/ublas/operation_blocked.hpp>
 
 //treba programsko nastaviti s skripto
-const int DIM = 16;
+const int DIM = 14;
 
 namespace po = boost::program_options;
 using namespace std;
