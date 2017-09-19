@@ -1,9 +1,8 @@
-#include <iostream>
-#include <fstream>
-#include <boost/program_options.hpp>
+#include <chrono>
 #include <random>
 #include <iomanip>
-#include <chrono>
+#include <fstream>
+#include <boost/program_options.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/operation.hpp>
@@ -24,16 +23,7 @@ Tmat RandomMatrix(int m, int n) {
   }
   return mat;
 }
-void prikaz1(Tmat &mat) {
-  for (auto &vrstica : mat) {
-    std::cout << "|";
-    for (auto &element : vrstica) {
-      std::cout << std::setw(10) << element;
-    }
-    std::cout << "|" << std::endl;
-  }
-  std::cout << std::endl;
-}
+
 boost::numeric::ublas::matrix<double> TmatToBlas(Tmat mat) {
   int m1 = mat.size();
   int n1 = mat[0].size();
