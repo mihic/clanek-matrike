@@ -1,0 +1,193 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	2
+<table>
+tests_recursive_new	170	3	9/19/17 7:36 PM
+geometry	0	0	961	873	
+header	alg[X]	recursive[Y]	recursiveT[Y]
+ColWidth	100	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0
+HiddenColumn	0	0	0
+Comments	n	recursive	recursiveT	
+WindowLabel	/home/mihic/faks/clanek-matrike/clanek-matrike/programi/tests_recursive_new.csv	2
+<data>
+0	100	0	0
+1	125	0.001	0.001
+2	150	0.002	0.002
+3	175	0.004	0.004
+4	200	0.006	0.005
+5	225	0.009	0.008
+6	250	0.013	0.011
+7	275	0.017	0.015
+8	300	0.023	0.019
+9	325	0.029	0.024
+10	350	0.038	0.032
+11	375	0.046	0.038
+12	400	0.055	0.045
+13	425	0.066	0.054
+14	450	0.078	0.064
+15	475	0.092	0.077
+16	500	0.108	0.091
+17	525	0.124	0.105
+18	550	0.142	0.12
+19	575	0.164	0.14
+20	600	0.187	0.157
+21	625	0.212	0.178
+22	650	0.239	0.199
+23	675	0.299	0.226
+24	700	0.312	0.261
+25	725	0.338	0.283
+26	750	0.372	0.311
+27	775	0.408	0.339
+28	800	0.446	0.368
+29	825	0.489	0.401
+30	850	0.534	0.439
+31	875	0.58	0.473
+32	900	0.65	0.515
+33	925	0.683	0.565
+34	950	0.738	0.622
+35	975	0.812	0.676
+36	1000	0.87	0.733
+37	1025	0.952	0.888
+38	1050	0.994	0.842
+39	1075	1.063	0.899
+40	1100	1.141	0.965
+41	1125	1.224	1.042
+42	1150	1.316	1.134
+43	1175	1.407	1.192
+44	1200	1.498	1.259
+45	1225	1.592	1.334
+46	1250	1.692	1.414
+47	1275	1.8	1.502
+48	1300	1.91	1.591
+49	1325	2.032	1.702
+50	1350	2.419	1.855
+51	1375	2.538	1.951
+52	1400	2.498	2.095
+53	1425	2.577	2.158
+54	1450	2.704	2.268
+55	1475	2.839	2.371
+56	1500	2.984	2.482
+57	1525	3.126	2.605
+58	1550	3.268	2.717
+59	1575	3.423	2.836
+60	1600	3.592	2.96
+61	1625	3.774	3.123
+62	1650	3.936	3.243
+63	1675	4.093	3.366
+64	1700	4.264	3.491
+65	1725	4.439	3.629
+66	1750	4.627	3.772
+67	1775	4.818	3.927
+68	1800	5.03	4.103
+69	1825	5.243	4.303
+70	1850	5.452	4.478
+71	1875	5.693	4.766
+72	1900	5.905	4.962
+73	1925	6.247	5.2
+74	1950	6.495	5.425
+75	1975	6.731	5.635
+76	2000	6.996	5.868
+77	2025	7.337	6.234
+78	2050	7.777	7.172
+79	2075	7.801	6.661
+80	2100	7.965	6.762
+81	2125	8.217	6.944
+82	2150	8.497	7.216
+83	2175	8.812	7.508
+84	2200	9.108	7.701
+</data>
+</table>
+<multiLayer>
+Graph1	1	1	9/19/17 7:38 PM
+geometry	961	0	959	873	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	9	-39	966	845
+<PageGeometry>0.00946372	-0.0472727	1.01577	1.02424</PageGeometry>
+PlotTitle	 	#000000	4228
+<Antialiasing>1</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	1	1	1	1	#a0a0a4	0	0.5	#c0c0c0	0	0.4	#a0a0a4	0	0.5	#c0c0c0	0	0.4	0	0	2	0	1
+EnabledAxes	1	1	1	1	
+AxesTitles	n	time [s]		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	27	75	0	0	0
+ScaleFont0	Ubuntu	23	75	0	0	0
+ScaleFont1	Ubuntu	23	75	0	0	0
+ScaleFont2	Ubuntu	23	75	0	0	0
+ScaleFont3	Ubuntu	23	75	0	0	0
+AxisFont0	Ubuntu	23	50	0	0	0
+AxisFont1	Ubuntu	23	50	0	0	0
+AxisFont2	Ubuntu	23	50	0	0	0
+AxisFont3	Ubuntu	23	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#000000	#000000	#000000	#000000
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	tests_recursive_new_alg	tests_recursive_new_recursiveT	0	1	#000000	0	2	7	0	#000000	#000000	0	#000000	14	1	2	0	0	169	1
+curve	tests_recursive_new_alg	tests_recursive_new_recursive	0	1	#000000	2	2	7	0	#ff0000	#ff0000	0	#000000	14	1	2	0	0	169	1
+scale	0	0	10	2	6	1	0	0
+scale	1	0	10	2	6	1	0	0
+scale	2	0	2300	0	6	5	0	0
+scale	3	0	2300	0	6	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>62.65664160401</x>
+<y>9.5986622073579</y>
+<right>299</right>
+<bottom>9.5702005730659</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+</Text>
+<Font>Ubuntu	23	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

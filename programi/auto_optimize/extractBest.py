@@ -26,6 +26,8 @@ def main():
     
     ##print(sloSum,sez,sez[:-1])
     m = min(sloSum.items(),key=lambda x: x[1])
+    for k in sloSum:
+        print(str(k) + ',' + str(sloSum[k]))
     print(m[0])
     ##print("Najboljsi:",m[0],"Cas",m[1])
     ##niz+="REZ:"

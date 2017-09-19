@@ -1,76 +1,25 @@
 Testing parameters 
-Current time: 15:24:46 
-
-Best: 
-192
-Tests 
-Velikosti dim: 
-64;96;128;160;192;224;
-Velikosti matrik: 
-2000;2100;2200;2300;2400;2500;2600;2700;2800;2900;
-Parameter: 64
-2000;5481;
-2100;7505;
-2200;8424;
-2300;9218;
-2400;11860;
-2500;11880;
-2600;12867;
-2700;14316;
-2800;16372;
-2900;19402;
-Parameter: 96
-2000;5479;
-2100;6739;
-2200;7235;
-2300;8097;
-2400;8771;
-2500;9826;
-2600;11885;
-2700;12791;
-2800;15003;
-2900;15815;
-Parameter: 128
-2000;5178;
-2100;6754;
-2200;7234;
-2300;8109;
-2400;8762;
-2500;9820;
-2600;11840;
-2700;13126;
-2800;15000;
-2900;15421;
-Parameter: 160
-2000;5177;
-2100;6226;
-2200;7152;
-2300;7841;
-2400;8447;
-2500;9454;
-2600;11831;
-2700;12768;
-2800;14884;
-2900;15207;
-Parameter: 192
-2000;5174;
-2100;6225;
-2200;7154;
-2300;7842;
-2400;8454;
-2500;9459;
-2600;10576;
-2700;12892;
-2800;13272;
-2900;15913;
-Parameter: 224
-2000;5172;
-2100;6223;
-2200;7164;
-2300;7870;
-2400;8470;
-2500;9461;
-2600;10559;
-2700;13175;
-2800;13314;
-2900;15952;
+Current time: 00:02:12 
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              8
+On-line CPU(s) list: 0-7
+Thread(s) per core:  2
+Core(s) per socket:  4
+Socket(s):           1
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               94
+Model name:          Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz
+Stepping:            3
+CPU MHz:             3099.877
+CPU max MHz:         3500.0000
+CPU min MHz:         800.0000
+BogoMIPS:            5184.00
+Virtualization:      VT-x
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            256K
+L3 cache:            6144K
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb intel_pt tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp
