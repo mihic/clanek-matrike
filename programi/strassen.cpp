@@ -1,11 +1,9 @@
 #include <vector>
 #include <algorithm>
 #include "matrix.h"
-#include <SUBCUB>
                         
 
 Tmat strassen_mul(Tmat &, Tmat &);
-
 
 void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                         int a1, int a2,
@@ -19,7 +17,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
 
-    if(std::min({aD, bD, cD})<400){
+    if(std::min({aD, bD, cD})<20){
         rek_mno_pomozna(mat1, mat2, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
@@ -58,7 +56,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
         Tmat mB12B22 = pomozno_odstevanje(mat2, mat2,
                                           //B12
                                           b1, bP,
-                                          cP, c2 ,
+                                          cP, c2,
                                           //B22
                                           bP, b2,
                                           cP, c2);
@@ -71,14 +69,14 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
         //M4
         Tmat mB21B11 = pomozno_odstevanje(mat2, mat2,
                                           //B21
-                                          b1, bP,
-                                          cP, c2 ,
-                                          //B11
                                           bP, b2,
-                                          cP, c2);
+                                          c1, cP ,
+                                          //B11
+                                          b1, bP,
+                                          c1, cP);
 
         Tmat maA22 = vrni_obmocje_matrike(mat1,
-                                          //A11
+                                          //A22
                                           aP, a2,
                                           bP, b2);
 
@@ -87,7 +85,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           //A11
                                           a1, aP,
                                           b1, bP,
-                                          //122
+                                          //A12
                                           a1, aP,
                                           bP, b2);
 
@@ -96,12 +94,11 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           bP, b2,
                                           cP, c2);
 
-
         //M6
         Tmat mA21A11 = pomozno_odstevanje(mat2, mat2,
                                           //A21
                                           aP, a2,
-                                          b1, bP ,
+                                          b1, bP,
                                           //A11
                                           a1, aP,
                                           b1, bP);

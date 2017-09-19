@@ -1,8 +1,21 @@
 #include <vector>
+#include <iostream>
+#include <iomanip>
 #include "matrix.h"
 
+//code for testing
+void prikaz(Tmat &mat) {
+  for (auto &vrstica : mat) {
+    std::cout << "|";
+    for (auto &element : vrstica) {
+      std::cout << std::setw(10) << element;
+    }
+    std::cout << "|" << std::endl;
+  }
+  std::cout << std::endl;
+}
 
-
+//code for algorithms
 Tmat newMat(int a, int b){
     std::vector<double> nicelni(a, 0.0);
     Tmat mat(b, nicelni);

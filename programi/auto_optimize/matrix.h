@@ -1,7 +1,7 @@
 //this constants should be set to positive int by bash
 const int TODO = 0;
-const int RECT_DIM = 28;
-const int SUBC_DIM = 42;
+const int RECT_DIM = 26;
+const int SUBC_DIM = 192;
 
 typedef std::vector<std::vector<double>> Tmat;
 

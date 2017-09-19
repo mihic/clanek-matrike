@@ -3,12 +3,12 @@
 optimize_recursive(){
     file_name="resoults_recursive.txt"
     resoult_string=""
-    a=8
+    a=16
     b=2
-    c=64
-    d=1500
-    e=50
-    f=2200
+    c=32
+    d=500
+    e=100
+    f=1500
     echo $a
     echo $b
     echo $c
@@ -69,12 +69,12 @@ optimize_recursive(){
 optimize_subcub(){
     file_name="resoults_subcub.txt"
     resoult_string=""
-    a=32
-    b=16
-    c=512
-    d=1500
-    e=50
-    f=2400
+    a=64
+    b=32
+    c=256
+    d=2000
+    e=100
+    f=3000
     echo $a
     echo $b
     echo $c
