@@ -1,3 +1,5 @@
+#include <functional>
+
 typedef std::vector<std::vector<double>> Tmat;
 
 Tmat transponiraj(Tmat &mat);
@@ -44,3 +46,9 @@ void pristej_rezultatu(Tmat &mat1, Tmat &mat3,
 void odstej_rezultatu(Tmat &mat1, Tmat &mat3,
                       int x1,
                       int x2);
+                      
+void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>);
+
+void prikaz(Tmat &mat);
+
+Tmat RandomMatrix(int, int);

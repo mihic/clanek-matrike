@@ -1,5 +1,7 @@
 #include <vector>
 #include <algorithm>
+#include <iomanip>
+#include <iostream>
 #include "matrix.h"
                         
 
@@ -17,10 +19,11 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
 
-    if(std::min({aD, bD, cD})<20){
+    if(std::min({aD, bD, cD})<10){
         rek_mno_pomozna(mat1, mat2, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
+        //std::cout << "M1" << std::endl;
         //M1
         Tmat mA11A22 = pomozno_sestevanje(mat1, mat1,
                                           //A11
@@ -30,6 +33,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           aP, a2,
                                           bP, b2);
 
+        //std::cout << "MM" << std::endl;
         Tmat mB11B22 = pomozno_sestevanje(mat2, mat2,
                                           //B11
                                           b1, bP,
@@ -38,6 +42,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           bP, b2,
                                           cP, c2);
 
+        //std::cout << "M2" << std::endl;
         //M2
         Tmat mA21A22 = pomozno_sestevanje(mat1, mat1,
                                           //A21
@@ -47,12 +52,19 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           aP, a2,
                                           bP, b2);
 
+        //std::cout << "MM" << std::endl;
         Tmat maB11 = vrni_obmocje_matrike(mat2,
                                           //B11
                                           b1, bP,
                                           c1, cP);
 
+        //std::cout << "M3" << std::endl;
         //M3
+        Tmat maA11 = vrni_obmocje_matrike(mat1,
+                                          //A11
+                                          a1, aP,
+                                          b1, bP);
+                                          
         Tmat mB12B22 = pomozno_odstevanje(mat2, mat2,
                                           //B12
                                           b1, bP,
@@ -61,12 +73,13 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           bP, b2,
                                           cP, c2);
 
-        Tmat maA11 = vrni_obmocje_matrike(mat1,
-                                          //A11
-                                          a1, aP,
-                                          b1, bP);
-
+        //std::cout << "M4" << std::endl;
         //M4
+        Tmat maA22 = vrni_obmocje_matrike(mat1,
+                                          //A22
+                                          aP, a2,
+                                          bP, b2);
+                                          
         Tmat mB21B11 = pomozno_odstevanje(mat2, mat2,
                                           //B21
                                           bP, b2,
@@ -75,11 +88,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           b1, bP,
                                           c1, cP);
 
-        Tmat maA22 = vrni_obmocje_matrike(mat1,
-                                          //A22
-                                          aP, a2,
-                                          bP, b2);
-
+        //std::cout << "M5" << std::endl;
         //M5
         Tmat mA11A12 = pomozno_sestevanje(mat1, mat1,
                                           //A11
@@ -94,8 +103,10 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           bP, b2,
                                           cP, c2);
 
+
+        //std::cout << "M6" << std::endl;
         //M6
-        Tmat mA21A11 = pomozno_odstevanje(mat2, mat2,
+        Tmat mA21A11 = pomozno_odstevanje(mat1, mat1,
                                           //A21
                                           aP, a2,
                                           b1, bP,
@@ -112,8 +123,10 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           b1, bP,
                                           cP, c2);
 
+
+        //std::cout << "M7" << std::endl;
         //M7
-        Tmat mA12A22 = pomozno_odstevanje(mat2, mat2,
+        Tmat mA12A22 = pomozno_odstevanje(mat1, mat1,
                                           //A12
                                           a1, aP,
                                           bP, b2 ,

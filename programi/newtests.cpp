@@ -143,7 +143,6 @@ int main(int ac, const char **av) {
     cerr << e.what();
   }
 
-
   //Execute the tests
   urd = std::uniform_real_distribution<double>(0, 1);
   re = std::default_random_engine(seed);
@@ -170,6 +169,11 @@ int main(int ac, const char **av) {
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
+  
+  if (max_time == -99) {
+    TestCorrectness(f);
+  }
+  
   if (max_time == 1) {
     //placeholder for testing
     int n = 512;

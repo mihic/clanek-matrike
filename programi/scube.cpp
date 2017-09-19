@@ -1,5 +1,6 @@
 #include <vector>
 #include <algorithm>
+#include <iostream>
 #include "matrix.h"
 
 
@@ -61,15 +62,29 @@ Tmat pomozno_sestevanje(Tmat &mat1, Tmat &mat2,
     
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
+    /*
+    std::cout << mat1.size() << " size " << mat1[0].size() << std::endl;
+    std::cout << "x1" << " " << "x1max" << std::endl;
+    std::cout << x1 << " " << x1max << std::endl;
+    std::cout << "x2" << " " << "x2max" << std::endl;
+    std::cout << x2 << " " << x2max << std::endl;
+    std::cout << "y1" << " " << "y1max" << std::endl;
+    std::cout << y1 << " " << y1max << std::endl;
+    std::cout << "y2" << " " << "y2max" << std::endl;
+    std::cout << y2 << " " << y2max << std::endl;
+    std::cout << "iMax" << " " << "jMax" << std::endl;
+    std::cout << iMax << " " << jMax << std::endl;
+    */
     
     Tmat mat3 = newMat(jMax,iMax);
-    
+    //std::cout << "AAA" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3[i][j] += mat1[x1+i][x2+j];
         }
     }
     
+    //std::cout << "BBB" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3[i][j] += mat2[y1+i][y2+j];
