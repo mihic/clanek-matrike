@@ -1,8 +1,6 @@
 #include <vector>
 #include "matrix.h"
 
-
-
 Tmat newMat(int a, int b){
     std::vector<double> nicelni(a, 0.0);
     Tmat mat(b, nicelni);
