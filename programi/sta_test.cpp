@@ -99,8 +99,15 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
     Tmat mat4;
     
     int n = 1024;
-    mat1 = RandomMatrix(n,n);
-    mat2 = RandomMatrix(n,n);
+    int a = 800;
+    int b = 600;
+    int c = 400;
+    
+    mat1 = RandomMatrix(a,b);
+    mat2 = RandomMatrix(b,c);
+    
+    //mat1 = RandomMatrix(n,n);
+    //mat2 = RandomMatrix(n,n);
     
     std::cout << "Testing1" << std::endl;
     mat3 = MultiplicationClassicTransposed(mat1, mat2);
@@ -115,19 +122,27 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
       std::cout << "False" << std::endl;
     }
     
-    n = 16;
-    mat1 = Ex2Matrix(n,n);
-    mat2 = Ex3Matrix(n,n);
+    //n = 16;
+    a = 16;
+    b = 14;
+    c = 12;
+    
+    std::cout << "Testing4" << std::endl;
+    mat1 = Ex2Matrix(a,b);
+    mat2 = Ex3Matrix(b,c);
     mat3 = MultiplicationClassicTransposed(mat1, mat2);
     mat4 = TestAlg(mat1, mat2);
     prikaz(mat3);
     prikaz(mat4);
+    std::cout << "Testing5" << std::endl;
     
-    int a = 10;
-    int b = 10;
-    int c = 10;
+    /*
+    int a = 800;
+    int b = 600;
+    int c = 400;
+    */
     
-
+/*
     mat1 = Ex2Matrix(b,a);
     mat2 = PsevdoId(c,b);
     mat3 = MultiplicationClassicTransposed(mat1, mat2);

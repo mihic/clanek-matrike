@@ -23,6 +23,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
         rek_mno_pomozna(mat1, mat2, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
+        //std::cout << "abc" << aD << " " << bD << " " << cD << std::endl;
         //std::cout << "M1" << std::endl;
         //M1
         Tmat mA11A22 = pomozno_sestevanje(mat1, mat1,
@@ -134,7 +135,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           aP, a2,
                                           bP, b2);
 
-
+        //std::cout << "MM" << std::endl;
         Tmat mB21B22 = pomozno_sestevanje(mat2, mat2,
                                           //B21
                                           bP, b2,
@@ -143,13 +144,27 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                                           bP, b2,
                                           cP, c2);
 
+        //std::cout << "MM AAA" << std::endl;
+
         Tmat matM1 = strassen_mul(mA11A22, mB11B22);
+        //std::cout << "MM AAA1" << std::endl;
+        //std::cout << mA21A22.size() << " AA " << mA21A22[0].size() << std::endl;
+        //std::cout << maB11.size() << " BB " << maB11[0].size() << std::endl;
+        
         Tmat matM2 = strassen_mul(mA21A22, maB11);
+        //std::cout << "MM AAA2" << std::endl;
         Tmat matM3 = strassen_mul(maA11, mB12B22);
+        //std::cout << "MM AAA3" << std::endl;
         Tmat matM4 = strassen_mul(maA22, mB21B11);
+        //std::cout << "MM AAA4" << std::endl;
         Tmat matM5 = strassen_mul(mA11A12, maB22);
+        //std::cout << "MM AAA5" << std::endl;
         Tmat matM6 = strassen_mul(mA21A11, mB11B12);
+        //std::cout << "MM AAA6" << std::endl;
         Tmat matM7 = strassen_mul(mA12A22, mB21B22);
+        //std::cout << "MM AAA7" << std::endl;
+        
+        //std::cout << "MM BBB" << std::endl;
 
         //C11
         pristej_rezultatu(matM1, mat3, a1, c1);
@@ -175,7 +190,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 
 Tmat strassen_mul(Tmat &mat1, Tmat &mat2){
     int a = mat1.size();
-    int b = mat1[0].size();
+    int b = mat2.size();
     int c = mat2[0].size();
 
     Tmat mat3 = newMat(c,a);
