@@ -169,11 +169,11 @@ int main(int ac, const char **av) {
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
-  
+
   if (max_time == -99) {
     TestCorrectness(f);
   }
-  
+
   if (max_time == 1) {
     //placeholder for testing
     int n = 512;
@@ -207,18 +207,12 @@ int main(int ac, const char **av) {
         time_end = std::chrono::steady_clock::now();
         auto time_of_test = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
 //cout << time_of_test.count() << endl;
-        time_total +=
-            time_of_test;
+        time_total += time_of_test;
         count++;
-        if (time_total.
-            count()
-            > max_time || count > 10000) {
+        if (time_total.count() > max_time || count > 10000) {
 //cout << "Total time:" << time_total.count() << "ms" << endl;
 //cout << "Iteration time:" << time_total.count() / count << "ms" << endl;
-          cout << time_total.
-              count()
-              / count <<
-               endl;
+          cout << time_total.count() / count << endl;
           break;
         }
       }
@@ -227,17 +221,11 @@ int main(int ac, const char **av) {
       std::chrono::time_point<std::chrono::steady_clock> time_start, time_end;
       time_start = std::chrono::steady_clock::now();
       if (method == BLAS) {
-        for (
-            int i = 0;
-            i < repeat;
-            ++i) {
+        for (int i = 0; i < repeat; ++i) {
           auto bm3 = blas_f(bm1, bm2);
         }
       } else {
-        for (
-            int i = 0;
-            i < repeat;
-            ++i) {
+        for (int i = 0; i < repeat; ++i) {
           Tmat m3 = f(m1, m2);
         }
       }
