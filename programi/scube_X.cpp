@@ -160,9 +160,11 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           cP, c2, 
                                           b1, bP);
         
-        matA1B1.clear();
-        matX1Y1.clear();                       
         Tmat matM1 = gl_podkubicen(matA1B1, matX1Y1);
+        matA1B1.clear();
+        matX1Y1.clear();
+        pristej_rezultatu(matM1, mat3, aP, c1);//B1*
+        matM1.clear()
         
         //M2
         Tmat matA2B2 = pomozno_sestevanje(mat1, mat1, 
@@ -181,9 +183,11 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           cP, c2, 
                                           bP, b2);
                                           
+        Tmat matM2 = gl_podkubicen(matA2B2, matX2Y2);
         matA2B2.clear();   
         matX2Y2.clear();
-        Tmat matM2 = gl_podkubicen(matA2B2, matX2Y2);
+        pristej_rezultatu(matM2, mat3, a1, cP);//A2*
+        matM2.clear()
         
         //M3
         Tmat matA1mB2 = pomozno_odstevanje(mat1, mat1, 
@@ -202,10 +206,13 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           cP, c2, 
                                           b1, bP);
                                           
+        Tmat matM3 = gl_podkubicen(matA1mB2, matX2Y1);
         matA1mB2.clear();   
         matX2Y1.clear();
-        Tmat matM3 = gl_podkubicen(matA1mB2, matX2Y1);
-        
+        pristej_rezultatu(matM3, mat3, a1, cP);//A2*
+        odstej_rezultatu(matM3, mat3, aP, c1);//B1*
+        matM3.clear()
+
         //M4
         Tmat matA1 = vrni_obmocje_matrike(mat1,
                                           //A1
@@ -220,9 +227,12 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           c1, cP, 
                                           bP, b2);
                                           
+        Tmat matM4 = gl_podkubicen(matA1, matX1mX2);
         matA1.clear();   
         matX1mX2.clear();
-        Tmat matM4 = gl_podkubicen(matA1, matX1mX2);
+        pristej_rezultatu(matM4, mat3, a1, c1);//A1
+        odstej_rezultatu(matM4, mat3, aP, c1);//B1
+        matM4.clear()
         
         //M5
         Tmat matA2A1 = pomozno_sestevanje(mat1, mat1, 
@@ -238,9 +248,12 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           c1, cP, 
                                           bP, b2);
                                           
+        Tmat matM5 = gl_podkubicen(matA2A1, matX2);
         matA2A1.clear();   
         matX2.clear();
-        Tmat matM5 = gl_podkubicen(matA2A1, matX2);
+        pristej_rezultatu(matM5, mat3, a1, c1);//A1
+        odstej_rezultatu(matM5, mat3, a1, cP);//A2
+        matM5.clear()
         
         //M6
         Tmat matB2 = vrni_obmocje_matrike(mat1,
@@ -256,9 +269,12 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           cP, c2, 
                                           b1, bP);
                                           
+        Tmat matM6 = gl_podkubicen(matB2, matY2mY1);
         matB2.clear();   
         matY2mY1.clear();
-        Tmat matM6 = gl_podkubicen(matB2, matY2mY1);
+        odstej_rezultatu(matM6, mat3, a1, cP);//A2
+        pristej_rezultatu(matM6, mat3, aP, cP);//B2*
+        matM6.clear()
              
         //M7
         Tmat matB1B2 = pomozno_sestevanje(mat1, mat1, 
@@ -274,29 +290,12 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                           cP, c2, 
                                           b1, bP);
 
+        Tmat matM7 = gl_podkubicen(matB1B2, matY1);
         matB1B2.clear();   
         matY1.clear();
-        Tmat matM7 = gl_podkubicen(matB1B2, matY1);
-        
-        //A1*
-        pristej_rezultatu(matM4, mat3, a1, c1);     
-        pristej_rezultatu(matM5, mat3, a1, c1);
-
-        //A2
-        pristej_rezultatu(matM2, mat3, a1, cP);
-        odstej_rezultatu(matM6, mat3, a1, cP);
-        pristej_rezultatu(matM3, mat3, a1, cP);
-        odstej_rezultatu(matM5, mat3, a1, cP);
-                          
-        //B1*                  
-        pristej_rezultatu(matM1, mat3, aP, c1);
-        odstej_rezultatu(matM4, mat3, aP, c1);
-        odstej_rezultatu(matM3, mat3, aP, c1);
-        odstej_rezultatu(matM7, mat3, aP, c1);
-
-        //B2*
-        pristej_rezultatu(matM6, mat3, aP, cP);
-        pristej_rezultatu(matM7, mat3, aP, cP);
+        odstej_rezultatu(matM7, mat3, aP, c1);//B1*
+        pristej_rezultatu(matM7, mat3, aP, cP);//B2*
+        matM7.clear()
     }
 }
 
