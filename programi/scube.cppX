@@ -164,7 +164,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matA1B1.clear();
         matX1Y1.clear();
         pristej_rezultatu(matM1, mat3, aP, c1);//B1*
-        matM1.clear()
+        matM1.clear();
         
         //M2
         Tmat matA2B2 = pomozno_sestevanje(mat1, mat1, 
@@ -187,7 +187,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matA2B2.clear();   
         matX2Y2.clear();
         pristej_rezultatu(matM2, mat3, a1, cP);//A2*
-        matM2.clear()
+        matM2.clear();
         
         //M3
         Tmat matA1mB2 = pomozno_odstevanje(mat1, mat1, 
@@ -211,7 +211,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matX2Y1.clear();
         pristej_rezultatu(matM3, mat3, a1, cP);//A2*
         odstej_rezultatu(matM3, mat3, aP, c1);//B1*
-        matM3.clear()
+        matM3.clear();
 
         //M4
         Tmat matA1 = vrni_obmocje_matrike(mat1,
@@ -232,7 +232,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matX1mX2.clear();
         pristej_rezultatu(matM4, mat3, a1, c1);//A1
         odstej_rezultatu(matM4, mat3, aP, c1);//B1
-        matM4.clear()
+        matM4.clear();
         
         //M5
         Tmat matA2A1 = pomozno_sestevanje(mat1, mat1, 
@@ -253,7 +253,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matX2.clear();
         pristej_rezultatu(matM5, mat3, a1, c1);//A1
         odstej_rezultatu(matM5, mat3, a1, cP);//A2
-        matM5.clear()
+        matM5.clear();
         
         //M6
         Tmat matB2 = vrni_obmocje_matrike(mat1,
@@ -274,7 +274,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matY2mY1.clear();
         odstej_rezultatu(matM6, mat3, a1, cP);//A2
         pristej_rezultatu(matM6, mat3, aP, cP);//B2*
-        matM6.clear()
+        matM6.clear();
              
         //M7
         Tmat matB1B2 = pomozno_sestevanje(mat1, mat1, 
@@ -295,7 +295,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         matY1.clear();
         odstej_rezultatu(matM7, mat3, aP, c1);//B1*
         pristej_rezultatu(matM7, mat3, aP, cP);//B2*
-        matM7.clear()
+        matM7.clear();
     }
 }
 

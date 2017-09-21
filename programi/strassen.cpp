@@ -19,7 +19,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
 
-    if(std::min({aD, bD, cD})<10){
+    if(std::min({aD, bD, cD})<96){
         rek_mno_pomozna(mat1, mat2, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
