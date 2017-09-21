@@ -8,7 +8,7 @@ void prikaz(Tmat &mat) {
   for (auto &vrstica : mat) {
     std::cout << "|";
     for (auto &element : vrstica) {
-      std::cout << std::setw(5) << element;
+      std::cout << std::setw(8) << element;
     }
     std::cout << "|" << std::endl;
   }
