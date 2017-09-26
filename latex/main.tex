@@ -179,6 +179,7 @@ This problem can be easily avoided if we beforehand transpose the right matrix $
 and convert the matrix multiplication.
 
 
+
 \subsection{Transposed matrix}
 
 Classic (This) algorithm performance can be drastically improved if we beforehand 
@@ -190,15 +191,28 @@ In practice this computation is faster because matrix $M_{4}$ is in better forma
 for making the use of cache.
 
 In the next diagram we will compare the performance benefit of this method compared 
-to classic matrix multiplication.
+to classic matrix multiplication. (*** NAJVRJETNEJE TAK SKLIC NI VREDU)
 
-(*** DIAGRAM)
+\section{Comparison}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/classic.pdf}
+\caption{Classic and Classic transposed}
+\label{fig:classic}
+\end{figure}
 
 From the diagram we can observe that the algorithm with the use of transposed 
 classical multiplication is extremely faster. 
 Transposed matrix multiplication is easy to implement and compared to classic 
 matrix multiplication the speed up of its use is non negligible so it should 
 be the part of every matrix multiplication that we use in practice.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/classic_variation.pdf}
+\caption{Classic multiplication testing variation}
+\label{fig:classic}
+\end{figure}
 
 \subsection{Numerical stability}
 Numerical stability of this kind of matrix multiplication can be compared 
@@ -221,6 +235,32 @@ for the positive number of the same order the second is more numerically stable.
 
 \section{Recursive algorithm}
 (*** 3/2 strani)
+
+\begin{align*}
+C=AB
+\end{align*}
+\begin{align*}
+\begin{bmatrix}
+C_{1,1} & C_{1,2} \\
+C_{2,1} & C_{2,2} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+A_{1,1} & A_{1,2} \\
+A_{2,1} & A_{2,2} \\
+\end{bmatrix}
+\begin{bmatrix}
+B_{1,1} & B_{1,2} \\
+B_{2,1} & B_{2,2} \\
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+C_{1,1} &= A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\
+C_{1,2} &= A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\
+C_{2,1} &= A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\
+C_{2,2} &= A_{1,2}B_{1,2} + A_{2,2}B_{2,2} \\
+\end{align*}
 
 Recursive algorithm for matrix multiplication 
 is an algorithm where we split matrices
@@ -254,6 +294,8 @@ iterative version.
 
 (*** GRAF)
 
+(*** MOGOCE BI TU VSEENO DALA GRAF TE PRIMERJAVE)
+
 We can see that recursive algorithm is 
 faster than transposed classic algorithm 
 (*** povsod treba isto ime, standardizirati po članku). The reason for this lies in 
@@ -276,6 +318,13 @@ In this way computer solves small part of the problem and then clear cache.
 (*** to bi lahko zelo vsebinsko izboljsali, 
 da bo bolj korektno)
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/recursive.pdf}
+\caption{Recursive vs Recursive transposed}
+\label{fig:classic}
+\end{figure}
+
 
 \subsection{Implementation}
 
@@ -283,6 +332,97 @@ da bo bolj korektno)
 
 \section{Strassen algorithm}
 (*** 3 strani)
+\begin{align*}
+C=AB
+\end{align*}
+% \begin{align*}
+% A=
+% \begin{bmatrix}
+% A_{1,1} & A_{1,2} \\
+% A_{2,1} & A_{2,2} \\
+% \end{bmatrix},
+% B=
+% \begin{bmatrix}
+% B_{1,1} & B_{1,2} \\
+% B_{2,1} & B_{2,2} \\
+% \end{bmatrix},
+% C=
+% \begin{bmatrix}
+% C_{1,1} & C_{1,2} \\
+% C_{2,1} & C_{2,2} \\
+% \end{bmatrix}
+% \end{align*}
+
+% \begin{align*}
+% C_{1,1} &= A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\
+% C_{1,2} &= A_{1,1}B_{1,2} + A_{1,2}B_{2,2} \\
+% C_{2,1} &= A_{2,1}B_{1,1} + A_{2,2}B_{2,1} \\
+% C_{2,2} &= A_{1,2}B_{1,2} + A_{2,2}B_{2,2} \\
+% \end{align*}
+
+\begin{align*}
+M_{1} &:= (A_{1,1} + A_{2,2})(B_{1,1} + B_{2,2}) \\
+M_{2} &:= (A_{2,1} + A_{2,2})B_{1,1} \\
+M_{3} &:= A_{1,1}(B_{1,2} - B_{2,2}) \\
+M_{4} &:= A_{2,2}(B_{2,1} - B_{1,1}) \\
+M_{5} &:= (A_{1,1} + A_{1,2})B_{2,2} \\
+M_{6} &:= (A_{2,1} - A_{1,1})(B_{1,1} + B_{1,2}) \\
+M_{7} &:= (A_{1,2} - A_{2,2})(B_{2,1} + B_{2,2})
+\end{align*}
+
+\begin{align*}
+C_{1,1} &= M_{1} + M_{4} - M_{5} + M_{7} \\
+C_{1,2} &= M_{3} + M_{5} \\
+C_{2,1} &= M_{2} + M_{4} \\
+C_{2,2} &= M_{1} - M_{2} + M_{3} + M_{6}
+\end{align*}
+
+\subsection{Subcubic algorithm}
+
+\begin{align*}
+C = A \times X
+\end{align*}
+
+\begin{align*}
+A = 
+\begin{bmatrix}
+A_{1} & A_{2} \\
+B_{1} & B_{2}
+\end{bmatrix}
+\quad
+X = 
+\begin{bmatrix}
+X_{1} & X_{2} \\
+Y_{1} & Y_{2}
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+C_{1,1} &= A_{1} \times X_{1} + A_{2}  \times X_{2} \\
+C_{1,2} &= A_{1} \times Y_{1} + A_{2}  \times Y_{2} \\
+C_{2,1} &= B_{1} \times X_{1} + B_{2}  \times X_{2} \\
+C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}
+\end{align*}
+
+\begin{align*}
+C_{1,1} &= M_{4} + M_{5}\\
+C_{1,2} &= M_{2} - M_{6} + M_{3} - M_{5} \\
+C_{2,1} &= M_{1} - M_{4} - M_{3} - M_{7} \\
+C_{2,2} &= M_{6} + M_{7}
+\end{align*}
+
+\begin{align*}
+M_{1} &:= (A_{1} + B_{1}) \times (X_{1} + Y_{1}) \\
+M_{2} &:= (A_{2} + B_{2}) \times (X_{2} + Y_{2}) \\
+M_{3} &:= (A_{1} - B_{2}) \times (X_{2} + Y_{1}) \\
+M_{4} &:= A_{1} \times (X_{1} - X_{2}) \\
+M_{5} &:= (A_{2} + A_{1}) \times X_{2} \\
+M_{6} &:= B_{2} \times (Y_{2} - Y_{1}) \\
+M_{7} &:= (B_{1} + B_{2}) \times Y_{1}
+\end{align*}
+
+
+
 \subsection{Time gain}
 
 \subsection{Implementation}
@@ -291,25 +431,9 @@ da bo bolj korektno)
 
 \section{Algorithms from libraries}
 (*** 1 strani)
-\section{Comparison}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{img/classic.pdf}
-\caption{Classic and Classic transposed}
-\label{fig:classic}
-\end{figure}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{img/classic_variation.pdf}
-\caption{Classic multiplication testing variation}
-\label{fig:classic}
-\end{figure}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{img/recursive.pdf}
-\caption{Recursive vs Recursive transposed}
-\label{fig:classic}
-\end{figure}
+
+
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{img/all_5000.pdf}
