@@ -6,8 +6,8 @@
 
 \usepackage{lmodern}
 \renewcommand*\familydefault{\sfdefault}
-\usepackage{textcomp}
-
+\usepackage{textcomp} 
+     
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -43,7 +43,7 @@
 \newpage
 \let \footnote \thanks
 \begin{center}
-{\@setfontsize\Huge{26}{30}\@title\par}
+ 	{\@setfontsize\Huge{26}{30}\@title\par}
 	\vskip 2em
 	{\large \@author \par}
 \end{center}
@@ -92,8 +92,8 @@ We compare our implementation with algorithms from the standard library openBLAS
 
 \section{Introduction}
 
-\lettrine{M}{atrix multiplication}
-is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algorithms important.
+\lettrine{M}{atrix multiplication} 
+is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algorithms important. 
 
 Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
 
@@ -105,42 +105,42 @@ Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
 Most known algorithms are sub-cubic time complexity.
 
 ->
-Typical examples of such algorithms are
-classical iterative algorithm, block algorithm
+Typical examples of such algorithms are 
+classical iterative algorithm, block algorithm 
 and recursive algorithm.
 
 ->
-Recursive algorithms have potential for
+Recursive algorithms have potential for 
 distributed computing.
 
 ->
-Block algorithms are usually most optimized
+Block algorithms are usually most optimized 
 for cache.
 
 ->
-There also exists algorithms with sub-cubic
-time complexity. These algorithms are of
-great theoretical importance but are usually
+There also exists algorithms with sub-cubic 
+time complexity. These algorithms are of 
+great theoretical importance but are usually 
 not implemented.
 
 ->
-Authors which worked on this field are
+Authors which worked on this field are 
 Strassen, Pan, Bini, Schonhage, Romani, Coppersmith, Winograd, Stothers,
 Williams.
 
 ->
-Unfortunately most of the sub-cubic algorithms
-are too complicated to understand and implement.
-Plus the beginning constant of the algorithms
-can be very big.
+Unfortunately most of the sub-cubic algorithms 
+are too complicated to understand and implement. 
+Plus the beginning constant of the algorithms 
+can be very big. 
 
 ->
-This article deals with a Strassen like algorithm,
+This article deals with a Strassen like algorithm, 
 which is easy to understand and not too complicated
-to implement.
+to implement.  
 
 ->
-We hope that through article we showed
+We hope that through article we showed 
 its practical value.
 
 \subsection{Existing implementations}
@@ -152,10 +152,10 @@ its practical value.
 (*** 1/2 strani)
 
 ->
-Basic algorithm for matrix multiplication is the one which
+Basic algorithm for matrix multiplication is the one which 
 is directly deriven(*** Slovnica?) from the math definition of matrix multiplication
 $M_{3} = M_{1} \cdot M_{2}$.
-In this basic algorithm we go thorough the lines of the first matrix and
+In this basic algorithm we go thorough the lines of the first matrix and 
 multiply it with the colums of the second matrix.
 
 In this way we compute each element of the resulting matrix one by one.
@@ -165,62 +165,116 @@ c_{i,j} = \sum_{k=1}^{n} a_{i,k} b_{k,j}
 \end{align*}
 
 ->
-For matrix $M_{1}$ of the size $a \times b$ and matrix $M_{2}$ of the size
-$b \times c$ we can define therefore compute matrix $M_{3}= M_{1} \cdot M_{2}$
+For matrix $M_{1}$ of the size $a \times b$ and matrix $M_{2}$ of the size 
+$b \times c$ we can define therefore compute matrix $M_{3}= M_{1} \cdot M_{2}$ 
 of the size $a \times c$.
 
 ->
-If in computer memory the matrices $M_{1}$ and $M_{2}$ are stored in the same
-way (usually with the vector of lines) while reading data the computer will
-have to make jumps through the memory and will not optimally use the cache.
+If in computer memory the matrices $M_{1}$ and $M_{2}$ are stored in the same 
+way (usually with the vector of lines) while reading data the computer will 
+have to make jumps through the memory and will not optimally use the cache. 
 
 %%
-This problem can be easily avoided if we beforehand transpose the right matrix $M_{2}$
+This problem can be easily avoided if we beforehand transpose the right matrix $M_{2}$ 
 and convert the matrix multiplication.
 
 
 \subsection{Transposed matrix}
 
-Classic (This) algorithm performance can be drastically improved if we beforehand
-transpose the second (right) matrix and apply adopted matrix multiplication.
+Classic (This) algorithm performance can be drastically improved if we beforehand 
+transpose the second (right) matrix and apply adopted matrix multiplication. 
 
-We create matrix $M_{4}$ which is transposed version of matrix $M_{2}$.
-Now we can compute matrix product as $M_{3} = M_{1} \times M_{4} = M_{1} \cdot M_{2}$.
-In practice this computation is faster because matrix $M_{4}$ is in better format
+We create matrix $M_{4}$ which is transposed version of matrix $M_{2}$. 
+Now we can compute matrix product as $M_{3} = M_{1} \times M_{4} = M_{1} \cdot M_{2}$. 
+In practice this computation is faster because matrix $M_{4}$ is in better format 
 for making the use of cache.
 
-In the next diagram we will compare the performance benefit of this method compared
+In the next diagram we will compare the performance benefit of this method compared 
 to classic matrix multiplication.
 
 (*** DIAGRAM)
 
-From the diagram we can observe that the algorithm with the use of transposed
-classical multiplication is extremely faster.
-Transposed matrix multiplication is easy to implement and compared to classic
-matrix multiplication the speed up of its use is non negligible so it should
+From the diagram we can observe that the algorithm with the use of transposed 
+classical multiplication is extremely faster. 
+Transposed matrix multiplication is easy to implement and compared to classic 
+matrix multiplication the speed up of its use is non negligible so it should 
 be the part of every matrix multiplication that we use in practice.
 
 \subsection{Numerical stability}
-Numerical stability of this kind of matrix multiplication can be compared
-to numerical stability of scalar product of 2 vectors.
-It can be improved if we always sum the two numbers that are of
-roughly same absolute size.
+Numerical stability of this kind of matrix multiplication can be compared 
+to numerical stability of scalar product of 2 vectors. 
+It can be improved if we always sum the two numbers that are of 
+roughly same absolute size. 
 
-Numerical stability of classic matrix multiplication and transposed matrix
-multiplication is the same because the formula for computing one element is the same.
+Numerical stability of classic matrix multiplication and transposed matrix 
+multiplication is the same because the formula for computing one element is the same. 
 
 \begin{align*}
 c_{i,j} = \sum_{k=1}^{n} a_{i,k} \widetilde{b}_{j,k}
 \end{align*}
 
 IMPORTATNT NOTICE:
-$((x_{1}+x_{2})+x_{3})+x_{4}$ is not equal to $(x_{1}+x_{2})+(x_{3}+x_{4})$
+$((x_{1}+x_{2})+x_{3})+x_{4}$ is not equal to $(x_{1}+x_{2})+(x_{3}+x_{4})$ 
 for the positive number of the same order the second is more numerically stable.
 
 
 
 \section{Recursive algorithm}
 (*** 3/2 strani)
+
+Recursive algorithm for matrix multiplication 
+is an algorithm where we split matrices
+$M_{1}$ and $M_{2}$ on corresponding
+sub-matrices and then compute the 
+result with the method divide and conquer. 
+This approach is good because it 
+enables parallelization. 
+
+In our implementation (*** STROKOVNO OK?) 
+is harder to apply parallelization because 
+all  %%off (*** Slo?) the 
+program branches share the same data 
+$M_{1}$, $M_{2}$ and $M_{3}$ but they 
+newer access them on the same spot. 
+Every program branch works on its own 
+matrix area. 
+
+This approach is good for not parallel (*** slovnica not parallel ??) 
+version of algorithm because all 
+computations is made on matrices 
+$M_{1}$, $M_{2}$ and $M_{3}$, (*** vejc?)
+so we do not need to initialize any new 
+matrices. 
+
+As a consequence of that the functional 
+envelope are not very resource consuming. 
+This is also one of the reason why 
+recursive algorithm is good compare to 
+iterative version.
+
+(*** GRAF)
+
+We can see that recursive algorithm is 
+faster than transposed classic algorithm 
+(*** povsod treba isto ime, standardizirati po članku). The reason for this lies in 
+cache. 
+
+Recursive algorithm is operation heavier 
+then classic. So why can it be faster? 
+(*** slog???)
+Recursive algorithm is faster because 
+with use of the divide and conquer method 
+we arrive to such small problems that they 
+can be saved in cache (*** fit in cache??). 
+The result of each subproblems can be computed
+independently so in the time of its computation 
+sources can remain in cache. 
+In this way computer solves small part of the problem and then clear cache. 
+
+(*** to Miha pravi da je cudno je treba popraviti)
+
+(*** to bi lahko zelo vsebinsko izboljsali, 
+da bo bolj korektno)
 
 
 \subsection{Implementation}
@@ -238,6 +292,30 @@ for the positive number of the same order the second is more numerically stable.
 \section{Algorithms from libraries}
 (*** 1 strani)
 \section{Comparison}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/classic.pdf}
+\caption{Classic and Classic transposed}
+\label{fig:classic}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/classic_variation.pdf}
+\caption{Classic multiplication testing variation}
+\label{fig:classic}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/recursive.pdf}
+\caption{Recursive vs Recursive transposed}
+\label{fig:classic}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{img/all_5000.pdf}
+\caption{Comparison of all algorithms}
+\label{fig:classic}
+\end{figure}
 (*** 3 strani)
 
 
@@ -304,7 +382,7 @@ Indicators obtained from the experiment must accurately reflect the properties b
 Performance indicators that are less influenced by external or noisy factors should be used.
 
 In the dataflow experimentation running time, space and power consumption are often measured.
-The last one is the hardest to measure accurately.
+The last one is the hardest to measure accurately. 
 
 \paragraph{Validity.}
 Conclusions drawn from the experimental results are based on the correct interpretations of data.
@@ -403,7 +481,7 @@ An important aspect of the correctness principle in the experimental process is 
 In particular, besides obtaining efficient dataflow implementation, one must also be careful when implementing a control-flow algorithm or any other competing algorithm.
 
 As discussed in \cite{Johnson02} this aspect is somewhat controversial: at first the aim for efficiency seems to be obvious (at least for the algorithm to be exemplified), but efficiency often requires a non-negligible effort of a skilled programmer.
-When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity.
+When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity. 
 Hence, algorithms examined by the experimental evaluation should have publicly available implementations.
 This increases trust in the results and analysis of the experiment and also makes any further experimental research easier. In such cases it is advisable to take the original implementation.
 
@@ -497,3 +575,4 @@ Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxe
 models, halting probability, graph algorithms, and computational complexity.
 
 \balance
+
