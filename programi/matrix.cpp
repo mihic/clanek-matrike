@@ -15,6 +15,19 @@
 //  std::cout << std::endl;
 //}
 
+void prikaz(Tmat &mat){
+  int m = mat.m;
+  int n = mat.n;
+  std::cout << std::setw(8);
+  for (int i = 0; i<m; ++i){
+    for (int j = 0; j<m ; ++j){
+      std::cout << std::setw(9) <<mat(i,j) << " | ";
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}
+
 //code for algorithms
 //Tmat newMat(int a, int b){
 //    std::vector<double> nicelni(a, 0.0);

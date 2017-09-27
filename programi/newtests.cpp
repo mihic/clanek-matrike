@@ -170,9 +170,9 @@ int main(int ac, const char **av) {
       bm2 = TmatToBlas(m2);
   }
 
-//  if (max_time == -99) {
-//    TestCorrectness(f);
-//  }
+  if (max_time == -99) {
+    TestCorrectness(f);
+  }
 
   if (max_time == 1) {
     //placeholder for testing
