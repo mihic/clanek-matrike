@@ -15,22 +15,22 @@ std::uniform_real_distribution<double> urd;
 std::default_random_engine re;
 
 Tmat RandomMatrix(int m, int n) {
-  Tmat mat = newMat(m, n);
+  Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat[j][i] = urd(re);
+      mat(j,i) = urd(re);
     }
   }
   return mat;
 }
 
 boost::numeric::ublas::matrix<double> TmatToBlas(Tmat mat) {
-  int m1 = mat.size();
-  int n1 = mat[0].size();
+  int m1 = mat.n;
+  int n1 = mat.m;
   boost::numeric::ublas::matrix<double> bmat(m1, n1);
   for (int i = 0; i < m1; i += 1) {
     for (int j = 0; j < n1; j += 1) {
-      bmat(i, j) = mat[i][j];
+      bmat(i, j) = mat(i,j);
     }
   }
   return bmat;
@@ -170,27 +170,27 @@ int main(int ac, const char **av) {
       bm2 = TmatToBlas(m2);
   }
 
-  if (max_time == -99) {
-    TestCorrectness(f);
-  }
+//  if (max_time == -99) {
+//    TestCorrectness(f);
+//  }
 
   if (max_time == 1) {
     //placeholder for testing
     int n = 512;
-    Tmat mat1 = newMat(n, n);
-    Tmat mat2 = newMat(n, n);
+    Tmat mat1(n, n);
+    Tmat mat2(n, n);
     double konst = 100000000.000002;
     for (int i = 0; i < n; i += 1) {
       for (int j = 0; j < n; j += 1) {
-        mat1[i][j] = konst;
-        mat2[i][j] = konst;
+        mat1(i,j) = konst;
+        mat2(i,j) = konst;
       }
     }
     Tmat mat3 = f(mat1, mat2);
     //prikaz1(mat3);
     cout << setprecision(24);
-    cout << konst * konst * n << endl << mat3[0][0] << endl;
-    cout << mat3[n / 2][n / 2] - konst * konst * n << endl;
+    cout << konst * konst * n << endl << mat3(0,0) << endl;
+    cout << mat3(n / 2,n / 2) - konst * konst * n << endl;
   } else {
 
     if (max_time > 0) {

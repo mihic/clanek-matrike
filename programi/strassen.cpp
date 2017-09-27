@@ -189,11 +189,11 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 }
 
 Tmat strassen_mul(Tmat &mat1, Tmat &mat2){
-    int a = mat1.size();
-    int b = mat2.size();
-    int c = mat2[0].size();
+    int a = mat1.n;
+    int b = mat2.n;
+    int c = mat2.m;
 
-    Tmat mat3 = newMat(c,a);
+    Tmat mat3(c,a);
     strassen_part(mat1, mat2, mat3, 0, a, 0, b, 0, c);
 
     return mat3;
