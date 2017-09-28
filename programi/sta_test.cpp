@@ -66,7 +66,7 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
   //std::cout << "Testing3.21" << std::endl;
   int m = mat1.n;
   int n = mat1.m;
-  Tmat mat(n, m);
+  Tmat mat(m, n);
   //std::cout << mat.size() << std::endl;
   //std::cout << mat[0].size() << std::endl;
   //std::cout << "Testing3.23" << std::endl;
