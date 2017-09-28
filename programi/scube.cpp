@@ -25,8 +25,8 @@ void pristej_rezultatu(Tmat &mat1, Tmat &mat3,
                        int x1,
                        int x2){
 
-    int x1D = mat1.n;
-    int x2D = mat1.m;
+    int x1D = mat1.m;
+    int x2D = mat1.n;
     
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
@@ -39,8 +39,8 @@ void odstej_rezultatu(Tmat &mat1, Tmat &mat3,
                       int x1,
                       int x2){
 
-    int x1D = mat1.n;
-    int x2D = mat1.m;
+    int x1D = mat1.m;
+    int x2D = mat1.n;
     
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
