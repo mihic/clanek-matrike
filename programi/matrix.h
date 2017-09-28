@@ -14,7 +14,7 @@ class Tmat {
     mat = new double[a * b]();
   }
   ~Tmat() {
-    //delete mat;
+    delete mat;
   }
   inline double operator()(int a, int b) const {
     return mat[n * a + b];
