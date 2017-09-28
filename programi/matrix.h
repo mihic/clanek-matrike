@@ -17,10 +17,10 @@ class Tmat {
     //delete mat;
   }
   inline double operator()(int a, int b) const {
-    return mat[m * a + b];
+    return mat[n * a + b];
   }
   inline double &operator()(int a, int b) {
-    return mat[m * a + b];
+    return mat[n * a + b];
   }
 };
 

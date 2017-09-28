@@ -100,9 +100,9 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   std::cout << "Testing" << std::endl;
 
   int n = 1024;
-  int a = 331;
-  int b = 421;
-  int c = 521;
+  int a = 512;
+  int b = 1024;
+  int c = 512;
 
   Tmat mat1 = RandomMatrix(b, a);
   //Tmat mat1(b,a);
