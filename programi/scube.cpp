@@ -63,28 +63,28 @@ Tmat pomozno_sestevanje(Tmat &mat1, Tmat &mat2,
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
     /*
-    std::cout << mat1.size() << " size " << mat1[0].size() << std::endl;
-    std::cout << "x1" << " " << "x1max" << std::endl;
-    std::cout << x1 << " " << x1max << std::endl;
-    std::cout << "x2" << " " << "x2max" << std::endl;
-    std::cout << x2 << " " << x2max << std::endl;
-    std::cout << "y1" << " " << "y1max" << std::endl;
-    std::cout << y1 << " " << y1max << std::endl;
-    std::cout << "y2" << " " << "y2max" << std::endl;
-    std::cout << y2 << " " << y2max << std::endl;
-    std::cout << "iMax" << " " << "jMax" << std::endl;
-    std::cout << iMax << " " << jMax << std::endl;
+    //std::cout << mat1.size() << " size " << mat1[0].size() << std::endl;
+    //std::cout << "x1" << " " << "x1max" << std::endl;
+    //std::cout << x1 << " " << x1max << std::endl;
+    //std::cout << "x2" << " " << "x2max" << std::endl;
+    //std::cout << x2 << " " << x2max << std::endl;
+    //std::cout << "y1" << " " << "y1max" << std::endl;
+    //std::cout << y1 << " " << y1max << std::endl;
+    //std::cout << "y2" << " " << "y2max" << std::endl;
+    //std::cout << y2 << " " << y2max << std::endl;
+    //std::cout << "iMax" << " " << "jMax" << std::endl;
+    //std::cout << iMax << " " << jMax << std::endl;
     */
     
     Tmat mat3(iMax,jMax);
-    std::cout << "AAAfff" << std::endl;
+    //std::cout << "AAAfff" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
     
-    std::cout << "BBBfff" << std::endl;
+    //std::cout << "BBBfff" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) += mat2(y1+i,y2+j);
@@ -109,13 +109,13 @@ Tmat pomozno_odstevanje(Tmat &mat1, Tmat &mat2,
     int jMax = std::max({x2D, y2D});
     
     Tmat mat3(iMax,jMax);
-    std::cout << "AAAhhh" << std::endl;
+    //std::cout << "AAAhhh" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
-    std::cout << "BBBhhh" << std::endl;
+    //std::cout << "BBBhhh" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) -= mat2(y1+i,y2+j);
@@ -139,7 +139,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
     
-    if(std::min({aD, bD, cD})<10){
+    if(std::min({aD, bD, cD})<96){
         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
