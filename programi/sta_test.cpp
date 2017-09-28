@@ -64,15 +64,15 @@ Tmat OnesMatrix(int m, int n) {
 
 Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
   //std::cout << "Testing3.21" << std::endl;
-  int m = mat1.n;
-  int n = mat1.m;
+  int m = mat1.m;
+  int n = mat1.n;
   Tmat mat(m, n);
   //std::cout << mat.size() << std::endl;
   //std::cout << mat[0].size() << std::endl;
   //std::cout << "Testing3.23" << std::endl;
   for (int i = 0; i < n; i += 1) {
     for (int j = 0; j < m; j += 1) {
-      mat(j, i) = mat1(j, i) - mat2(j, i);
+      mat(i, j) = mat1(i, j) - mat2(i, j);
     }
   }
   return mat;
