@@ -276,11 +276,11 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
 }
 
 Tmat gl_podkubicen(Tmat &mat1, Tmat &mat4){
-    int a = mat1.n;
-    int b = mat1.m;
-    int c = mat4.n;
+    int a = mat1.m;
+    int b = mat1.n;
+    int c = mat4.m;
     
-    Tmat mat3(c,a);
+    Tmat mat3(a,c);
     podkubicen_pomozna(mat1, mat4, mat3, 0, a, 0, b, 0, c);
     
     return mat3;

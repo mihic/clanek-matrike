@@ -79,14 +79,14 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
 }
 
 bool ZeroMatrix(Tmat mat) {
-  int m = mat.n;
-  int n = mat.m;
+  int m = mat.m;
+  int n = mat.n;
   //double eps = 0.000001;
   double eps = 0.1;
   for (int i = 0; i < n; i += 1) {
     for (int j = 0; j < m; j += 1) {
-      if (mat(j, i) > eps) {
-        std::cout << mat(j, i) << std::endl;
+      if (mat(i,j) > eps) {
+        std::cout << mat(i,j) << std::endl;
         return false;
       }
     }

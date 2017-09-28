@@ -18,9 +18,9 @@
 void prikaz(Tmat &mat){
   int m = mat.m;
   int n = mat.n;
-  std::cout << std::setw(8);
-  for (int i = 0; i<m; ++i){
-    for (int j = 0; j<m ; ++j){
+
+  for (int i = 0; i < m; ++i){
+    for (int j = 0; j < n; ++j){
       std::cout << std::setw(9) <<mat(i,j) << " | ";
     }
     std::cout << std::endl;
@@ -36,8 +36,8 @@ void prikaz(Tmat &mat){
 //}
 
 Tmat transponiraj(Tmat &mat){
-    int a = mat.n;
-    int b = mat.m;
+    int a = mat.m;
+    int b = mat.n;
 
     Tmat mat3(b,a);
     for (int i = 0; i<a; i+=1){
