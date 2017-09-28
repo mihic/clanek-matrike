@@ -98,15 +98,19 @@ bool ZeroMatrix(Tmat mat) {
 //ce je slucajno algoritem ki spreminja vhod
 void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   std::cout << "Testing" << std::endl;
-
+  /*
   int n = 1024;
   int a = 512;
   int b = 1024;
   int c = 512;
-
-  Tmat mat1 = RandomMatrix(b, a);
-  //Tmat mat1(b,a);
-  Tmat mat2 = RandomMatrix(c, b);
+  */
+  int n = 10;
+  int a = 20;
+  int b = 30;
+  int c = 40;
+  
+  Tmat mat1 = Ex2Matrix(a,b);
+  Tmat mat2 = Ex3Matrix(b,c);
 
   //mat1 = RandomMatrix(n,n);
   //mat2 = RandomMatrix(n,n);

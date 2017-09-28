@@ -18,7 +18,7 @@ Tmat RandomMatrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j,i) = urd(re);
+      mat(i,j) = urd(re);
     }
   }
   return mat;
@@ -146,8 +146,8 @@ int main(int ac, const char **av) {
   //Execute the tests
   urd = std::uniform_real_distribution<double>(0, 1);
   re = std::default_random_engine(seed);
-  Tmat m1 = RandomMatrix(b, a);
-  Tmat m2 = RandomMatrix(c, b);
+  Tmat m1 = RandomMatrix(a, b);
+  Tmat m2 = RandomMatrix(b, c);
   boost::numeric::ublas::matrix<double> bm1, bm2;
 
   std::function<Tmat(Tmat &, Tmat &)> f;
