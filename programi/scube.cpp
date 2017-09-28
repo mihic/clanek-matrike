@@ -257,7 +257,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         pristej_rezultatu(matM4, mat3, a1, c1);     
         pristej_rezultatu(matM5, mat3, a1, c1);
 
-        //A2
+        //A2*
         pristej_rezultatu(matM2, mat3, a1, cP);
         odstej_rezultatu(matM6, mat3, a1, cP);
         pristej_rezultatu(matM3, mat3, a1, cP);

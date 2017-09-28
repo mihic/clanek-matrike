@@ -56,7 +56,7 @@ Tmat OnesMatrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j, i) = 1;
+      mat(i, j) = 1;
     }
   }
   return mat;
@@ -105,9 +105,9 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   int c = 512;
   */
   int n = 10;
-  int a = 20;
-  int b = 30;
-  int c = 40;
+  int a = 200;
+  int b = 300;
+  int c = 400;
   
   Tmat mat1 = Ex2Matrix(a,b);
   Tmat mat2 = Ex3Matrix(b,c);
