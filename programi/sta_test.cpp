@@ -10,8 +10,8 @@
 
 Tmat PsevdoId(int m, int n) {
   Tmat mat(m, n);
-  for (int k = 0; k < std::min({m,n}); k += 1) {
-    mat(k,k) = 1;
+  for (int k = 0; k < std::min({m, n}); k += 1) {
+    mat(k, k) = 1;
   }
   return mat;
 }
@@ -20,7 +20,7 @@ Tmat Ex1Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j,i) = 1/(1+i+j);
+      mat(j, i) = 1 / (1 + i + j);
     }
   }
   return mat;
@@ -30,7 +30,7 @@ Tmat Ex2Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j,i) = i+j;
+      mat(j, i) = i + j;
     }
   }
   return mat;
@@ -39,7 +39,7 @@ Tmat Ex2Matrix(int m, int n) {
 Tmat Ex3Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
-    mat(0,i) = 1;
+    mat(0, i) = 1;
   }
   return mat;
 }
@@ -47,7 +47,7 @@ Tmat Ex3Matrix(int m, int n) {
 Tmat Ex4Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int j = 0; j < n; j += 1) {
-    mat(j,0) = 1;
+    mat(j, 0) = 1;
   }
   return mat;
 }
@@ -56,7 +56,7 @@ Tmat OnesMatrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j,i) = 1;
+      mat(j, i) = 1;
     }
   }
   return mat;
@@ -72,21 +72,21 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
   //std::cout << "Testing3.23" << std::endl;
   for (int i = 0; i < n; i += 1) {
     for (int j = 0; j < m; j += 1) {
-      mat(j,i) = mat1(j,i) - mat2(j,i);
+      mat(j, i) = mat1(j, i) - mat2(j, i);
     }
   }
   return mat;
 }
 
-bool ZeroMatrix(Tmat mat){
+bool ZeroMatrix(Tmat mat) {
   int m = mat.n;
   int n = mat.m;
   //double eps = 0.000001;
   double eps = 0.1;
   for (int i = 0; i < n; i += 1) {
     for (int j = 0; j < m; j += 1) {
-      if (mat(j,i) > eps) {
-        std::cout << mat(j,i)<< std::endl;
+      if (mat(j, i) > eps) {
+        std::cout << mat(j, i) << std::endl;
         return false;
       }
     }
@@ -97,69 +97,69 @@ bool ZeroMatrix(Tmat mat){
 //tu ne damo linka na matrike ampak jih skopiramo
 //ce je slucajno algoritem ki spreminja vhod
 void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
-    std::cout << "Testing" << std::endl;
+  std::cout << "Testing" << std::endl;
 
-    
-    int n = 1024;
-    int a = 3;
-    int b = 3;
-    int c = 3;
-    
-    Tmat mat1 = RandomMatrix(b,a);
-    Tmat mat2 = RandomMatrix(c,b);
-    
-    //mat1 = RandomMatrix(n,n);
-    //mat2 = RandomMatrix(n,n);
-    
-    std::cout << "Testing1" << std::endl;
-    Tmat mat3 = MultiplicationClassicTransposed(mat1, mat2);
-    std::cout << "Testing2" << std::endl;
-    Tmat mat4 = TestAlg(mat1, mat2);
-    std::cout << "Testing3" << std::endl;
-    
-    std::cout << mat3.n << " # " << mat3.m << std::endl;
-    std::cout << mat4.n << " # " << mat4.m << std::endl;
-    
-    std::cout << "Testing3.2" << std::endl;
-    Tmat diff = MatrixDiference(mat3,mat4);
+  int n = 1024;
+  int a = 3;
+  int b = 4;
+  int c = 5;
 
+  Tmat mat1 = RandomMatrix(b, a);
+  Tmat mat2 = RandomMatrix(c, b);
+
+  //mat1 = RandomMatrix(n,n);
+  //mat2 = RandomMatrix(n,n);
+
+  std::cout << "Testing1" << std::endl;
+  Tmat mat3 = MultiplicationClassic(mat1, mat2);
+  std::cout << "Testing2" << std::endl;
+  Tmat mat4 = TestAlg(mat1, mat2);
+  std::cout << "Testing3" << std::endl;
+
+  std::cout << mat3.n << " # " << mat3.m << std::endl;
+  std::cout << mat4.n << " # " << mat4.m << std::endl;
+
+  std::cout << "Testing3.2" << std::endl;
+  Tmat diff = MatrixDiference(mat3, mat4);
+  //prikaz(mat1);
+  //prikaz(mat2);
   prikaz(mat3);
   prikaz(mat4);
   prikaz(diff);
-    std::cout << "Testing3.5" << std::endl;
-    
-    if (ZeroMatrix(diff)) {
-      std::cout << "OK" << std::endl;
-      //return ;
-    } else {
-      std::cout << "False" << std::endl;
-    }
-    
-    //n = 16;
-    a = 11;
-    b = 13;
-    c = 12;
-    
-    std::cout << "Testing4" << std::endl;
-    //mat1 = Ex2Matrix(b,a);
-    //mat2 = Ex3Matrix(c,b);
-    //mat1 = Ex3Matrix(b,a);
-    //mat2 = Ex2Matrix(c,b);
-    
-    mat1 = RandomMatrix(b,a);
-    mat2 = RandomMatrix(c,b);
-    mat3 = MultiplicationClassicTransposed(mat1, mat2);
-    mat4 = TestAlg(mat1, mat2);
-    //prikaz(mat3);
-    //prikaz(mat4);
-    std::cout << "Testing5" << std::endl;
-    
-    /*
-    int a = 800;
-    int b = 600;
-    int c = 400;
-    */
-    
+  std::cout << "Testing3.5" << std::endl;
+
+  if (ZeroMatrix(diff)) {
+    std::cout << "OK" << std::endl;
+    //return ;
+  } else {
+    std::cout << "False" << std::endl;
+  }
+//
+//    //n = 16;
+//    a = 11;
+//    b = 13;
+//    c = 12;
+//
+//    std::cout << "Testing4" << std::endl;
+//    //mat1 = Ex2Matrix(b,a);
+//    //mat2 = Ex3Matrix(c,b);
+//    //mat1 = Ex3Matrix(b,a);
+//    //mat2 = Ex2Matrix(c,b);
+//
+//    mat1 = RandomMatrix(b,a);
+//    mat2 = RandomMatrix(c,b);
+//    mat3 = MultiplicationClassicTransposed(mat1, mat2);
+//    mat4 = TestAlg(mat1, mat2);
+//    //prikaz(mat3);
+//    //prikaz(mat4);
+//    std::cout << "Testing5" << std::endl;
+
+  /*
+  int a = 800;
+  int b = 600;
+  int c = 400;
+  */
+
 /*
     mat1 = Ex2Matrix(b,a);
     mat2 = PsevdoId(c,b);

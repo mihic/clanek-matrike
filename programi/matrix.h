@@ -9,8 +9,8 @@ class Tmat {
   int m;
   int n;
   Tmat(int a, int b) {
-    m = a;
-    n = b;
+    n = a;
+    m = b;
     mat = new double[a * b];
   }
   ~Tmat() {
