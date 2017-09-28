@@ -31,11 +31,11 @@ void rek_mno_pomozna(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 }
 
 Tmat MultiplicationRecursive(Tmat &mat1, Tmat &mat2){
-    int a = mat1.n;
-    int b = mat1.m;
-    int c = mat2.m;
+    int a = mat1.m;
+    int b = mat1.n;
+    int c = mat2.n;
     
-    Tmat mat3(c,a);
+    Tmat mat3(a,c);
     rek_mno_pomozna(mat1, mat2, mat3, 0, a,  0, b, 0, c);
     
     return mat3;
