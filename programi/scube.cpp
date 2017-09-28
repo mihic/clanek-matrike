@@ -11,7 +11,7 @@ Tmat vrni_obmocje_matrike(Tmat &mat1,
     int x1D = x1max - x1;
     int x2D = x2max - x2;
     
-    Tmat mat3(x2D,x1D);
+    Tmat mat3(x1D,x2D);
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) = mat1(x1+i,x2+j);
@@ -76,7 +76,7 @@ Tmat pomozno_sestevanje(Tmat &mat1, Tmat &mat2,
     std::cout << iMax << " " << jMax << std::endl;
     */
     
-    Tmat mat3(jMax,iMax);
+    Tmat mat3(iMax,jMax);
     //std::cout << "AAA" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
@@ -108,7 +108,7 @@ Tmat pomozno_odstevanje(Tmat &mat1, Tmat &mat2,
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
     
-    Tmat mat3(jMax,iMax);
+    Tmat mat3(iMax,jMax);
 
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
@@ -139,7 +139,7 @@ void podkubicen_pomozna(Tmat &mat1, Tmat &mat4, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
     
-    if(std::min({aD, bD, cD})<96){
+    if(std::min({aD, bD, cD})<10){
         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
     }
     else{
