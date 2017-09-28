@@ -100,11 +100,12 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   std::cout << "Testing" << std::endl;
 
   int n = 1024;
-  int a = 3;
-  int b = 4;
-  int c = 5;
+  int a = 331;
+  int b = 421;
+  int c = 521;
 
   Tmat mat1 = RandomMatrix(b, a);
+  //Tmat mat1(b,a);
   Tmat mat2 = RandomMatrix(c, b);
 
   //mat1 = RandomMatrix(n,n);
@@ -121,10 +122,10 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
 
   std::cout << "Testing3.2" << std::endl;
   Tmat diff = MatrixDiference(mat3, mat4);
-  //prikaz(mat1);
+//  prikaz(mat1);
   //prikaz(mat2);
-  prikaz(mat3);
-  prikaz(mat4);
+//  prikaz(mat3);
+//  prikaz(mat4);
   prikaz(diff);
   std::cout << "Testing3.5" << std::endl;
 

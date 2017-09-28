@@ -11,7 +11,7 @@ class Tmat {
   Tmat(int a, int b) {
     n = a;
     m = b;
-    mat = new double[a * b];
+    mat = new double[a * b]();
   }
   ~Tmat() {
     //delete mat;
