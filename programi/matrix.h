@@ -69,7 +69,7 @@ void odstej_rezultatu(Tmat &mat1, Tmat &mat3,
                       int x1,
                       int x2);
 
-void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>);
+void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
 
 void prikaz(Tmat &mat);
 

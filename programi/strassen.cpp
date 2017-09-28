@@ -171,20 +171,28 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
         pristej_rezultatu(matM4, mat3, a1, c1);
         odstej_rezultatu(matM5, mat3, a1, c1);
         pristej_rezultatu(matM7, mat3, a1, c1);
+        
+        std::cout << "MM BBB1" << std::endl;
 
         //C12
         pristej_rezultatu(matM3, mat3, a1, cP);
         pristej_rezultatu(matM5, mat3, a1, cP);
+        
+        std::cout << "MM BBB2" << std::endl;
 
         //C21
         pristej_rezultatu(matM2, mat3, aP, c1);
         pristej_rezultatu(matM4, mat3, aP, c1);
+        
+        std::cout << "MM BBB3" << std::endl;
 
         //C22
         pristej_rezultatu(matM1, mat3, aP, cP);
         odstej_rezultatu(matM2, mat3, aP, cP);
         pristej_rezultatu(matM3, mat3, aP, cP);
         pristej_rezultatu(matM6, mat3, aP, cP);
+        
+        std::cout << "MM BBB4" << std::endl;
     }
 }
 

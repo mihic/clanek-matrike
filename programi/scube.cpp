@@ -77,14 +77,14 @@ Tmat pomozno_sestevanje(Tmat &mat1, Tmat &mat2,
     */
     
     Tmat mat3(iMax,jMax);
-    //std::cout << "AAA" << std::endl;
+    std::cout << "AAAfff" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
     
-    //std::cout << "BBB" << std::endl;
+    std::cout << "BBBfff" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) += mat2(y1+i,y2+j);
@@ -109,13 +109,13 @@ Tmat pomozno_odstevanje(Tmat &mat1, Tmat &mat2,
     int jMax = std::max({x2D, y2D});
     
     Tmat mat3(iMax,jMax);
-
+    std::cout << "AAAhhh" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
-    
+    std::cout << "BBBhhh" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) -= mat2(y1+i,y2+j);

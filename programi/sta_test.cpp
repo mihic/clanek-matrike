@@ -83,8 +83,8 @@ bool ZeroMatrix(Tmat mat) {
   int n = mat.n;
   //double eps = 0.000001;
   double eps = 0.1;
-  for (int i = 0; i < n; i += 1) {
-    for (int j = 0; j < m; j += 1) {
+  for (int i = 0; i < m; i += 1) {
+    for (int j = 0; j < n; j += 1) {
       if (mat(i,j) > eps) {
         std::cout << "i,j,mat(i,j) " << i << " " << j << " " << mat(i,j) << std::endl;
         return false;
@@ -96,7 +96,7 @@ bool ZeroMatrix(Tmat mat) {
 
 //tu ne damo linka na matrike ampak jih skopiramo
 //ce je slucajno algoritem ki spreminja vhod
-void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
+void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
   std::cout << "Testing" << std::endl;
   /*
   int n = 1024;
@@ -105,9 +105,9 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   int c = 512;
   */
   int n = 10;
-  int a = 200;
-  int b = 300;
-  int c = 400;
+  //int a = 19;
+  //int b = 17;
+  //int c = 12;
   
   Tmat mat1 = Ex2Matrix(a,b);
   Tmat mat2 = Ex3Matrix(b,c);

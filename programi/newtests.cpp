@@ -171,7 +171,7 @@ int main(int ac, const char **av) {
   }
 
   if (max_time == -99) {
-    TestCorrectness(f);
+    TestCorrectness(f, a, b, c);
     return 0;
   }
 
