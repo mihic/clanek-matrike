@@ -14,6 +14,7 @@ Tmat MultiplicationClassic(Tmat &mat1, Tmat &mat2){
 
     std::cout << "OK BB";
     Tmat mat3(a,c);
+    prikaz(mat3);
 
     std::cout << "OK";
     pomozna_mno_kla(mat1, mat2, mat3, 0, a, 0, b, 0, c);

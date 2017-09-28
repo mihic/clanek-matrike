@@ -20,7 +20,7 @@ Tmat Ex1Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j, i) = 1 / (1 + i + j);
+      mat(i, j) = 1 / (1 + i + j);
     }
   }
   return mat;
@@ -30,7 +30,7 @@ Tmat Ex2Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(j, i) = i + j;
+      mat(i, j) = i + j;
     }
   }
   return mat;
@@ -39,7 +39,7 @@ Tmat Ex2Matrix(int m, int n) {
 Tmat Ex3Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
-    mat(0, i) = 1;
+    mat(i, 0) = 1;
   }
   return mat;
 }
@@ -47,7 +47,7 @@ Tmat Ex3Matrix(int m, int n) {
 Tmat Ex4Matrix(int m, int n) {
   Tmat mat(m, n);
   for (int j = 0; j < n; j += 1) {
-    mat(j, 0) = 1;
+    mat(0, j) = 1;
   }
   return mat;
 }
@@ -86,7 +86,7 @@ bool ZeroMatrix(Tmat mat) {
   for (int i = 0; i < n; i += 1) {
     for (int j = 0; j < m; j += 1) {
       if (mat(i,j) > eps) {
-        std::cout << mat(i,j) << std::endl;
+        std::cout << "i,j,mat(i,j) " << i << " " << j << " " << mat(i,j) << std::endl;
         return false;
       }
     }
