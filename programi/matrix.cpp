@@ -4,7 +4,7 @@
 #include "matrix.h"
 
 //code for testing
-//void prikaz(Tmat &mat) {
+//void PrintMatrix(Tmat &mat) {
 //  for (auto &vrstica : mat) {
 //    std::cout << "|";
 //    for (auto &element : vrstica) {
@@ -15,12 +15,12 @@
 //  std::cout << std::endl;
 //}
 
-void prikaz(Tmat &mat){
+void PrintMatrix(Tmat &mat){
   int m = mat.m;
   int n = mat.n;
 
-  for (int i = 0; i < m; ++i){
-    for (int j = 0; j < n; ++j){
+  for (int i = 0; i < m; i++){
+    for (int j = 0; j < n; j++){
       std::cout << std::setw(9) <<mat(i,j) << " | ";
     }
     std::cout << std::endl;
@@ -35,7 +35,7 @@ void prikaz(Tmat &mat){
 //    return mat;
 //}
 
-Tmat transponiraj(Tmat &mat){
+Tmat Transpose(Tmat &mat){
     int a = mat.m;
     int b = mat.n;
 
@@ -48,10 +48,10 @@ Tmat transponiraj(Tmat &mat){
     return mat3;
 }
 
-void pomozna_mno_kla(Tmat &mat1, Tmat &mat2, Tmat &mat3,
-                     int a1, int a2, 
-                     int b1, int b2,
-                     int c1, int c2){
+void MultiplicationClassicPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+                               int a1, int a2,
+                               int b1, int b2,
+                               int c1, int c2){
 
     for (int i = a1; i<a2; i+=1){
         for (int j = c1; j<c2; j+=1){
@@ -65,10 +65,10 @@ void pomozna_mno_kla(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 }
 
 
-void pomozna_mno_kla_trans(Tmat &mat1, Tmat &mat2, Tmat &mat3,
-                     int a1, int a2, 
-                     int b1, int b2,
-                     int c1, int c2){
+void MultiplicationClassicTransposedPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+                                         int a1, int a2,
+                                         int b1, int b2,
+                                         int c1, int c2){
 
     //mat2 je transponirana
     for (int i = a1; i<a2; i+=1){

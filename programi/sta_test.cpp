@@ -126,11 +126,11 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
 
   std::cout << "Testing3.2" << std::endl;
   Tmat diff = MatrixDiference(mat3, mat4);
-//  prikaz(mat1);
-  //prikaz(mat2);
-//  prikaz(mat3);
-//  prikaz(mat4);
-  prikaz(diff);
+//  PrintMatrix(mat1);
+  //PrintMatrix(mat2);
+//  PrintMatrix(mat3);
+//  PrintMatrix(mat4);
+  PrintMatrix(diff);
   std::cout << "Testing3.5" << std::endl;
 
   if (ZeroMatrix(diff)) {
@@ -155,8 +155,8 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
 //    mat2 = RandomMatrix(c,b);
 //    mat3 = MultiplicationClassicTransposed(mat1, mat2);
 //    mat4 = TestAlg(mat1, mat2);
-//    //prikaz(mat3);
-//    //prikaz(mat4);
+//    //PrintMatrix(mat3);
+//    //PrintMatrix(mat4);
 //    std::cout << "Testing5" << std::endl;
 
   /*
@@ -190,6 +190,6 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     mat4 = TestAlg(mat1, mat2);
  
     prikaz(mat3);
-    prikaz(mat4);
+    PrintMatrix(mat4);
     */
 }

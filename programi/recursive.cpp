@@ -2,10 +2,10 @@
 #include <algorithm>
 #include "matrix.h"
 
-void rek_mno_pomozna(Tmat &mat1, Tmat &mat2, Tmat &mat3,
-                     int a1, int a2, 
-                     int b1, int b2,
-                     int c1, int c2){
+void MultiplicationRecursivePart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+                                 int a1, int a2,
+                                 int b1, int b2,
+                                 int c1, int c2){
     
     int aD = a2-a1;
     int bD = b2-b1;
@@ -15,18 +15,18 @@ void rek_mno_pomozna(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     int cP = c1+cD/2;
 
     if(std::min({aD, bD, cD}) < 22){
-        pomozna_mno_kla(mat1, mat2, mat3, a1, a2,  b1, b2, c1, c2);
+      MultiplicationClassicPart(mat1, mat2, mat3, a1, a2, b1, b2, c1, c2);
     }
     else{
-        rek_mno_pomozna(mat1, mat2, mat3, a1, aP,  b1, bP, c1, cP);
-        rek_mno_pomozna(mat1, mat2, mat3, a1, aP,  b1, bP, cP, c2);
-        rek_mno_pomozna(mat1, mat2, mat3, a1, aP,  bP, b2, c1, cP);
-        rek_mno_pomozna(mat1, mat2, mat3, a1, aP,  bP, b2, cP, c2);
-        
-        rek_mno_pomozna(mat1, mat2, mat3, aP, a2,  b1, bP, c1, cP);
-        rek_mno_pomozna(mat1, mat2, mat3, aP, a2,  b1, bP, cP, c2);
-        rek_mno_pomozna(mat1, mat2, mat3, aP, a2,  bP, b2, c1, cP);
-        rek_mno_pomozna(mat1, mat2, mat3, aP, a2,  bP, b2, cP, c2);
+      MultiplicationRecursivePart(mat1, mat2, mat3, a1, aP, b1, bP, c1, cP);
+      MultiplicationRecursivePart(mat1, mat2, mat3, a1, aP, b1, bP, cP, c2);
+      MultiplicationRecursivePart(mat1, mat2, mat3, a1, aP, bP, b2, c1, cP);
+      MultiplicationRecursivePart(mat1, mat2, mat3, a1, aP, bP, b2, cP, c2);
+
+      MultiplicationRecursivePart(mat1, mat2, mat3, aP, a2, b1, bP, c1, cP);
+      MultiplicationRecursivePart(mat1, mat2, mat3, aP, a2, b1, bP, cP, c2);
+      MultiplicationRecursivePart(mat1, mat2, mat3, aP, a2, bP, b2, c1, cP);
+      MultiplicationRecursivePart(mat1, mat2, mat3, aP, a2, bP, b2, cP, c2);
     }
 }
 
@@ -36,7 +36,7 @@ Tmat MultiplicationRecursive(Tmat &mat1, Tmat &mat2){
     int c = mat2.n;
     
     Tmat mat3(a,c);
-    rek_mno_pomozna(mat1, mat2, mat3, 0, a,  0, b, 0, c);
+  MultiplicationRecursivePart(mat1, mat2, mat3, 0, a, 0, b, 0, c);
     
     return mat3;
 }

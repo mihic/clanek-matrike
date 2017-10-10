@@ -16,7 +16,7 @@ Tmat MultiplicationClassic(Tmat &mat1, Tmat &mat2){
     Tmat mat3(a,c);
 
     //std::cout << "OK";
-    pomozna_mno_kla(mat1, mat2, mat3, 0, a, 0, b, 0, c);
+  MultiplicationClassicPart(mat1, mat2, mat3, 0, a, 0, b, 0, c);
     //std::cout << "OK mc";
     return mat3;
 }

@@ -164,7 +164,7 @@ int main(int ac, const char **av) {
       break;
     case SUBCUBIC:f = MultiplicationSubcubic;
       break;
-    case STRASSEN: f = strassen_mul;
+    case STRASSEN: f = MultiplicationStrassen;
       break;
     case BLAS :bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
