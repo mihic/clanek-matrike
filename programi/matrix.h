@@ -4,18 +4,16 @@
 
 class Tmat {
  private:
-  double *mat;
+  std::vector<double> mat;
  public:
   int m;
   int n;
   Tmat(int a, int b) {
     m = a;
     n = b;
-    mat = new double[a * b]();
+    mat = std::vector<double>(a * b);
   }
-  ~Tmat() {
-    delete mat;
-  }
+
   inline double operator()(int a, int b) const {
     return mat[n * a + b];
   }
