@@ -12,6 +12,10 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 
+%% LASTNI PAKETI, DEFINICIJE
+\newcommand{\cpp}{C\texttt{++} }
+%% LASTNI PAKETI, DEFINICIJE KONEC
+
 
 \title{Matrix multiplication: Practical use of a Strassen like algorithm}
 \author{Rozman, Mitja and Eleršič, Miha}
@@ -73,125 +77,113 @@
 
 \begingroup
 \renewcommand\thefootnote{}
-\footnotetext{TODO: Manuscript received Nov, 2016.}
-\footnotetext{This work was partially supported by the Slovenian Research Agency and the projects "P2-0095 Parallel and distributed systems" and "N2-0053 Graph Optimisation and Big Data".}
-\footnotetext{The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: jurij.mihelic@fri.uni-lj.si).}
+\footnotetext{TODO : Manuscript received Nov, 2016.}
+\footnotetext{TODO This work was partially supported by the Slovenian Research Agency and the projects "P2-0095 Parallel and distributed systems" and "N2-0053 Graph Optimisation and Big Data".}
+\footnotetext{TODO The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: jurij.mihelic@fri.uni-lj.si).}
 \endgroup
 
 \begin{abstract} %
+TODO
 In this paper we make an overview of practical matrix multiplication algorithms.
 We explain and implement the standard algorithms and implement a new algorithm based on the original Strassen algorithm.
 We compare our implementation with algorithms from the standard library openBLAS. Additionally we show that divide and conquer algorithms are more numerically stable compared to other algorithms.
 \end{abstract}
 \vspace{0.5cm}
 \begin{spacing}{0.9}
-\small\textbf{Index Terms}: \textbf{\textit{guidelines, issues, experiments, algorithmics, dataflow, architecture, efficiency, generality}}
+\small\textbf{Index Terms}: \textbf{\textit{TODO guidelines, issues, experiments, algorithmics, dataflow, architecture, efficiency, generality}}
+%%TODO
+%%\small\textbf{Index Terms}: \textbf{\textit{matrix multiplication, recursive matrix multiplication, block matrix multiplication, strassen matrix multiplication, blas matrix multiplication, C++}}
 \end{spacing}
 
 %\tableofcontents
 
 \section{Introduction}
 
+%%TODO through article we will refer to the $n \times n$ square matrix as a matrix of size $n$
+
 \lettrine{M}{atrix multiplication} 
 is one of the basic operations used in many different fields, which makes implementing efficient and numerically stable algorithms important. 
+In this article we compare different methods of matrix multiplications and their implementation. 
+%% TODO ponovi se ideja
+This article deals only with large metrics. 
+The main goal is to evaluate matrix multiplication methods for matrices of considerably large sizes. 
+%% TODO tu je vse malo sumljivo
+We try to determine which algorithm is the best and should be in further development. 
 
-Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
+%%Our work is available at \texttt{https://github.com/mihic/clanek-matrike}
+%%Our work is available at \texttt{https://github.com/mihic/matrix-multiplication-article}
+
+%% TODO
+Our work is available on Internet at 
+\texttt{https://github.com/mihic/matrix-article}
 
 
 \subsection{Known algorithms overview}
-(*** 1/4 strani)
 
-->
-Most known algorithms are sub-cubic time complexity.
+Matrix multiplication operation rule is defined that for resulting matrix we compute each entry as scalar product of row in first matrix and column in the second. 
+Most known matrix multiplication algorithm are derived directly from this rule and only change the order of sum operation in the given ring. 
+%%Examples of this kind of algorithms are classical iterative algorithm (which most faithfully obeys this rule), block algorithm and recursive algorithm.
+%%TODO Recursive algorithms have potential for distributed computing.
+%%TODO Block algorithms are usually most optimized for cache.
+Examples of this kind of algorithms are:
+\begin{itemize}
+\item classical iterative algorithm, which most faithfully obeys this rule
+\item recursive algorithm, which has potential for distributed computing
+\item block algorithm, which is usually most optimized for cache
+\end{itemize}
 
-->
-Typical examples of such algorithms are 
-classical iterative algorithm, block algorithm 
-and recursive algorithm.
+They all have time complexity order of $\theta(n^3)$ for two square $n \times n$ matrix.
 
-->
-Recursive algorithms have potential for 
-distributed computing.
-
-->
-Block algorithms are usually most optimized 
-for cache.
-
-->
-There also exists algorithms with sub-cubic 
-time complexity. These algorithms are of 
-great theoretical importance but are usually 
-not implemented.
-
-->
-Authors which worked on this field are 
-Strassen, Pan, Bini, Schonhage, Romani, Coppersmith, Winograd, Stothers,
-Williams.
-
-->
-Unfortunately most of the sub-cubic algorithms 
-are too complicated to understand and implement. 
-Plus the beginning constant of the algorithms 
-can be very big. 
-
-->
-This article deals with a Strassen like algorithm, 
-which is easy to understand and not too complicated
-to implement.  
-
-->
-We hope that through article we showed 
-its practical value.
+But there also exists algorithms with sub-cubic time complexity. These algorithms are of great theoretical importance but are usually not implemented.
+Authors which worked on this field are Strassen, Pan, Bini, Schonhage, Romani, Coppersmith, Winograd, Stothers, Williams.
+Unfortunately most of the sub-cubic algorithms are too complicated to understand and implement. Plus the beginning constant of the algorithms can be very big. 
+%%This article deals with a Strassen like algorithm, which is easy to understand and not too complicated to implement.  
+This article tries to promote a Strassen like algorithm, which is easy to understand and not too complicated to implement.
+We hope that through article we can showed its practical value.
+%% TODO ne vem ce je ok da se tu navezujemo na to kar bo vsebina clanka potem?? ker je naslov known algorithms overview
 
 \subsection{Existing implementations}
-(*** 1/4 strani)
 
-%%\section{Iterative algorithem with transposed matrix (*** mogoce samo Iterative algorithem)}
+%%TODO nekje povedati katere zastavice je potrebno dodati, kaj je treba dati za include
+For comparison evaluation of our results we used \cpp library boost, which has implementation of BLAS algorithms. 
+Of curse there can be found many alternatives, we used BLAS from this library, because boost is wildly known and used library in language \cpp.
+%%http://scicomp.stackexchange.com/questions/351/recommendations-for-a-usable-fast-c-matrix-library
+%%https://stackoverflow.com/questions/11066925/good-matrix-libraries
+
+Let us list some alternatives:
+\begin{itemize}
+\item 
+Armadilo
+\item
+Eigen
+\item
+Intel MKL
+\end{itemize}
+%% TODO vec in brez alinej verjetno??
 
 \section{Iterative algorithm}
-(*** 1/2 strani)
-
-->
 Basic algorithm for matrix multiplication is the one which 
-is directly deriven(*** Slovnica?) from the math definition of matrix multiplication
-$M_{3} = M_{1} \cdot M_{2}$.
-In this basic algorithm we go thorough the lines of the first matrix and 
-multiply it with the colums of the second matrix.
-
+is directly deriven (*** TODO Slovnica?) from the math definition of matrix multiplication $M_{3} = M_{1} \cdot M_{2}$.
+In this basic algorithm we go thorough the rows of the first matrix and multiply it with the columns of the second matrix.
 In this way we compute each element of the resulting matrix one by one.
 Formula for this is as follows:
 \begin{align*}
 c_{i,j} = \sum_{k=1}^{n} a_{i,k} b_{k,j}
 \end{align*}
-
-->
-For matrix $M_{1}$ of the size $a \times b$ and matrix $M_{2}$ of the size 
-$b \times c$ we can define therefore compute matrix $M_{3}= M_{1} \cdot M_{2}$ 
-of the size $a \times c$.
-
-->
-If in computer memory the matrices $M_{1}$ and $M_{2}$ are stored in the same 
-way (usually with the vector of lines) while reading data the computer will 
-have to make jumps through the memory and will not optimally use the cache. 
-
-%%
-This problem can be easily avoided if we beforehand transpose the right matrix $M_{2}$ 
-and convert the matrix multiplication.
-
-
+For matrix $M_{1}$ of the size $a \times b$ and matrix $M_{2}$ of the size $b \times c$ we can therefore compute matrix $M_{3}= M_{1} \cdot M_{2}$ of the size $a \times c$.
+%% TODO cache; a je to previlno is tehnicnega vidika 
+%% TODU the computer will have to make jumps through the memory and will not optimally use the cache; verjetno treba drugace
+In computer memory the matrices $M_{1}$ and $M_{2}$ are usually stored in the same way (usually with the vector of rows) so while reading data the computer will have to make jumps through the memory and will not optimally use the cache. 
+This problem can be easily avoided if we beforehand transpose the right matrix $M_{2}$ and convert the matrix multiplication.
 
 \subsection{Transposed matrix}
 
-Classic (This) algorithm performance can be drastically improved if we beforehand 
-transpose the second (right) matrix and apply adopted matrix multiplication. 
+Classic (TODO: mogoce raje This) algorithm performance can be drastically improved if we beforehand transpose the second (TODO: mogoce raje right) matrix and apply adopted matrix multiplication. 
 
 We create matrix $M_{4}$ which is transposed version of matrix $M_{2}$. 
 Now we can compute matrix product as $M_{3} = M_{1} \times M_{4} = M_{1} \cdot M_{2}$. 
-In practice this computation is faster because matrix $M_{4}$ is in better format 
-for making the use of cache.
-
-In the next diagram we will compare the performance benefit of this method compared 
-to classic matrix multiplication. (*** NAJVRJETNEJE TAK SKLIC NI VREDU)
+In practice this computation is faster because matrix $M_{4}$ is in better format for making the use of cache.
+In the next diagram we will compare the performance benefit of this method compared to classic matrix multiplication. (*** TODU NAJVRJETNEJE TAK SKLIC NI VREDU)
 
 \section{Comparison}
 \begin{figure}[h]
@@ -201,37 +193,36 @@ to classic matrix multiplication. (*** NAJVRJETNEJE TAK SKLIC NI VREDU)
 \label{fig:classic}
 \end{figure}
 
-From the diagram we can observe that the algorithm with the use of transposed 
-classical multiplication is extremely faster. 
-Transposed matrix multiplication is easy to implement and compared to classic 
-matrix multiplication the speed up of its use is non negligible so it should 
-be the part of every matrix multiplication that we use in practice.
-
+From the diagram we can observe that the algorithm with the use of transposed classical multiplication is much faster. 
+Transposed matrix multiplication is easy to implement and compared to classic matrix multiplication the speed up of its use is non negligible so it should be the part of every matrix multiplication that we use in practice. 
+We can also observe that classic matrix multiplication is not time stable compared to size.
+Let us take a closer look of this instability for matrices of size around $1375$ in (TUDO ref figure 2)
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.5\textwidth]{img/classic_variation.pdf}
 \caption{Classic multiplication testing variation}
 \label{fig:classic}
 \end{figure}
+%%TODO razlaga kako se ta graf lahko interpretira, kaj pomenijo krzci, kaj pomeni os x, kaj y
+
+In the figure we can clearly observe that for the matrices of the size $1374$ and $1375$ the computing time is always bigger then in its surroundings. 
+%%TODU code is compiled; a je to tehnicno pravilno, a to res kaj vpliva na vse skupaj
+There is no reasonable cause for this from the algorithm alone the explanation for this is hidden in the way code is compiled and the later use of cache.
 
 \subsection{Numerical stability}
-Numerical stability of this kind of matrix multiplication can be compared 
-to numerical stability of scalar product of 2 vectors. 
-It can be improved if we always sum the two numbers that are of 
-roughly same absolute size. 
-
-Numerical stability of classic matrix multiplication and transposed matrix 
-multiplication is the same because the formula for computing one element is the same. 
-
-\begin{align*}
-c_{i,j} = \sum_{k=1}^{n} a_{i,k} \widetilde{b}_{j,k}
-\end{align*}
-
-IMPORTATNT NOTICE:
-$((x_{1}+x_{2})+x_{3})+x_{4}$ is not equal to $(x_{1}+x_{2})+(x_{3}+x_{4})$ 
-for the positive number of the same order the second is more numerically stable.
-
-
+%%TODO to je treba se dobro premisliti kako lepo napisati, celo to poglavje
+Numerical stability of this kind of matrix multiplication can be compared to numerical stability of scalar product of 2 vectors. 
+It can be improved if we always sum the two numbers that are of roughly same absolute size. 
+%% TODO jaz bi to veliko raje povedal abstraknto in ne s konkretnim primerom ampak ne vem kako
+%% TODO ta primer kvari strokovnost clanka, se mi pa zdi da pa ta ideja mora biti notri saj je zanimiva in netrivialna
+So for the summation of positive numbers let us say $x_{1},x_{2},x_{3},x_{4}$ which are of equal size class it is better to use the formula $(x_{1}+x_{2})+(x_{3}+x_{4})$ than formula $((x_{1}+x_{2})+x_{3})+x_{4}$.
+Numerical stability of classic matrix multiplication and transposed matrix multiplication is the same because the formula for computing one element is the same.
+% \begin{align*}
+% c_{i,j} = \sum_{k=1}^{n} a_{i,k} \widetilde{b}_{j,k}
+% \end{align*}
+% IMPORTATNT NOTICE:
+% $((x_{1}+x_{2})+x_{3})+x_{4}$ is not equal to $(x_{1}+x_{2})+(x_{3}+x_{4})$ 
+% for the positive number of the same order the second is more numerically stable.
 
 \section{Recursive algorithm}
 (*** 3/2 strani)
@@ -325,8 +316,32 @@ da bo bolj korektno)
 \label{fig:classic}
 \end{figure}
 
-
 \subsection{Implementation}
+
+\begin{align*}
+C = A \times X
+\end{align*}
+
+\begin{align*}
+A = 
+\begin{bmatrix}
+A_{1} & A_{2} \\
+B_{1} & B_{2}
+\end{bmatrix}
+\quad
+X = 
+\begin{bmatrix}
+X_{1} & X_{2} \\
+Y_{1} & Y_{2}
+\end{bmatrix}
+\end{align*}
+
+\begin{align*}
+C_{1,1} &= A_{1} \times X_{1} + A_{2}  \times X_{2} \\
+C_{1,2} &= A_{1} \times Y_{1} + A_{2}  \times Y_{2} \\
+C_{2,1} &= B_{1} \times X_{1} + B_{2}  \times X_{2} \\
+C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}
+\end{align*}
 
 \subsection{Numerical stability}
 
@@ -699,4 +714,3 @@ Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxe
 models, halting probability, graph algorithms, and computational complexity.
 
 \balance
-
