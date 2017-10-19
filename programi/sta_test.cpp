@@ -133,12 +133,17 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
   PrintMatrix(diff);
   std::cout << "Testing3.5" << std::endl;
 
+  std::cout << "DDD" << std::endl;
   if (ZeroMatrix(diff)) {
     std::cout << "OK" << std::endl;
+    std::cout << "AAA"  << std::endl;
     //return ;
   } else {
     std::cout << "False" << std::endl;
+    std::cout << "BBB" << std::endl;
   }
+  
+  std::cout << "CCC" << std::endl;
 //
 //    //n = 16;
 //    a = 11;
@@ -192,4 +197,6 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     prikaz(mat3);
     PrintMatrix(mat4);
     */
+    
+    std::cout << "Izvede se ok." << std::endl;
 }

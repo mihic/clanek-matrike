@@ -172,6 +172,7 @@ int main(int ac, const char **av) {
 
   if (max_time == -99) {
     TestCorrectness(f, a, b, c);
+    cout << "Do vrnitve 0 ok."  << std::endl;
     return 0;
   }
 
