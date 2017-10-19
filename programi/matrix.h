@@ -1,6 +1,5 @@
 #include <functional>
 #include <iostream>
-//typedef std::vector<std::vector<double>> Tmat;
 
 class Tmat {
  private:
@@ -11,9 +10,9 @@ class Tmat {
   Tmat(int a, int b) {
     m = a;
     n = b;
-    //mat = new double[a * b]();
     mat = std::vector<double>(a * b);
   }
+
   inline double operator()(int a, int b) const {
     return mat[n * a + b];
   }
