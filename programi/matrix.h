@@ -68,6 +68,8 @@ void SubFromResult(Tmat &mat1, Tmat &mat3,
 
 void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
 
+void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> );
+
 void PrintMatrix(Tmat &mat);
 
 Tmat RandomMatrix(int, int);

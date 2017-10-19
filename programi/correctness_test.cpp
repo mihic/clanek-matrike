@@ -78,7 +78,7 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
 bool ZeroMatrix(Tmat mat) {
   int m = mat.m;
   int n = mat.n;
-  double eps = 0.000001;
+  double eps = 0.000000001;
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
       if (mat(i,j) > eps) {
@@ -127,6 +127,30 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     std::cout << "Static test failed." << std::endl;
   }
   
+  mat1 = Ex2Matrix(a,b);
+  mat2 = Ex3Matrix(b,c);
+  mat3 = MultiplicationClassicTransposed(mat1, mat2);
+  mat4 = TestAlg(mat1, mat2);
+  diff = MatrixDiference(mat3, mat4);
+  
+  if (ZeroMatrix(diff)) {
+    std::cout << "Static 2 test ok." << std::endl;
+  } else {
+    std::cout << "Static 2 test failed." << std::endl;
+  }
+  
+  mat1 = Ex2Matrix(a,b);
+  mat2 = Ex3Matrix(b,c);
+  mat3 = MultiplicationClassicTransposed(mat1, mat2);
+  mat4 = TestAlg(mat1, mat2);
+  diff = MatrixDiference(mat3, mat4);
+  
+  if (ZeroMatrix(diff)) {
+    std::cout << "Static 3 test ok." << std::endl;
+  } else {
+    std::cout << "Static 3 test failed." << std::endl;
+  }
+  
   mat1 = RandomMatrix(a,b);
   mat2 = RandomMatrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
@@ -149,7 +173,7 @@ void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   for (int i = 7; i < 500; i += 31) {
     for (int j = 5; j < 500; j += 51) {
       for (int k = 3; k < 500; j += 41) {
-        TestCorrectness(TestAlg, a, b, c);
+        TestCorrectness(TestAlg, i, j, k);
       }
     }
   }
@@ -157,7 +181,7 @@ void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   for (int i = 2117; i < 2123; i += 31) {
     for (int j = 2115; j < 2123; j += 51) {
       for (int k = 2113; k < 2123; j += 41) {
-        TestCorrectness(TestAlg, a, b, c);
+        TestCorrectness(TestAlg, i, j, k);
       }
     }
   }
