@@ -144,3 +144,21 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
   //PrintMatrix(mat3);
   //PrintMatrix(mat4);
 }
+
+void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
+  for (int i = 7; i < 500; i += 31) {
+    for (int j = 5; j < 500; j += 51) {
+      for (int k = 3; k < 500; j += 41) {
+        TestCorrectness(TestAlg, a, b, c);
+      }
+    }
+  }
+  
+  for (int i = 2117; i < 2123; i += 31) {
+    for (int j = 2115; j < 2123; j += 51) {
+      for (int k = 2113; k < 2123; j += 41) {
+        TestCorrectness(TestAlg, a, b, c);
+      }
+    }
+  }
+}
