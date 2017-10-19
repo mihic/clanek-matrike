@@ -9,7 +9,7 @@ Installation of whole project should be done if you want to replicate our work a
 
 ## Usage
 
-This code can be used by people who need matrix multiplication in their project. In this project we compare different methods for matrix multiplication, you can chose algorithm which is best for your need.
+This code can be used by people who need matrix multiplication in their project. In this project we compare different methods for matrix multiplication, you can chose algorithm which is best for your need. You can also use the code if you want to test your own matrix multiplication algorithm.
 
 ## Contributing
 
