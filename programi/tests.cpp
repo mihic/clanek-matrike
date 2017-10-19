@@ -171,13 +171,19 @@ int main(int ac, const char **av) {
   }
 
   if (max_time == -99) {
-    TestCorrectness(f, a, b, c);
-    cout << "Test passed."  << std::endl;
+    if (TestCorrectness(f, a, b, c)){
+      cout << "Test passed."  << std::endl;
+    } else {
+      cout << "Test failed."  << std::endl;
+    }
     return 0;
   }
   if (max_time == -999) {
-    CompleteTestForCorrectness(f);
-    cout << "Test passed."  << std::endl;
+    if (CompleteTestForCorrectness(f)){
+      cout << "Test passed."  << std::endl;
+    } else {
+      cout << "Test failed."  << std::endl;
+    }
     return 0;
   }
 

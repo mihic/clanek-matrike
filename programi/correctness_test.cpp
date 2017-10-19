@@ -90,25 +90,29 @@ bool ZeroMatrix(Tmat mat) {
   return true;
 }
 
-void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
+bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
   double eps = 0.001;
+  bool correct = true;
   std::cout << "Testing correctess of algorithm." << std::endl;
   std::cout << "For matrix of size: a = " << a << " b = " << b << " c = " << c << std::endl;
   
+  int minabc = std::min({a,b,c});
   Tmat mat1 = PsevdoId(a,b);
   Tmat mat2 = PsevdoId(b,c);
   Tmat mat3 = MultiplicationClassicTransposed(mat1, mat2);
   
+  std::cout << "For matrix of size: m = " << mat3.m << " n = " << mat3.n << std::endl;
+  
   for (int i = 0; i < mat3.m; i += 1) {
     for (int j = 0; j < mat3.n; j += 1) {
-      if (i == j){
+      if (i == j and i < minabc){
         if (std::abs(mat3(i,j) - 1) > eps){
-          std::cout << "Critical error: Multiplication classic transposed failed." << std::endl;
+          std::cout << "Critical error: Multiplication classic transposed failed 1: " << "i=" << i << " j=" << j << " mat3(i,j)=" << mat3(i,j) << std::endl;
           throw;
         }
       } else{
         if (mat3(i,j) != 0){
-          std::cout << "Critical error: Multiplication classic transposed failed." << std::endl;
+          std::cout << "Critical error: Multiplication classic transposed failed 0: " << "i=" << i << " j=" << j << " mat3(i,j)=" << mat3(i,j) << std::endl;
           throw;
         }
       }
@@ -125,6 +129,7 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     std::cout << "Static test ok." << std::endl;
   } else {
     std::cout << "Static test failed." << std::endl;
+    correct = false;
   }
   
   mat1 = Ex2Matrix(a,b);
@@ -137,6 +142,7 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     std::cout << "Static 2 test ok." << std::endl;
   } else {
     std::cout << "Static 2 test failed." << std::endl;
+    correct = false;
   }
   
   mat1 = Ex2Matrix(a,b);
@@ -149,6 +155,7 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     std::cout << "Static 3 test ok." << std::endl;
   } else {
     std::cout << "Static 3 test failed." << std::endl;
+    correct = false;
   }
   
   mat1 = RandomMatrix(a,b);
@@ -161,28 +168,34 @@ void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     std::cout << "Random test ok." << std::endl;
   } else {
     std::cout << "Random test failed." << std::endl;
+    correct = false;
   }
   
   //PrintMatrix(mat1);
   //PrintMatrix(mat2);
   //PrintMatrix(mat3);
   //PrintMatrix(mat4);
+  
+  return correct;
 }
 
-void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
+bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
+  bool correct = true;
   for (int i = 7; i < 500; i += 31) {
     for (int j = 5; j < 500; j += 51) {
-      for (int k = 3; k < 500; j += 41) {
-        TestCorrectness(TestAlg, i, j, k);
+      for (int k = 3; k < 500; k += 41) {
+        correct = correct and TestCorrectness(TestAlg, i, j, k);
       }
     }
   }
   
   for (int i = 2117; i < 2123; i += 31) {
     for (int j = 2115; j < 2123; j += 51) {
-      for (int k = 2113; k < 2123; j += 41) {
-        TestCorrectness(TestAlg, i, j, k);
+      for (int k = 2113; k < 2123; k += 41) {
+        correct = correct and TestCorrectness(TestAlg, i, j, k);
       }
     }
   }
+  
+  return correct;
 }

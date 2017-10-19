@@ -1,6 +1,6 @@
 #include <functional>
 #include <iostream>
-
+/*
 class Tmat {
  private:
   std::vector<double> mat;
@@ -20,6 +20,32 @@ class Tmat {
     return mat[n * a + b];
   }
 };
+*/
+
+
+
+class Tmat {
+ private:
+  std::vector<std::vector<double>> mat;
+ public:
+  int m;
+  int n;
+  Tmat(int a, int b) {
+    m = a;
+    n = b;
+    std::vector<double> nicelni(n, 0.0);
+    std::vector<std::vector<double>> matX(m, nicelni);
+    mat = matX;
+  }
+
+  inline double operator()(int a, int b) const {
+    return mat[a][b];
+  }
+  inline double &operator()(int a, int b) {
+    return mat[a][b];
+  }
+};
+
 
 Tmat Transpose(Tmat &mat);
 Tmat MultiplicationClassicTransposed(Tmat &, Tmat &);
@@ -66,9 +92,9 @@ void SubFromResult(Tmat &mat1, Tmat &mat3,
                    int x1,
                    int x2);
 
-void TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
+bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
 
-void CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> );
+bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> );
 
 void PrintMatrix(Tmat &mat);
 
