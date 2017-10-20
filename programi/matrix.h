@@ -1,6 +1,6 @@
 #include <functional>
 #include <iostream>
-/*
+
 class Tmat {
  private:
   std::vector<double> mat;
@@ -20,10 +20,10 @@ class Tmat {
     return mat[n * a + b];
   }
 };
-*/
 
 
 
+/*
 class Tmat {
  private:
   std::vector<std::vector<double>> mat;
@@ -45,7 +45,7 @@ class Tmat {
     return mat[a][b];
   }
 };
-
+*/
 
 Tmat Transpose(Tmat &mat);
 Tmat MultiplicationClassicTransposed(Tmat &, Tmat &);
