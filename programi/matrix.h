@@ -1,29 +1,52 @@
 #include <functional>
 #include <iostream>
 
-class Tmat {
- private:
-  std::vector<double> mat;
- public:
-  int m;
-  int n;
-  Tmat(int a, int b) {
-    m = a;
-    n = b;
-    mat = std::vector<double>(a * b);
-  }
+//class Tmat {
+// private:
+//  std::vector<double> mat;
+// public:
+//  int m;
+//  int n;
+//  Tmat(int a, int b) {
+//    m = a;
+//    n = b;
+//    mat = std::vector<double>(a * b);
+//  }
+//
+//  inline double operator()(int a, int b) const {
+//    return mat[n * a + b];
+//  }
+//  inline double &operator()(int a, int b) {
+//    return mat[n * a + b];
+//  }
+//};
 
-  inline double operator()(int a, int b) const {
-    return mat[n * a + b];
-  }
-  inline double &operator()(int a, int b) {
-    return mat[n * a + b];
-  }
-};
+//class Tmat {
+// private:
+//  double * mat;
+// public:
+//  int m;
+//  int n;
+//  Tmat(int a, int b) {
+//    m = a;
+//    n = b;
+//    mat = new double[n*m];
+//  }
+//  ~Tmat() {
+//    3+3;
+//  }
+//
+//  inline double operator()(int a, int b) const {
+//    return mat[n * a + b];
+//  }
+//  inline double &operator()(int a, int b) {
+//    return mat[n * a + b];
+//  }
+//};
 
 
 
-/*
+
 class Tmat {
  private:
   std::vector<std::vector<double>> mat;
@@ -38,14 +61,18 @@ class Tmat {
     mat = matX;
   }
 
+  ~Tmat(){
+
+  }
+
   inline double operator()(int a, int b) const {
-    return mat[a][b];
+    return mat.at(a).at(b);
   }
   inline double &operator()(int a, int b) {
-    return mat[a][b];
+    return mat.at(a).at(b);
   }
 };
-*/
+
 
 Tmat Transpose(Tmat &mat);
 Tmat MultiplicationClassicTransposed(Tmat &, Tmat &);
