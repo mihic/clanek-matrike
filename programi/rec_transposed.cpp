@@ -33,6 +33,7 @@ void MultiplicationRecursiveTransposedPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
 
 
 Tmat MultiplicationRecursiveTransposed(Tmat &mat1, Tmat &mat2){
+    if (DimensionCheckFailed(mat1,mat2)){std::exit(-1);}
     Tmat mat4 = Transpose(mat2);
     
     int a = mat1.m;
@@ -40,7 +41,7 @@ Tmat MultiplicationRecursiveTransposed(Tmat &mat1, Tmat &mat2){
     int c = mat4.m;
 
     Tmat mat3(a,c);
-  MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, 0, a, 0, b, 0, c);
+    MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, 0, a, 0, b, 0, c);
     
     return mat3;
 }

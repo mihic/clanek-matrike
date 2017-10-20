@@ -196,7 +196,7 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 
 Tmat MultiplicationStrassen(Tmat &mat1, Tmat &mat2){
     int a = mat1.m;
-    int b = mat2.m;
+    int b = std::min({mat2.m,mat1.n});
     int c = mat2.n;
 
     Tmat mat3(a,c);

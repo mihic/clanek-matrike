@@ -295,6 +295,7 @@ Tmat MultiplicationSubcubicPart2(Tmat &mat1, Tmat &mat4){
 }
 
 Tmat MultiplicationSubcubic(Tmat &mat1, Tmat &mat2){
+    if (DimensionCheckFailed(mat1,mat2)){std::exit(-1);}
     Tmat mat4 = Transpose(mat2);
     return MultiplicationSubcubicPart2(mat1, mat4);
 }

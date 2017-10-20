@@ -15,6 +15,17 @@
 //  //std::cout << std::endl;
 //}
 
+bool DimensionCheckFailed(Tmat &mat1,Tmat &mat2) {
+  if(mat1.n != mat2.m){
+     std::cout << "Abnormal use of multiplication." << std::endl;
+     std::cout << " mat1.m=" << mat1.m << " mat1.n=" << mat1.n << std::endl;
+     std::cout << " mat2.m=" << mat2.m << " mat2.n=" << mat2.n << std::endl;
+     std::cout << "Dimension mat1.n and mat2.m should mach." << std::endl;
+     return true:
+  }
+  return false;
+}
+
 void PrintMatrix(Tmat &mat){
   int m = mat.m;
   int n = mat.n;
