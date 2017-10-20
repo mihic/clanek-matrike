@@ -126,3 +126,5 @@ bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> );
 void PrintMatrix(Tmat &mat);
 
 Tmat RandomMatrix(int, int);
+
+bool DimensionCheckFailed(Tmat &mat1,Tmat &mat2);
