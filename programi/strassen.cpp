@@ -4,6 +4,7 @@
 #include <iostream>
 #include "matrix.h"
 
+Tmat MultiplicationStrassenPart1(Tmat &, Tmat &);
 
 void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                         int a1, int a2,
