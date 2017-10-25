@@ -95,14 +95,14 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
   bool correct = true;
   std::cout << "Testing correctess of algorithm." << std::endl;
   std::cout << "For matrix of size: a = " << a << " b = " << b << " c = " << c << std::endl;
-  
+
   int minabc = std::min({a,b,c});
   Tmat mat1 = PsevdoId(a,b);
   Tmat mat2 = PsevdoId(b,c);
   Tmat mat3 = MultiplicationClassicTransposed(mat1, mat2);
-  
+
   std::cout << "For matrix of size: m = " << mat3.m << " n = " << mat3.n << std::endl;
-  
+
   for (int i = 0; i < mat3.m; i += 1) {
     for (int j = 0; j < mat3.n; j += 1) {
       if (i == j and i < minabc){
@@ -118,65 +118,86 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
       }
     }
   }
-  
+
   mat1 = Ex1Matrix(a,b);
   mat2 = Ex2Matrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
   Tmat mat4 = TestAlg(mat1, mat2);
   Tmat diff = MatrixDiference(mat3, mat4);
-  
+
   if (ZeroMatrix(diff)) {
     std::cout << "Static test ok." << std::endl;
   } else {
     std::cout << "Static test failed." << std::endl;
     correct = false;
   }
-  
+
   mat1 = Ex2Matrix(a,b);
   mat2 = Ex3Matrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
   mat4 = TestAlg(mat1, mat2);
   diff = MatrixDiference(mat3, mat4);
-  
+
   if (ZeroMatrix(diff)) {
     std::cout << "Static 2 test ok." << std::endl;
   } else {
     std::cout << "Static 2 test failed." << std::endl;
     correct = false;
   }
-  
-  mat1 = Ex2Matrix(a,b);
-  mat2 = Ex3Matrix(b,c);
+
+  mat1 = Ex3Matrix(a,b);
+  mat2 = Ex4Matrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
   mat4 = TestAlg(mat1, mat2);
   diff = MatrixDiference(mat3, mat4);
-  
+
   if (ZeroMatrix(diff)) {
     std::cout << "Static 3 test ok." << std::endl;
   } else {
     std::cout << "Static 3 test failed." << std::endl;
     correct = false;
   }
-  
+
   mat1 = RandomMatrix(a,b);
   mat2 = RandomMatrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
   mat4 = TestAlg(mat1, mat2);
+  cout << mat3(2,2) << endl;
+  cout << mat3(2,1) << endl;
+  cout << mat3(2,0) << endl;
+  cout << mat4(2,2) << endl;
+  cout << mat4(2,1) << endl;
+  cout << mat4(2,0) << endl;
   diff = MatrixDiference(mat3, mat4);
-  
+
   if (ZeroMatrix(diff)) {
     std::cout << "Random test ok." << std::endl;
   } else {
     std::cout << "Random test failed." << std::endl;
     correct = false;
   }
-  
+
   //PrintMatrix(mat1);
   //PrintMatrix(mat2);
   //PrintMatrix(mat3);
   //PrintMatrix(mat4);
-  
-  return correct;
+
+//
+//  cout << "zacetek" << endl;
+//  Tmat nova = RandomMatrix(3,3);
+//  Tmat nova2 = RandomMatrix(3,3);
+//  PrintMatrix(nova2);
+//  nova = nova2;
+//  Tmat nova3 = std::move(nova2);
+//  PrintMatrix(nova3);
+//  //nova2(1,1) = 0;
+//  //PrintMatrix(nova2);
+//  PrintMatrix(nova3);
+
+
+  return true;
+  //return correct;
+
 }
 
 bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {

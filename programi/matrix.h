@@ -1,77 +1,100 @@
 #include <functional>
 #include <iostream>
+#include <memory>
+#include <cstring>
+#include <iostream>
 
-//class Tmat {
-// private:
-//  std::vector<double> mat;
-// public:
-//  int m;
-//  int n;
-//  Tmat(int a, int b) {
-//    m = a;
-//    n = b;
-//    mat = std::vector<double>(a * b);
-//  }
-//
-//  inline double operator()(int a, int b) const {
-//    return mat[n * a + b];
-//  }
-//  inline double &operator()(int a, int b) {
-//    return mat[n * a + b];
-//  }
-//};
-
-//class Tmat {
-// private:
-//  double * mat;
-// public:
-//  int m;
-//  int n;
-//  Tmat(int a, int b) {
-//    m = a;
-//    n = b;
-//    mat = new double[n*m];
-//  }
-//  ~Tmat() {
-//    3+3;
-//  }
-//
-//  inline double operator()(int a, int b) const {
-//    return mat[n * a + b];
-//  }
-//  inline double &operator()(int a, int b) {
-//    return mat[n * a + b];
-//  }
-//};
-
-
-
+using namespace std;
 
 class Tmat {
  private:
-  std::vector<std::vector<double>> mat;
+  double *mat;
  public:
   int m;
   int n;
-  Tmat(int a, int b) {
-    m = a;
-    n = b;
-    std::vector<double> nicelni(n, 0.0);
-    std::vector<std::vector<double>> matX(m, nicelni);
-    mat = matX;
+
+  //constructor
+  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]) {
+    //cout << "normal const" << endl;
   }
 
-  ~Tmat(){
+  //copy constructor
+  Tmat(const Tmat& other) : m(other.m), n(other.n),
+                            mat(new double[other.n * other.m]) {
+    //cout << "copy constructed" << endl;
+    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+  }
 
+  //copy assignment
+  Tmat& operator=(const Tmat& other) {
+    //cout << "copy assigned" << endl;
+    if (&other == this) return *this;
+    m = other.m;
+    n = other.n;
+    delete[] mat;
+    mat = new double[n * m];
+    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+    return *this;
+  }
+
+
+//  //move constructor
+//  Tmat(Tmat&& other) : m(other.m), n(other.n), mat(other.mat) {
+//    //cout << "move cons" << endl;
+//    other.mat = nullptr;
+//  }
+//  //move assign
+//  Tmat& operator=(Tmat&& other) {
+//    //cout << "move assigned" << endl;
+//    m = other.m;
+//    n = other.n;
+//    delete[] mat;
+//    mat = other.mat;
+//    other.mat = nullptr;
+//    return *this;
+//  }
+
+  //destructor
+  ~Tmat() {
+    delete[] mat;
   }
 
   inline double operator()(int a, int b) const {
-    return mat.at(a).at(b);
+    return mat[n * a + b];
   }
   inline double &operator()(int a, int b) {
-    return mat.at(a).at(b);
+    return mat[n * a + b];
   }
 };
+
+
+
+
+//class Tmat {
+// private:
+//  std::vector<std::vector<double>> mat;
+// public:
+//  int m;
+//  int n;
+//  Tmat(int a, int b) {
+//    m = a;
+//    n = b;
+//    std::vector<double> nicelni(n, 0.0);
+//    std::vector<std::vector<double>> matX(m, nicelni);
+//    mat = matX;
+//  }
+//
+//  ~Tmat(){
+//
+//  }
+//
+//  inline double operator()(int a, int b) const {
+//    return mat.at(a).at(b);
+//  }
+//  inline double &operator()(int a, int b) {
+//    return mat.at(a).at(b);
+//  }
+//};
 
 
 Tmat Transpose(Tmat &mat);
@@ -121,10 +144,10 @@ void SubFromResult(Tmat &mat1, Tmat &mat3,
 
 bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
 
-bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> );
+bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)>);
 
 void PrintMatrix(Tmat &mat);
 
 Tmat RandomMatrix(int, int);
 
-bool DimensionCheckFailed(Tmat &mat1,Tmat &mat2);
+bool DimensionCheckFailed(Tmat &mat1, Tmat &mat2);

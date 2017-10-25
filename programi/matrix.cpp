@@ -32,11 +32,11 @@ void PrintMatrix(Tmat &mat){
 
   for (int i = 0; i < m; i++){
     for (int j = 0; j < n; j++){
-      //std::cout << std::setw(9) <<mat(i,j) << " | ";
+      std::cout << std::setw(9) <<mat(i,j) << " | ";
     }
-    //std::cout << std::endl;
+    std::cout << std::endl;
   }
-  //std::cout << std::endl;
+  std::cout << std::endl;
 }
 
 //code for algorithms
@@ -54,7 +54,7 @@ Tmat Transpose(Tmat &mat){
     for (int i = 0; i<a; i+=1){
         for (int j = 0; j<b; j+=1){
             mat3(j,i) = mat(i,j);
-        }   
+        }
     }
     return mat3;
 }
