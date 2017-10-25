@@ -4,8 +4,9 @@
 #include <iostream>
 #include "matrix.h"
 
+Tmat MultiplicationStrassenPart1(Tmat &, Tmat &);
 
-void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
+void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                         int a1, int a2,
                         int b1, int b2,
                         int c1, int c2){
@@ -144,22 +145,22 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 
         //std::cout << "MM AAA" << std::endl;
 
-        Tmat matM1 = MultiplicationStrassen(mA11A22, mB11B22);
+        Tmat matM1 = MultiplicationStrassenPart1(mA11A22, mB11B22);
         //std::cout << "MM AAA1" << std::endl;
         ////std::cout << mA21A22.size() << " AA " << mA21A22[0].size() << std::endl;
         ////std::cout << maB11.size() << " BB " << maB11[0].size() << std::endl;
         
-        Tmat matM2 = MultiplicationStrassen(mA21A22, maB11);
+        Tmat matM2 = MultiplicationStrassenPart1(mA21A22, maB11);
         //std::cout << "MM AAA2" << std::endl;
-        Tmat matM3 = MultiplicationStrassen(maA11, mB12B22);
+        Tmat matM3 = MultiplicationStrassenPart1(maA11, mB12B22);
         //std::cout << "MM AAA3" << std::endl;
-        Tmat matM4 = MultiplicationStrassen(maA22, mB21B11);
+        Tmat matM4 = MultiplicationStrassenPart1(maA22, mB21B11);
         //std::cout << "MM AAA4" << std::endl;
-        Tmat matM5 = MultiplicationStrassen(mA11A12, maB22);
+        Tmat matM5 = MultiplicationStrassenPart1(mA11A12, maB22);
         //std::cout << "MM AAA5" << std::endl;
-        Tmat matM6 = MultiplicationStrassen(mA21A11, mB11B12);
+        Tmat matM6 = MultiplicationStrassenPart1(mA21A11, mB11B12);
         //std::cout << "MM AAA6" << std::endl;
-        Tmat matM7 = MultiplicationStrassen(mA12A22, mB21B22);
+        Tmat matM7 = MultiplicationStrassenPart1(mA12A22, mB21B22);
         //std::cout << "MM AAA7" << std::endl;
         
         //std::cout << "MM BBB" << std::endl;
@@ -194,13 +195,19 @@ void strassen_part(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     }
 }
 
-Tmat MultiplicationStrassen(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationStrassenPart1(Tmat &mat1, Tmat &mat2){
     int a = mat1.m;
     int b = std::min({mat2.m,mat1.n});
     int c = mat2.n;
 
     Tmat mat3(a,c);
-    strassen_part(mat1, mat2, mat3, 0, a, 0, b, 0, c);
+    MultiplicationStrassenPart2(mat1, mat2, mat3, 0, a, 0, b, 0, c);
 
     return mat3;
+}
+
+Tmat MultiplicationStrassen(Tmat &mat1, Tmat &mat2){
+    if (DimensionCheckFailed(mat1,mat2)){std::exit(-1);}
+
+    return MultiplicationStrassenPart1(mat1, mat2);
 }
