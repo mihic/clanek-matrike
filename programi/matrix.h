@@ -3,49 +3,94 @@
 #include <memory>
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 class Tmat {
  private:
-  double *mat;
+  std::unique_ptr<double[]> mat;
  public:
   int m;
   int n;
 
   //constructor
-  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]) {
-    //cout << "normal const" << endl;
+  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]()) {
   }
 
   //copy constructor
   Tmat(const Tmat& other) : m(other.m), n(other.n),
                             mat(new double[other.n * other.m]) {
-    //cout << "copy constructed" << endl;
-    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+    std::copy_n(other.mat.get(),m*n,mat.get());
   }
 
   //copy assignment
   Tmat& operator=(const Tmat& other) {
-    //cout << "copy assigned" << endl;
     if (&other == this) return *this;
     m = other.m;
     n = other.n;
-    delete[] mat;
-    mat = new double[n * m];
-    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+    mat.reset(new double[m*n]);
+    std::copy_n(other.mat.get(),m*n,mat.get());
     return *this;
   }
 
 
+  //move constructor
+  Tmat(Tmat&& other) : m(other.m), n(other.n) {
+    mat = std::move(other.mat);
+  }
+  //move assign
+  Tmat& operator=(Tmat&& other) {
+    m = other.m;
+    n = other.n;
+    mat = std::move(other.mat);
+    return *this;
+  }
+
+
+  inline double operator()(int a, int b) const {
+    return mat.get()[n * a + b];
+  }
+  inline double &operator()(int a, int b) {
+    return mat.get()[n * a + b];
+  }
+};
+
+//class Tmat {
+// private:
+//  double* mat;
+// public:
+//  int m;
+//  int n;
+//
+//  //constructor
+//  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]()) {
+//  }
+//
+//  //copy constructor
+//  Tmat(const Tmat& other) : m(other.m), n(other.n),
+//                            mat(new double[other.n * other.m]) {
+//    std::copy_n(other.mat,m*n,mat);
+//  }
+//
+//  //copy assignment
+//  Tmat& operator=(const Tmat& other) {
+//    if (&other == this) return *this;
+//    m = other.m;
+//    n = other.n;
+//    delete[] mat;
+//    mat = new double[n * m];
+//    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+//    return *this;
+//  }
+//
+//
 //  //move constructor
 //  Tmat(Tmat&& other) : m(other.m), n(other.n), mat(other.mat) {
-//    //cout << "move cons" << endl;
 //    other.mat = nullptr;
 //  }
 //  //move assign
 //  Tmat& operator=(Tmat&& other) {
-//    //cout << "move assigned" << endl;
 //    m = other.m;
 //    n = other.n;
 //    delete[] mat;
@@ -53,20 +98,19 @@ class Tmat {
 //    other.mat = nullptr;
 //    return *this;
 //  }
-
-  //destructor
-  ~Tmat() {
-    delete[] mat;
-  }
-
-  inline double operator()(int a, int b) const {
-    return mat[n * a + b];
-  }
-  inline double &operator()(int a, int b) {
-    return mat[n * a + b];
-  }
-};
-
+//
+//  //destructor
+//  ~Tmat() {
+//    delete[] mat;
+//  }
+//
+//  inline double operator()(int a, int b) const {
+//    return mat[n * a + b];
+//  }
+//  inline double &operator()(int a, int b) {
+//    return mat[n * a + b];
+//  }
+//};
 
 
 

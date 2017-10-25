@@ -162,12 +162,6 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
   mat2 = RandomMatrix(b,c);
   mat3 = MultiplicationClassicTransposed(mat1, mat2);
   mat4 = TestAlg(mat1, mat2);
-  cout << mat3(2,2) << endl;
-  cout << mat3(2,1) << endl;
-  cout << mat3(2,0) << endl;
-  cout << mat4(2,2) << endl;
-  cout << mat4(2,1) << endl;
-  cout << mat4(2,0) << endl;
   diff = MatrixDiference(mat3, mat4);
 
   if (ZeroMatrix(diff)) {
