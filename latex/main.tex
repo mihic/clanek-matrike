@@ -17,7 +17,7 @@
 %% LASTNI PAKETI, DEFINICIJE KONEC
 
 
-\title{Matrix multiplication: Practical use of a Strassen like algorithm}
+\title{Matrix Multiplication: Practical Use of a Strassen Like Algorithm}
 \author{Rozman, Mitja and Eleršič, Miha}
 \date{}
 
@@ -85,12 +85,12 @@
 \begin{abstract} %
 TODO
 In this paper we make an overview of practical matrix multiplication algorithms.
-We explain and implement the standard algorithms and implement a new algorithm based on the original Strassen algorithm.
+We explain and implement the standard algorithms and implement a new algorithm based on the original Strassen algorithm \cite{Strassen1969}.
 We compare our implementation with algorithms from the standard library uBLAS. Additionally we show that divide and conquer algorithms are more numerically stable compared to other algorithms.
 \end{abstract}
 \vspace{0.5cm}
 \begin{spacing}{0.9}
-\small\textbf{Index Terms}: \textbf{\textit{TODO guidelines, issues, experiments, algorithmics, dataflow, architecture, efficiency, generality}}
+\small\textbf{Index Terms}:  \textbf{\textit {matrix multiplication, algorithmics, Strassen, experiments, performance}}
 %%TODO
 %%\small\textbf{Index Terms}: \textbf{\textit{matrix multiplication, recursive matrix multiplication, block matrix multiplication, strassen matrix multiplication, blas matrix multiplication, C++}}
 \end{spacing}
@@ -101,7 +101,6 @@ We compare our implementation with algorithms from the standard library uBLAS. A
 
 %%TODO through article we will refer to the $n \times n$ square matrix as a matrix of size $n$
 
-
 %% TODO: mogoce bi pa pisali A=BC, potem lahko oznacimo D=tr(C)
 %% trenutni problem je da X ne pase notri
 %% se vedno pa ne bi morali ponazoriti sistema z le enim indeksom
@@ -109,14 +108,16 @@ We compare our implementation with algorithms from the standard library uBLAS. A
 %% to je namrec matrika, ki je v spominu shranjena ravno obratno (ne row major)
 %% mogoce so zato vseeno razogi za vizualno razlocevanje
 
-\lettrine{M}{atrix} multiplication
+\lettrine{M}{atrix} multiplication problem
 is one of the basic operations used in many different fields such 
-as applied mathematics, physics, and engineering.
+as machine learning, engineering and physics simulations.
 %% TODO bolj konkretno
-This makes implementing efficient and numerically stable algorithms important. 
+This makes implementing efficient and numerically stable algorithms for the problem important. 
 In this article we compare different methods of matrix multiplication and their implementations. 
 %% TODO ponovi se ideja 
-The main goal is to compare execution time of matrix multiplication algorithms on large matrices.
+The main goal is to compare execution time of matrix multiplication algorithms when the size of the matrix grows.
+%%(TODO prej je bilo: on large matrices.)
+%%on large matrices.
 %%We implemented 4 different algorithms, from the basic *from definition) to a subcubic time complexity
 
 
@@ -137,56 +138,65 @@ $A$ and $B$ resulting in matrix $C=A \cdot B$. Each entry in the new matrix is d
 \begin{align*}
 c_{i,j} = \sum_{k=1}^{n} a_{i,k} b_{k,j}.
 \end{align*}
-For matrix $A$ of size $m \times n$ and matrix $B$ of size $n \times k$ we can therefore compute matrix $C= A \cdot B$ of size $m \times k$.
+For matrix $A$ of size $m \times n$ and matrix $B$ of size $n \times k$ we can therefore compute matrix %$C= A \cdot B$ 
+of size $m \times k$.
 
 Most known matrix multiplication algorithms are derived directly from this definition and only change the order of addition operations. 
 %% in the given ring. 
 %%Examples of this kind of algorithms are classical iterative algorithm (which most faithfully obeys this rule), block algorithm and recursive algorithm.
 %%TODO Recursive algorithms have potential for distributed computing.
 %%TODO Block algorithms are usually most optimized for cache.
-Examples of this kind of algorithms are iterative and recursive algorithm as well as block matrix multiplication.
+Examples of this kind of algorithms are classic and recursive algorithm as well as block matrix multiplication.
 %%classic iterative algorithm, recursive algorithm, and block algorithm.
 %%\begin{itemize}
 %%\item classical iterative algorithm, which most faithfully obeys this definition
 %%\item recursive algorithm, which has potential for distributed computing
 %%\item block algorithm, which is usually most optimized for cache
 %%\end{itemize}
-They all have time complexity order of $\Theta(n^3)$ for two square $n \times n$ matrices.
+They all have time asymptotic complexity $\Theta(n^3)$ for two square $n \times n$ matrices.
 
 There also exist algorithms with sub-cubic time complexity. These algorithms are of great theoretical importance but are usually not implemented.
-Authors which worked on this field are Strassen, Pan, Bini, Schonhage, Romani, Coppersmith, Winograd, Stothers, Williams. TODO citat.
-(VIR: Matrix Multiplication, Trilinear Decompositions,
-APA Algorithms, and Summation
-Victor Y. Pan
-OSTALO PA SE LAHKO RAZRESI S SKLICI)
+Authors who worked on this field are Strassen \cite{Strassen1969}, Pan \cite{Pan1978a}, Bini \cite{Bini1979}, Schonhage \cite{Schoenhage1971}, Romani \cite{Romani1982}, Coppersmith \cite{Coppersmith1982}, Winograd \cite{Coppersmith1982}, Stothers \cite{Davie2013}, Williams \cite{Williams}.
+% TODO citat.\cite{Pan1978a}
+% (VIR: Matrix Multiplication, Trilinear Decompositions,
+% APA Algorithms, and Summation
+% Victor Y. Pan
+% OSTALO PA SE LAHKO RAZRESI S SKLICI)
 
-Unfortunately most of the sub-cubic algorithms are too complicated to implement and sometimes come with a much larger constant, meaning that even in theory they would not be faster on practically sized matrices.
+Unfortunately most of the sub-cubic algorithms are very elaborate to implement and sometimes come with a much larger constant, meaning that even in theory they would not be faster on practically sized matrices.
 %%This article deals with a Strassen like algorithm, which is easy to understand and not too complicated to implement.
-This article tries to promote a Strassen like algorithm, which is easy to understand and not too complicated to implement.
+This article tries to promote a Strassen-like algorithm, which is
+straightforward to understand and fairly simple to implement
+%%easy to understand and not too complicated to implement.
 We hope to demonstrate its practical value.
 %% TODO ne vem ce je ok da se tu navezujemo na to kar bo vsebina clanka potem?? ker je naslov known algorithms overview
 
 %%\subsection{Existing implementations}
 
 %%TODO nekje povedati katere zastavice je potrebno dodati, kaj je treba dati za include
-For comparison evaluation of our results we used uBLAS from the \cpp library boost (TODO citat). We used boost because of its popularity and ease of use.
+For comparison evaluation of our results we used uBLAS from the \cpp library boost \cite{boost}. We used Boost because of its popularity and ease of use.
 %%http://scicomp.stackexchange.com/questions/351/recommendations-for-a-usable-fast-c-matrix-library
 %%https://stackoverflow.com/questions/11066925/good-matrix-libraries
-Possible alternative libraries are Armadilo, Eigen and Intel MKL.
+Possible alternative libraries are Armadilo \cite{armadillo}, Eigen \cite{eigen} and Intel Math Kernel Library \cite{mkl}.
 
-\section{Classical algorithm}
+\section{Classical Algorithm}
 The most basic algorithm for matrix multiplication is derived directly from the definition of matrix multiplication using three for loops.
-In this basic algorithm we iterate thorough the rows of the first matrix and multiply it with the columns of the second matrix.
+In this basic algorithm we iterate thorough the rows of the first matrix and multiply each row with every column of the second matrix. For every row and column we compute the sum of the products of corresponding row and column entires.
 
 %%\subsection{Numerical stability}
 
-\subsection{Transposed matrix}
+\subsection{Transposed Matrix}
 \label{classic_transposed}
-The standard way of representing dense matrices in computer memory are two dimensional arrays. Since the 2D array has to be stored in memory which is one dimensional, it needs to be linearized. This can be done in a row-major order or column-major order (TODO cite Knuth). The ordering is important because accessing consecutive elements is memory is faster on modern CPUs because of caching. However classic multiplication accesses one matrix consecutively by row and the other consecutively by column. So no matter that order we choose to store the matrices in, one of the matrices is accessed inefficiently.
+The standard way of representing dense matrices in computer memory are two dimensional arrays. Since the 2D array has to be stored in memory which is one dimensional, it needs to be linearized. This can be done in a row-major order or column-major order\cite{Knuth1997}. The ordering has a significant effect on the algorithm performance, because accessing consecutive elements in memory is faster on modern CPUs because of caching. However classic multiplication accesses one matrix consecutively by rows and the other consecutively by columns. Hence, regardless of the order we choose to store the matrices in, one of the matrices is accessed inefficiently.
+%%TODO kaj takega notri ja ali ne?
+%%We can write X = tr(B) and multiplication vith transposed matrix as C = AB = A \times X
+%%here X is transposed matrix of B and \times is product of..
+%%Jaz bi rad dal kaj takega ampak je tezko nekam smiselno umestiti, bi pa rad to povedal nekje
 
 Fortunately this can be fixed by transposing one of the matrices before multiplication. The question is, whether the overhead of first transposing one of the matrices is larger than the potential gains of better memory access pattern during multiplication.
 
-In Figure \ref{fig:classic} we compare the performance of Iterative algorithm and its transposed version. 
+In Figure \ref{fig:classic} we compare the performance of Classic algorithm and a version where the second matrix is transposed.
+From the figure we observe that the transposed version is faster. We can conclude that the overhead of transposing the matrix is lower than the speedup resulting from better use of processor cache.
 
 \begin{figure}[h]
 \centering
@@ -195,8 +205,8 @@ In Figure \ref{fig:classic} we compare the performance of Iterative algorithm an
 \label{fig:classic}
 \end{figure}
 
-From the figure we observe that the transposed version is faster. We can conclude that the overhead of transposing the matrix is lower than the speedup resulting from better use of processor cache.
-We can also observe much higher variation in the tests of the non-transposed version. Although the results look noisy, running more tests revealed the variation is consistent. In Figure \ref{fig:classic_var} we can see the results of running $10$ tests for $10$ consecutive values of $n$ each. We can see that for each $n$ we get consistent results, but changing $n$ by one can change the results significantly.  
+
+We can also observe higher variation in the running times of the non-transposed version. Although the results may look noisy, running more tests revealed the variation is consistent. In Figure \ref{fig:classic_var} we can see the results of running $10$ tests for $10$ consecutive values of $n$. We can see that for each $n$ we get consistent results, but changing $n$ by one can change the results significantly.  
 %%TODO: dodamo se classic_tranposed na figure 2 + bluzenje o tem kako predictor zna al pa ne zna.
 
 \begin{figure}[h]
@@ -209,28 +219,41 @@ We can also observe much higher variation in the tests of the non-transposed ver
 %%TODO razlaga kako se ta graf lahko interpretira, kaj pomenijo krzci, kaj pomeni os x, kaj y
 
 
-%%\subsection{Numerical stability}
+\subsection{Implementation with Vectors}
 
-\section{Recursive algorithm}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.48\textwidth]{img/classic_old.pdf}
 
-Matrix multiplication can also be implemented with a divide and conquer approach. We divide the matrices 
-from multiplication $C=AB$ in to four blocks.
+\section{TODO mogoce vseeno malo o stari implementaciji}
+TODO Bi lahko pokazali stare slike, kjer je vec razlike.
+
+\caption{TODO tudi to bi rada imela v barvah mogoce bi celo se enkrat pognala teste za te, da je vseeno isti interface class le da je narejeno z vektorji; tako se res dobi le primerjava en array ali vektor vektorjev}
+\label{fig:classic_old}
+\end{figure}
+
+\section{Recursive Algorithm}
+
+Matrix multiplication can also be implemented with a divide and conquer approach\cite{Cormen2009}. We divide the matrices from the multiplication $C=AB$ into four blocks
 %%
 \begin{align*}
 \begin{bmatrix}
 C_{1,1} & C_{1,2} \\
-C_{2,1} & C_{2,2} \\
+C_{2,1} & C_{2,2}
 \end{bmatrix}
 =
 \begin{bmatrix}
 A_{1,1} & A_{1,2} \\
-A_{2,1} & A_{2,2} \\
+A_{2,1} & A_{2,2}
 \end{bmatrix}
 \begin{bmatrix}
 B_{1,1} & B_{1,2} \\
-B_{2,1} & B_{2,2} \\
+B_{2,1} & B_{2,2}
 \end{bmatrix}
+_{\text{.}}
+%.
 \end{align*}
+
 Each block can be computed as follows.
 \begin{align*}
 C_{1,1} &= A_{1,1}B_{1,1} + A_{1,2}B_{2,1} \\
@@ -241,24 +264,18 @@ C_{2,2} &= A_{1,2}B_{1,2} + A_{2,2}B_{2,2}
 %% TODO tu velja omeniti, da se produkti blocnih podmatrik spet racunajo z istim algoritmom do dolocene meje (to je pa ze)
 %% TODO blocni algoritem tu se ni razlozen ali je korektno da se ga omeni na tak nacin?
 
-Not only can the subproblems be solved by multiple threads, if we stop the recursion early and use the classic algorithm on the smaller blocks, we get the benefits of the block algorithm (each block now fits in cache), while the implementation is still relatively simple because of recursion.
+Each recursive step reduces the problem size and eventually the matrices are small enough that additional recursive steps are no longer optimal and it is more efficient to use the classic algorithm for such matrices. The minimal size of the matrix for which additional recursive steps are taken is analogous to the block size in the block algorithm. Additionally, such scheme also enables straightforward parallelization since the subproblems can be computed by multiple threads.
 
-
-%%TODO(*** MOGOCE BI TU VSEENO DALA GRAF TE PRIMERJAVE (classic in rec)
-
-Since we are using the classical algorithm in the final stages of recursion, we can also try transposing the matrix first as in section \ref{classic_transposed}. In Figure \ref{fig:recursive} we compare these two versions. The blocks now fit in cache and the gains from memory access patterns withing blocks are not as significant. 
-
-
-(TODO premakni in popravi).This can be also written in the form of $C = A \times X$ where
-$X$ represents transposed matrix $B$. 
+Since we use the classic algorithm in the final stages of recursion, we can also try transposing the matrix first as in section \ref{classic_transposed}. 
+This can be also written in the form of $C = A \times X$ where $X$ represents transposed matrix $B$ and $\times$ corresponding transposed product. 
 At this point we write block partition in different style to avoid confusion with untransposed version of algorithm. 
-So we can partition as
+So we can partition matrices $A$ and $X$ on blocks as
 \begin{align*}
 A = 
 \begin{bmatrix}
 A_{1} & A_{2} \\
 B_{1} & B_{2}
-\end{bmatrix}
+\end{bmatrix},
 \quad
 X = 
 \begin{bmatrix}
@@ -266,24 +283,26 @@ X_{1} & X_{2} \\
 Y_{1} & Y_{2}
 \end{bmatrix}
 \end{align*}
-And the resulting matrix $C$ can be computed as:
+and the resulting matrix $C$ can be computed as
 \begin{align*}
 C_{1,1} &= A_{1} \times X_{1} + A_{2}  \times X_{2} \\
 C_{1,2} &= A_{1} \times Y_{1} + A_{2}  \times Y_{2} \\
 C_{2,1} &= B_{1} \times X_{1} + B_{2}  \times X_{2} \\
-C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}
+C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}.
 \end{align*}
+In Figure \ref{fig:recursive} we compare these two versions. The blocks now fit in cache and the gains from memory access patterns withing blocks are not as significant as in the completely classical approach.
 
-\subsection{Implementation details} 
-It is important to note that recursion in this algorithm is only used for control flow. No matrices are copied or created in the recursive step as all operations happen in-place. 
 
-To select the point where we switch from recursive to classic multiplication we parametrized the switch point and ran scripted tests to find the optimal block size. This number was different across computers. The computer we used for testing performed best if the switch to iterative algorithm happened for blocks smaller than $22$ in any dimension.
+\subsection{Implementation Details} 
+It is important to note that recursion in this algorithm is only used to control the flow of computation. No matrices are copied or created in the recursive step as all operations happen in-place. 
+
+To select the point where the algorithm switches from recursive to classic multiplication we parametrized the switch point and ran scripted tests to find the optimal block size. This number was different across computers. The computer we used for testing performed best if the switch to classic algorithm happened for blocks smaller than $22$ in any dimension.
 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{img/recursive.pdf}
-\caption{Recursive vs Recursive transposed}
+\caption{Running-time comparison of recrusive multiplication algorithms: without (\textsf{recursive}) and with (\textsf{recursiveT}) transposition.}
 \label{fig:recursive}
 \end{figure}
 
@@ -292,11 +311,10 @@ To select the point where we switch from recursive to classic multiplication we 
 
 %%\subsection{Numerical stability}
 
-\section{Strassen algorithm}
+\section{Strassen Algorithm}
 
-Strassen algorithm can be derived from recursive algorithm. 
-Strassen matrix multiplication method is only an additional idea on top of recursive algorithm.
-The idea is to get the block matrices of matrix $C$ with less multiplications then in recursive algorithm. 
+The Strassen algorithm can be derived from the recursive algorithm, as it is only an additional idea on the top of the recursive algorithm.
+The idea is to get the block matrices of matrix $C$ with less block products then in the recursive algorithm i.e., less than 8.
 
 %%\subsection{Numerical stability}
 % \begin{align*}
@@ -346,30 +364,36 @@ C_{2,1} &= M_{2} + M_{4} \\
 C_{2,2} &= M_{1} - M_{2} + M_{3} + M_{6}
 \end{align*}
 %%
-Which (TODO ang. yealds) as the same reconsult as with recursive algorithm.
-(TODO: mogoce But..)
-In recursive algorithm we need $8$ multiplication of submatrices of $A$ and $B$ but in Strassen algorithm we need only $7$ multiplications of submatrices of the same size. (TODO This can drastically improve the theoretical time complexity of algorithm.) Recursive algorithm requires $4$ matrix additions and $8$ matrix multiplications. Strassen requires $12$ matrix additions, $6$ matrix subtractions and $7$ matrix multiplications. TODO(asymptotically time complexity)
-(TODO mogoce to raje tu This can drastically improve the theoretical time complexity of algorithm.)
-(TODO Because addition and subtraction requires $O(n^{2})$ time and multiplication with classic algorithm $O(n^{3})$. 
+Which yields the same result as the recursive algorithm.
+In recursive algorithm we need $8$ multiplication of submatrices of $A$ and $B$ but in the Strassen algorithm we need only $7$ multiplications of submatrices of the same size. Additionally, recursive algorithm requires $4$ matrix additions and Strassen requires $12$ matrix additions, and $6$ matrix subtractions. Since multiplication is asymptotically harder than summation or subtraction this drastically improves the theoretical time complexity of the strassen algorithm. Strassen showed that his method has time complexity
+$\Theta(n^{\log_{2}(7)})$ or $\textrm{O}(n^{2.8074})$ \cite{Pan1978a}. 
+% (VIR: Matrix Multiplication, Trilinear Decompositions,
+% APA Algorithms, and Summation
+% Victor Y. Pan)
 
-Multiplication is asymptotically harder then summation or subtraction. 
-They can be compared to reading input data but the multiplication is more time consuming)
+%%Which yields the same result as the recursive algorithm.
+%%In recursive algorithm we need $8$ multiplication of submatrices of $A$ and $B$ but in Strassen algorithm we need only $7$ multiplications of submatrices of the same size.Recursive algorithm requires $4$ matrix additions and $8$ matrix multiplications. Strassen requires $12$ matrix additions, $6$ matrix subtractions and $7$ matrix multiplications. TODO(asymptotically time complexity)
+%%(TODO mogoce to raje tu This can drastically improve the theoretical time complexity of algorithm.)
+%%(TODO Because addition and subtraction requires $O(n^{2})$ time and multiplication with classic algorithm $O(n^{3})$. 
+
+%%Multiplication is asymptotically harder then summation or subtraction. 
+%%They can be compared to reading input data but the multiplication is more time consuming)
 
 
-TODO: Strassen time complexitiy: 
-$O(n^{\log_{2}(7)})$
+%%TODO: Strassen time complexitiy: 
+%%$O(n^{\log_{2}(7)})$
 %% 2.807354922057604107441969317231830808641026625966140783677...
-$O(2.8074)$
-(VIR: Matrix Multiplication, Trilinear Decompositions,
-APA Algorithms, and Summation
-Victor Y. Pan)
+%%$O(2.8074)$
+%%(VIR: Matrix Multiplication, Trilinear Decompositions,
+%%APA Algorithms, and Summation
+%%Victor Y. Pan)
 
 %%\subsection{Subcubic algorithm}
 
-\section{Transposed Strassen like algorithm}
+\subsection{Transposed Strassen-like Algorithm}
 
-Our implementation of Subcubic algorithm can be derived from recursive transposed algorithm similarly to how strassen algorithm can be derived from the recursive algorithm. 
-Since we did the derivation from recursive transposed algorithm on our own, its blocks are completely different from the one in strassen algorithm. There exists many strassen like algorithms that take the same idea as strassen, but come up with different block organizations. Our goal was to combine the idea of transposing one of the matrices before multiplication with the subcubic nature of strassen.
+Our implementation of a subcubic algorithm can be derived from recursive transposed algorithm similarly to how the Strassen algorithm can be derived from the recursive algorithm. 
+Since we did the derivation from recursive transposed algorithm on our own, its blocks are different from the ones in the Strassen algorithm. There exists many Strassen-like algorithms that take the same idea as the Strassen algorithm, but come up with different block organizations. Our goal was to combine the idea of transposing one of the matrices before multiplication with the subcubic nature of Strassen algorithm.
 
 % \begin{align*}
 % C = A \times X
@@ -396,14 +420,14 @@ Since we did the derivation from recursive transposed algorithm on our own, its 
 % C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}
 % \end{align*}
 
-So for the transposed recursive multiplication $C = A \times X$ we can define sub-metrices of $C$ as
+For the transposed recursive multiplication $C = A \times X$ we can define submatrices of $C$ as
 \begin{align*}
 C_{1,1} &= M_{4} + M_{5}\\
 C_{1,2} &= M_{2} - M_{6} + M_{3} - M_{5} \\
 C_{2,1} &= M_{1} - M_{4} - M_{3} - M_{7} \\
 C_{2,2} &= M_{6} + M_{7}
 \end{align*}
-where auxiliary matrices $M$ are defined as
+where auxiliary matrices $M_{i}$, where $i \leq 7$, are defined as
 \begin{align*}
 M_{1} &= (A_{1} + B_{1}) \times (X_{1} + Y_{1}) \\
 M_{2} &= (A_{2} + B_{2}) \times (X_{2} + Y_{2}) \\
@@ -413,55 +437,23 @@ M_{5} &= (A_{2} + A_{1}) \times X_{2} \\
 M_{6} &= B_{2} \times (Y_{2} - Y_{1}) \\
 M_{7} &= (B_{1} + B_{2}) \times Y_{1}
 \end{align*}
-TODO
-As with recursive algorithm the time gain is minimal. 
-But one should take in to consideration that this is so because the block sizes were also optimized (end block sizes minimal 96 TODO: ce je katerakoli dimenzija bloka manjsa od 96 potem se algoritem preklopi na rekurzivnega).
+In Figure \ref{fig:strassen} we compare our implementations of the Strassen algorithm and its recursive counterpart. As with the recursive algorithm the time gain is not significant. This is because the algorithms switch to the recursive algorithm when block size is lower than 96. As before this threshold was determined experimentally. Since small blocks fit in cache, memory access patterns do not affect performance much.
 
-(TODO potrebujeva se sliko za primerjavo strasna navadnega in transponirane verzije)
-
-\section{TODO mogoce vseeno malo o stari implementaciji}
-TODO Bi lahko pokazali stare slike, kjer je vec razlike.
-
-%%\subsection{Numerical stability}
-\section{Experimental Comparison}
-
-\subsection{Implementation}
-We implemented the algorithms in \cpp. We tried to optimize each algorithm as much as possible. Although all our comparisons were performed on square matrices we also tested correctness on non-square matrices. Implementation of our algorithms is available on Github at \texttt{https://github.com/mihic/matrix-article}.
-
-
-
-
-
-\subsection{Boost library}
-TODO
-
-\subsection{Testing environment}
-All our tests were run on a computer with 16 GBs of RAM on Intels Core i7-6700HQ running at 3.1GHz. All the compared algorithms used a single thread of execution and calculated a product of two $n \times n$ random matrices. 
-
-
-%%TODO: govor o vplivu cache na vse skupi
-
-\subsection{Results}
-
-In Figure \ref{fig:all_algorithms} we compare the faster versions of all described algorithms. As expected transposed iterative algorithm is slowest, followed by transposed recursive and uBLAS. Since uBLAS uses a block algorithm we can confirm our prediction, that recursive algorithm should behave similarly to a block algorithm. The best algorithm in this comparison is modified strassen. Although this was expected for large $n$, these results show that modified strassen is faster even for smaller $n$. From this we can conclude that the strassen like method does not have a significant constant hindering its performance for smaller $n$. This would suggest that this method could be implemented even in general purpose libraries with little downsides.
-%% TODO a je to res pravilno da se tako napise? Kaj je misljeno z little downsides? Pa se to midva sva tako nastimala z preklopom algoritmov da bo Strassen nujno hitrejsi. Ko pri neki konstanti menja na rekurzivnega. Nekaj o tem morava napisati, kje in kako pa je treba razmisliti?
-%% Mogoce bi tu vseeno dala se en enak graf le do 1000?? Lahko se tudi z besedami stevilcno navede nekaj rezultatov (ki se jih sicer da razbrati z grafa)
-%% Sem pogledal v program konstanta za preklop iz strassna na rekurzivnega je 96
-%% Pogoj izgleda takole:
-% if(std::min({aD, bD, cD})<96){
-%         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
-% }
+% But one should take in to consideration that this is so because the block sizes were also optimized (end block sizes minimal 96 TODO: ce je katerakoli dimenzija bloka manjsa od 96 potem se algoritem preklopi na rekurzivnega).
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.48\textwidth]{img/all_5000.pdf}
-\caption{Comparison of all algorithms}
-\label{fig:all_algorithms}
+\includegraphics[width=0.48\textwidth]{img/strassen.pdf}
+\caption{Running-time comparison of Strassen multiplication algorithms: without (\textsf{strassen}) and with (\textsf{strassenT}) transposition.}
+\label{fig:strassen}
 \end{figure}
 
 
-\subsection{Numerical stability}
+
+
+\section{Numerical Stability}
 (TODO na tem mestu mogoce vseeno vsaj nekaj komentarja o numericni stabilnosti, mi smo namrec algoritem testirali za realna stevila zato je to vprasanje relavantno, ce bi testirali za int to ne bi bilo tako pomembno, bi pa tam pri nekaterih algoritmih lahko prislo do overflow-a, ki pa ne bi bil problematicen ce racunamo po modulu)
+
 %%TODO
 %%TODO to je treba se dobro premisliti kako lepo napisati, celo to poglavje
 %%Numerical stability of this kind of matrix multiplication can be compared to numerical stability of scalar product of 2 vectors. 
@@ -477,46 +469,95 @@ In Figure \ref{fig:all_algorithms} we compare the faster versions of all describ
 % $((x_{1}+x_{2})+x_{3})+x_{4}$ is not equal to $(x_{1}+x_{2})+(x_{3}+x_{4})$ 
 % for the positive number of the same order the second is more numerically stable.
 
-\section{Conclusion}
+\section{Experimental Comparison}
+
+\subsection{Implementation}
+We implemented the algorithms in \cpp. We tried to optimize each algorithm as much as possible. Although all our comparisons were performed on square matrices we also tested correctness on non-square matrices. Implementation of our algorithms is available on Github at \texttt{https://github.com/mihic/matrix-article}.
+
+
+\subsection{uBlas Library}
+In order to compare our implementations with an existing state-of-the-art implementations we chose uBLAS, the implementation of matrix multiplication from the Boost library in the C++ programming language. We chose it for its ease of use and simplicity. Other libraries such as Eigen \cite{eigen} or Intel Math Kernel Library \cite{mkl} are vigorously optimized in order to be able to use multiple cores and advanced vector instructions of modern processors. We chose uBlas since our goal was to compare generic optimization techniques, not specific to particular processor architecture.
+
+We used the \texttt{block\_prod} function from \texttt{boost::numeric::ublas} with a block size of $32$. As before we determined the optimal block size experimentally.
+
+%%TODO zastavice:
+%% -DNDEBUG
+%% -DBOOST UBLAS NDEBUG
+
+\subsection{Testing Environment}
+All our tests were run on a computer with 16 GBs of RAM on Intel's Core i7-6700HQ locked to 3.1GHz. The operating system was Arch Linux using kernel version 4.13. We used \textit{gcc} version \texttt{7.2.0}, with the following compilation flags: \texttt{-O3 -march=native -DNDEBUG -DBOOST\_UBLAS\_NDEBUG}. \texttt{O3} and \texttt{march=native} flags enable compiler optimizations. The other two flags disable checking for errors inside the uBlas library. Without those flags the uBLAS library checks the numbers in the calculation and warns the user if it finds that the computation is loosing too much precision. The flags disable this overhead and significantly improve the performance of uBLAS. 
+
+ All the compared algorithms used a single thread of execution and calculated a product of two $n \times n$ randomly generated matrices. 
+
+
+%%TODO: govor o vplivu cache na vse skupi
+
+\subsection{Results and Conclusion}
+
+In Figure \ref{fig:all_algorithms} we compare the faster versions of all described algorithms. As expected transposed classic algorithm is slowest, followed by transposed recursive and uBLAS. Since uBLAS uses a block algorithm we can confirm our prediction, that recursive algorithm should behave similarly to a block algorithm. The best algorithm in this comparison is modified strassen. 
+%%(TODO: Brez expected ker sva preklop 96 nastimala tako da sva vedela da bo bolje; to se lahko tudi omeni? Pisalo bi nekaj takega: These results show that modified strassen is notably [?? a je to ok] faster even for smaller $n$.)
+Although this was expected for large $n$, these results show that the transposed Strassen algorithm is faster even for smaller $n$. From this we can conclude that the Strassen-like algorithm does not have a significant constant hindering its performance for practically sized matrices. This would suggest that this method could be implemented even in general purpose libraries with little downsides.
+%% TODO a je to res pravilno da se tako napise? Kaj je misljeno z little downsides? Pa se to midva sva tako nastimala z preklopom algoritmov da bo Strassen nujno hitrejsi. Ko pri neki konstanti menja na rekurzivnega. Nekaj o tem morava napisati, kje in kako pa je treba razmisliti?
+%% Mogoce bi tu vseeno dala se en enak graf le do 1000?? Lahko se tudi z besedami stevilcno navede nekaj rezultatov (ki se jih sicer da razbrati z grafa)
+%% Sem pogledal v program konstanta za preklop iz strassna na rekurzivnega je 96
+%% Pogoj izgleda takole:
+% if(std::min({aD, bD, cD})<96){
+%         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
+% }
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.48\textwidth]{img/all_5000.pdf}
+\caption{Running-time comparison of the faster version of discussed algorithms, including the uBLAS library for comparison.}
+\label{fig:all_algorithms}
+\end{figure}
 
 
 
-\section{VIRI: ko bo kazalo damo kazalo}
 
-(VIR: Matrix Multiplication, Trilinear Decompositions,
-APA Algorithms, and Summation
-Victor Y. Pan)
 
-(SKLIC: V. Strassen, Gaussian Elimination Is Not Optimal. Numerische Math., 13, 354–356,
-1969.)
 
-(SKLIC: V.Y. Pan, Strassen’s Algorithm Is Not Optimal. Trilinear Technique of Aggregating for
-Fast Matrix Multiplication. Proc. the 19th Annual IEEE Symposium on Foundations of
-Computer Science (FOCS’78), 166–176, IEEE Computer Society Press, Long Beach,
-California, 1978.)
 
-(SKLIC: D. Bini, M. Capovani, G. Lotti, F. Romani, O(n 2.7799 ) Complexity for n × n Ap-
-proximate Matrix Multiplication. Information Processing Letters, 8, 5, 234–235, June
-1979.)
+% \section{VIRI: ko bo kazalo damo kazalo}
 
-(SKLIC: A. Schönhage, V. Strassen, Schnelle Multiplikation großer Zahlen. Computing, 7, 3–4,
-281–292, 1971)
+% (VIR: Matrix Multiplication, Trilinear Decompositions,
+% APA Algorithms, and Summation
+% Victor Y. Pan)
 
-(SKLIC: F. Romani, Some Properties of Disjoint Sum of Tensors Related to MM. SIAM J. on
-Computing, 11, 2, 263–267, 1982.)
+% (SKLIC: V. Strassen, Gaussian Elimination Is Not Optimal. Numerische Math., 13, 354–356,
+% 1969.)
 
-(SKLIC: D. Coppersmith, S. Winograd, On the Asymptotic Complexity of Matrix Multipli-
-cation. SIAM J. on Computing, 11, 3, 472–492, 1982. Proc. version in 23rd FOCS
-(Nashville, TN), 82–90, IEEE Computer Society Press, 1981.)
+% (SKLIC: V.Y. Pan, Strassen’s Algorithm Is Not Optimal. Trilinear Technique of Aggregating for
+% Fast Matrix Multiplication. Proc. the 19th Annual IEEE Symposium on Foundations of
+% Computer Science (FOCS’78), 166–176, IEEE Computer Society Press, Long Beach,
+% California, 1978.)
 
-(SKLIC: A.M. Davie, A.J. Stothers, Improved Bound for Complexity of Matrix Multiplication.
-Proceedings of the Royal Society of Edinburgh, 143A, 351–370, 2013.)
+% (SKLIC: D. Bini, M. Capovani, G. Lotti, F. Romani, O(n 2.7799 ) Complexity for n × n Ap-
+% proximate Matrix Multiplication. Information Processing Letters, 8, 5, 234–235, June
+% 1979.)
 
-(SKLIC: V. Vassilevska Williams, Multiplying Matrices Faster than Coppersmith–Winograd.
-Version available at http://theory.stanford.edu/virgi/matrixmult-f.pdf, retrieved on
-January 30, 2014. Also see Proc. 44th Annual ACM Symposium on Theory of Com-
-puting (STOC 2012), 887–898, ACM Press, New York, 2012.)
+% (SKLIC: A. Schönhage, V. Strassen, Schnelle Multiplikation großer Zahlen. Computing, 7, 3–4,
+% 281–292, 1971)
 
+% (SKLIC: F. Romani, Some Properties of Disjoint Sum of Tensors Related to MM. SIAM J. on
+% Computing, 11, 2, 263–267, 1982.)
+
+% (SKLIC: D. Coppersmith, S. Winograd, On the Asymptotic Complexity of Matrix Multipli-
+% cation. SIAM J. on Computing, 11, 3, 472–492, 1982. Proc. version in 23rd FOCS
+% (Nashville, TN), 82–90, IEEE Computer Society Press, 1981.)
+
+% (SKLIC: A.M. Davie, A.J. Stothers, Improved Bound for Complexity of Matrix Multiplication.
+% Proceedings of the Royal Society of Edinburgh, 143A, 351–370, 2013.)
+
+% (SKLIC: V. Vassilevska Williams, Multiplying Matrices Faster than Coppersmith–Winograd.
+% Version available at http://theory.stanford.edu/virgi/matrixmult-f.pdf, retrieved on
+% January 30, 2014. Also see Proc. 44th Annual ACM Symposium on Theory of Com-
+% puting (STOC 2012), 887–898, ACM Press, New York, 2012.)
+
+
+
+\bibliographystyle{plain}
+\bibliography{viri}
 
 \end{document}
 
@@ -777,4 +818,3 @@ Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxe
 models, halting probability, graph algorithms, and computational complexity.
 
 \balance
-
