@@ -25,11 +25,11 @@ Tmat RandomMatrix(int m, int n) {
 }
 
 boost::numeric::ublas::matrix<double> TmatToBlas(Tmat mat) {
-  int m1 = mat.n;
-  int n1 = mat.m;
-  boost::numeric::ublas::matrix<double> bmat(m1, n1);
-  for (int i = 0; i < m1; i += 1) {
-    for (int j = 0; j < n1; j += 1) {
+  int m = mat.m;
+  int n = mat.n;
+  boost::numeric::ublas::matrix<double> bmat(m, n);
+  for (int i = 0; i < m; i += 1) {
+    for (int j = 0; j < n; j += 1) {
       bmat(i, j) = mat(i,j);
     }
   }
@@ -53,6 +53,34 @@ static map<string, Method> methodMap{
     {"strassen",             STRASSEN},
     {"blas",                 BLAS}
 };
+
+Tmat BlasAlg(Tmat mat1, Tmat mat2) {
+    int m = mat1.m;
+    int n = mat2.n;
+    Tmat mat(m, n);
+    auto bm1 = TmatToBlas(mat1);
+    auto bm2 = TmatToBlas(mat2);
+    /*
+    cout << "1q = " << mat1.m << '\n';
+    cout << "2q = " << mat1.n << '\n';
+    cout << "3q = " << mat2.m << '\n';
+    cout << "4q = " << mat2.n << '\n';
+    cout << "5q = " << bm1.size1() << '\n';
+    cout << "6q = " << bm1.size2() << '\n';
+    cout << "7q = " << bm2.size1() << '\n';
+    cout << "8q = " << bm2.size2() << '\n';
+    */
+    auto bm3 = MultiplicationBlas(bm1, bm2);
+    
+    for (int i = 0; i < m; i += 1) {
+        for (int j = 0; j < n; j += 1) {
+            // spremeni double v float!!!
+            mat(i, j) = bm3(i, j);
+        }
+    }
+    
+    return mat;
+}
 
 int main(int ac, const char **av) {
   int a, b, c;
@@ -166,7 +194,8 @@ int main(int ac, const char **av) {
       break;
     case STRASSEN: f = MultiplicationStrassen;
       break;
-    case BLAS :bm1 = TmatToBlas(m1);
+    case BLAS:
+      bm1 = TmatToBlas(m1);
       bm2 = TmatToBlas(m2);
   }
 
@@ -186,6 +215,12 @@ int main(int ac, const char **av) {
     }
     return 0;
   }
+  
+  if (max_time == -42) {
+        cout << "Najvecje odstopanje: "  << TestNumerics(f, BlasAlg, a, b, c) << std::endl;
+    return 0;
+  }
+
 
   if (max_time == 1) {
     //placeholder for testing

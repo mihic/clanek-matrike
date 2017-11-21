@@ -190,6 +190,11 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)>, int, int, int);
 
 bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)>);
 
+double TestNumerics(
+        std::function<Tmat(Tmat &, Tmat &)> TestAlg,
+        std::function<Tmat(Tmat &, Tmat &)> BlasAlg,
+        int a, int b, int c);
+
 void PrintMatrix(Tmat &mat);
 
 Tmat RandomMatrix(int, int);

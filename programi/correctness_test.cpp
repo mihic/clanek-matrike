@@ -75,6 +75,21 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
   return mat;
 }
 
+double InfDistance(Tmat mat1, Tmat mat2) {
+    int m = mat1.m;
+    int n = mat1.n;
+    Tmat mat = MatrixDiference(mat1, mat2);
+    double maxAbs = 0;
+    for (int i = 0; i < m; i += 1) {
+        for (int j = 0; j < n; j += 1) {
+            if (std::abs(mat(i, j)) > maxAbs) {
+                maxAbs = std::abs(mat(i, j));
+            }
+        }
+    }
+    return maxAbs;
+}
+
 bool ZeroMatrix(Tmat mat) {
   int m = mat.m;
   int n = mat.n;
@@ -88,6 +103,26 @@ bool ZeroMatrix(Tmat mat) {
     }
   }
   return true;
+}
+
+double TestNumerics(
+        std::function<Tmat(Tmat &, Tmat &)> TestAlg,
+        std::function<Tmat(Tmat &, Tmat &)> BlasAlg,
+        int a, int b, int c) {
+        
+    Tmat mat1 = RandomMatrix(a,b);
+    Tmat mat2 = RandomMatrix(b,c);
+    Tmat mat3 = TestAlg(mat1, mat2);
+    Tmat mat4 = BlasAlg(mat1, mat2);
+    
+    /*
+    PrintMatrix(mat1);
+    PrintMatrix(mat2);
+    PrintMatrix(mat3);
+    PrintMatrix(mat4);
+    */
+    
+    return InfDistance(mat3, mat4);
 }
 
 bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
