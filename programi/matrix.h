@@ -9,18 +9,18 @@ using namespace std;
 
 class Tmat {
  private:
-  std::unique_ptr<double[]> mat;
+  std::unique_ptr<float[]> mat;
  public:
   int m;
   int n;
 
   //constructor
-  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]()) {
+  Tmat(int a, int b) : m(a), n(b), mat(new float[a * b]()) {
   }
 
   //copy constructor
   Tmat(const Tmat& other) : m(other.m), n(other.n),
-                            mat(new double[other.n * other.m]) {
+                            mat(new float[other.n * other.m]) {
     std::copy_n(other.mat.get(),m*n,mat.get());
   }
 
@@ -29,7 +29,7 @@ class Tmat {
     if (&other == this) return *this;
     m = other.m;
     n = other.n;
-    mat.reset(new double[m*n]);
+    mat.reset(new float[m*n]);
     std::copy_n(other.mat.get(),m*n,mat.get());
     return *this;
   }
@@ -48,28 +48,28 @@ class Tmat {
   }
 
 
-  inline double operator()(int a, int b) const {
+  inline float operator()(int a, int b) const {
     return mat.get()[n * a + b];
   }
-  inline double &operator()(int a, int b) {
+  inline float &operator()(int a, int b) {
     return mat.get()[n * a + b];
   }
 };
 
 //class Tmat {
 // private:
-//  double* mat;
+//  float* mat;
 // public:
 //  int m;
 //  int n;
 //
 //  //constructor
-//  Tmat(int a, int b) : m(a), n(b), mat(new double[a * b]()) {
+//  Tmat(int a, int b) : m(a), n(b), mat(new float[a * b]()) {
 //  }
 //
 //  //copy constructor
 //  Tmat(const Tmat& other) : m(other.m), n(other.n),
-//                            mat(new double[other.n * other.m]) {
+//                            mat(new float[other.n * other.m]) {
 //    std::copy_n(other.mat,m*n,mat);
 //  }
 //
@@ -79,8 +79,8 @@ class Tmat {
 //    m = other.m;
 //    n = other.n;
 //    delete[] mat;
-//    mat = new double[n * m];
-//    std::memcpy(mat, other.mat, sizeof(double) * n * m);
+//    mat = new float[n * m];
+//    std::memcpy(mat, other.mat, sizeof(float) * n * m);
 //    return *this;
 //  }
 //
@@ -104,10 +104,10 @@ class Tmat {
 //    delete[] mat;
 //  }
 //
-//  inline double operator()(int a, int b) const {
+//  inline float operator()(int a, int b) const {
 //    return mat[n * a + b];
 //  }
-//  inline double &operator()(int a, int b) {
+//  inline float &operator()(int a, int b) {
 //    return mat[n * a + b];
 //  }
 //};
@@ -116,15 +116,15 @@ class Tmat {
 
 //class Tmat {
 // private:
-//  std::vector<std::vector<double>> mat;
+//  std::vector<std::vector<float>> mat;
 // public:
 //  int m;
 //  int n;
 //  Tmat(int a, int b) {
 //    m = a;
 //    n = b;
-//    std::vector<double> nicelni(n, 0.0);
-//    std::vector<std::vector<double>> matX(m, nicelni);
+//    std::vector<float> nicelni(n, 0.0);
+//    std::vector<std::vector<float>> matX(m, nicelni);
 //    mat = matX;
 //  }
 //
@@ -132,10 +132,10 @@ class Tmat {
 //
 //  }
 //
-//  inline double operator()(int a, int b) const {
+//  inline float operator()(int a, int b) const {
 //    return mat.at(a).at(b);
 //  }
-//  inline double &operator()(int a, int b) {
+//  inline float &operator()(int a, int b) {
 //    return mat.at(a).at(b);
 //  }
 //};

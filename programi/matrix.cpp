@@ -47,7 +47,7 @@ void MultiplicationClassicPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 
     for (int i = a1; i<a2; i+=1){
         for (int j = c1; j<c2; j+=1){
-            double s = 0;
+            float s = 0;
             for (int k = b1; k<b2; k+=1){
                     s+=mat1(i,k)*mat2(k,j);
             }
@@ -65,7 +65,7 @@ void MultiplicationClassicTransposedPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
     //mat2 is transposed
     for (int i = a1; i<a2; i+=1){
         for (int j = c1; j<c2; j+=1){
-            double s = 0;
+            float s = 0;
             for (int k = b1; k<b2; k+=1){
                     s+=mat1(i,k)*mat2(j,k);
             }
@@ -88,7 +88,7 @@ void MultiplicationClassicTransposedPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
 //}
 //
 //Tmat newMat(int a, int b){
-//    std::vector<double> nicelni(a, 0.0);
+//    std::vector<float> nicelni(a, 0.0);
 //    Tmat mat(b, nicelni);
 //    return mat;
 //}

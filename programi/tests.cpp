@@ -11,7 +11,7 @@
 
 namespace po = boost::program_options;
 using namespace std;
-std::uniform_real_distribution<double> urd;
+std::uniform_real_distribution<float> urd;
 std::default_random_engine re;
 
 Tmat RandomMatrix(int m, int n) {
@@ -144,7 +144,7 @@ int main(int ac, const char **av) {
   }
 
   //Execute the tests
-  urd = std::uniform_real_distribution<double>(0, 1);
+  urd = std::uniform_real_distribution<float>(0, 1);
   re = std::default_random_engine(seed);
   Tmat m1 = RandomMatrix(a, b);
   Tmat m2 = RandomMatrix(b, c);
@@ -192,7 +192,7 @@ int main(int ac, const char **av) {
     int n = 512;
     Tmat mat1(n, n);
     Tmat mat2(n, n);
-    double konst = 100000000.000002;
+    float konst = 100000000.000002;
     for (int i = 0; i < n; i += 1) {
       for (int j = 0; j < n; j += 1) {
         mat1(i,j) = konst;

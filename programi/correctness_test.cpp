@@ -78,7 +78,7 @@ Tmat MatrixDiference(Tmat mat1, Tmat mat2) {
 bool ZeroMatrix(Tmat mat) {
   int m = mat.m;
   int n = mat.n;
-  double eps = 0.000000001;
+  float eps = 0.000000001;
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
       if (mat(i,j) > eps) {
@@ -91,7 +91,7 @@ bool ZeroMatrix(Tmat mat) {
 }
 
 bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
-  double eps = 0.001;
+  float eps = 0.001;
   bool correct = true;
   std::cout << "Testing correctess of algorithm." << std::endl;
   std::cout << "For matrix of size: a = " << a << " b = " << b << " c = " << c << std::endl;
