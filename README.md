@@ -13,7 +13,7 @@ This code can be used by people who need matrix multiplication in their project.
 
 ## Contributing
 
-You can contribute to this project by adding additional algorithm for matrix multiplication. We will test the correctness and compare speed of your algorithm. Normally we will also and include it in our project.
+You can contribute to this project by adding additional algorithm for matrix multiplication. We will test the correctness and compare speed of your algorithm. Normally we will also include it in our project.
 
 ## Credits
 * Miha Eleršič: article, initial work
