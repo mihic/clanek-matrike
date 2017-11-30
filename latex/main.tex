@@ -77,22 +77,16 @@
 
 \begingroup
 \renewcommand\thefootnote{}
-\footnotetext{TODO : Manuscript received Nov, 2016.}
-\footnotetext{TODO This work was partially supported by the Slovenian Research Agency and the projects "P2-0095 Parallel and distributed systems" and "N2-0053 Graph Optimisation and Big Data".}
-\footnotetext{TODO The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: jurij.mihelic@fri.uni-lj.si).}
+\footnotetext{Manuscript received Nov, 2017.}
+\footnotetext{The authors are with the Faculty of Computer and Information Science, University of Ljubljana, Slovenia (e-mail: mitja.rozman@student.fmf.uni-lj.si).}
 \endgroup
 
-\begin{abstract} %
-TODO
-In this paper we make an overview of practical matrix multiplication algorithms.
-We explain and implement the standard algorithms and implement a new algorithm based on the original Strassen algorithm \cite{Strassen1969}.
-We compare our implementation with algorithms from the standard library uBLAS. Additionally we show that divide and conquer algorithms are more numerically stable compared to other algorithms.
+\begin{abstract}
+In this paper we present and experimentally evaluate the performance of several practical algorithms for the matrix multiplication problem. We explain and implement classical algorithms, recursive algorithms as well as the Strassen algorithm. Additionally, we also present and evaluate several code tuning techniques. Our comparison includes our implementations of the algorithms as well as the algorithms from the uBLAS standard library. Finally, we also examine numerical stability of the algorithms.
 \end{abstract}
 \vspace{0.5cm}
 \begin{spacing}{0.9}
-\small\textbf{Index Terms}:  \textbf{\textit {matrix multiplication, algorithmics, Strassen, experiments, performance}}
-%%TODO
-%%\small\textbf{Index Terms}: \textbf{\textit{matrix multiplication, recursive matrix multiplication, block matrix multiplication, strassen matrix multiplication, blas matrix multiplication, C++}}
+\small\textbf{Index Terms}:  \textbf{\textit {matrix multiplication, algorithm, Strassen, experiment, performance}}
 \end{spacing}
 
 %\tableofcontents
@@ -108,12 +102,12 @@ We compare our implementation with algorithms from the standard library uBLAS. A
 %% mogoce so zato vseeno razogi za vizualno razlocevanje
 
 \lettrine{M}{atrix} multiplication 
-%%problem
+%problem
 %%(TODO jaz nasprotujem uporabi problem na tem mestu, saj je potem one of the basic operations.. pa se mi zdi, da se to med seboj tepe)
 is one of the basic operations used in many different fields such 
 as machine learning, engineering and physics simulations.
 %% TODO bolj konkretno
-This makes implementing efficient and numerically stable algorithms for the problem important. 
+This makes implementing efficient and numerically stable algorithms for the operation important. 
 In this article we compare different methods of matrix multiplication and their implementations. 
 %% TODO ponovi se ideja 
 The main goal is to compare execution time of matrix multiplication algorithms when the size of the matrix grows.
@@ -128,8 +122,8 @@ $A$ and $B$ resulting in matrix $C=A \cdot B$. Each entry in the new matrix is d
 \begin{align*}
 c_{i,j} = \sum_{k=1}^{n} a_{i,k} b_{k,j}.
 \end{align*}
-For matrix $A$ of size $m \times n$ and matrix $B$ of size $n \times k$ we can therefore compute matrix %$C= A \cdot B$ 
-of size $m \times k$.
+For matrix $A$ of size $m \times n$ and matrix $B$ of size $n \times k$ we can therefore compute matrix C of size $m \times k$. %$C= A \cdot B$ 
+
 
 Most known matrix multiplication algorithms are derived directly from this definition and only change the order of addition operations. 
 %% in the given ring. 
@@ -137,7 +131,7 @@ Most known matrix multiplication algorithms are derived directly from this defin
 %%TODO Recursive algorithms have potential for distributed computing.
 %%TODO Block algorithms are usually most optimized for cache.
 Examples of this kind of algorithms are classic and recursive algorithm as well as block matrix multiplication.
-They all have time asymptotic complexity $\Theta(n^3)$ for two square $n \times n$ matrices.
+They all have asymptotic time complexity $\Theta(n^3)$ for two square $n \times n$ matrices.
 
 There also exist algorithms with sub-cubic time complexity. These algorithms are of great theoretical importance but are usually not implemented.
 Authors who worked on this field are Strassen \cite{Strassen1969}, Pan \cite{Pan1978a}, Bini \cite{Bini1979}, Schonhage \cite{Schoenhage1971}, Romani \cite{Romani1982}, Coppersmith \cite{Coppersmith1982}, Winograd \cite{Coppersmith1982}, Stothers \cite{Davie2013}, Williams \cite{Williams}.
@@ -146,7 +140,7 @@ Unfortunately most of the sub-cubic algorithms are very elaborate
 %%to implement 
 and sometimes come with a much larger constant, meaning that even in theory they would not be faster on practically sized matrices.
 This article tries to promote a Strassen-like algorithm, which is
-straightforward to understand and fairly simple to implement
+straightforward to understand and fairly simple to implement. 
 We hope to demonstrate its practical value.
 
 %%\subsection{Existing implementations}
@@ -157,13 +151,18 @@ For comparison evaluation of our results we used uBLAS from the \cpp library boo
 %%https://stackoverflow.com/questions/11066925/good-matrix-libraries
 Possible alternative libraries are Armadilo \cite{armadillo}, Eigen \cite{eigen} and Intel Math Kernel Library \cite{mkl}.
 
+During the course of development of the algorithms presented in this paper we followed the systematic approach to generation of new ideas in research in computing \cite{blagojevic}. Additionally, we also followed the process and methods of the algorithm engineering approach to development of practically efficient algorithms \cite{Muller10} \cite{McGeoch12} \cite{ExpAlgDF}.
+
+In the next section we describe the classical matrix multiplication method. In Section \ref{section:recursive} we describe the divide and conquer approach to matrix multiplication. In section \ref{section:strassen} we describe the Strassen method of matrix multiplication along with our own method similar to the Strassen method. In Section \ref{section:num_stab} we compare the numerical stability of the implemented algorithms. Finally, in Section \ref{section:experim} we compare the performance of our implemented algorithms.
+
 \section{Classical Algorithm}
+\label{section:classic}
 The most basic algorithm for matrix multiplication is derived directly from the definition of matrix multiplication using three for loops.
 In this basic algorithm we iterate thorough the rows of the first matrix and multiply each row with every column of the second matrix. For every row and column we compute the sum of the products of corresponding row and column entires.
 
 \subsection{Transposed Matrix}
 \label{classic_transposed}
-The standard way of representing dense matrices in computer memory are two dimensional arrays. Since the 2D array has to be stored in memory which is one dimensional, it needs to be linearized. This can be done in a row-major order or column-major order\cite{Knuth1997}. The ordering has a significant effect on the algorithm performance, because accessing consecutive elements in memory is faster on modern CPUs because of caching. However classic multiplication accesses one matrix consecutively by rows and the other consecutively by columns. Hence, regardless of the order we choose to store the matrices in, one of the matrices is accessed inefficiently.
+The standard way of representing dense matrices in computer memory are two dimensional arrays. Since the 2D array has to be stored in memory which is one dimensional, it needs to be linearized. This can be done in a row-major order or column-major order \cite{Knuth1997}. The ordering has a significant effect on the algorithm performance, because accessing consecutive elements in memory is faster on modern CPUs because of caching. However classic multiplication accesses one matrix consecutively by rows and the other consecutively by columns. Hence, regardless of the order we choose to store the matrices in, one of the matrices is accessed inefficiently.
 %%TODO kaj takega notri ja ali ne?
 %%We can write X = tr(B) and multiplication vith transposed matrix as C = AB = A \times X
 %%here X is transposed matrix of B and \times is product of..
@@ -172,7 +171,7 @@ The standard way of representing dense matrices in computer memory are two dimen
 Fortunately this can be fixed by transposing one of the matrices before multiplication. The question is, whether the overhead of first transposing one of the matrices is larger than the potential gains of better memory access pattern during multiplication.
 
 In Figure \ref{fig:classic} we compare the performance of Classic algorithm and a version where the second matrix is transposed.
-From the figure we observe that the transposed version is faster. We can conclude that the overhead of transposing the matrix is lower than the speedup resulting from better use of processor cache.
+From the Figure we observe that the transposed version is faster. We can conclude that the overhead of transposing the matrix is lower than the speedup resulting from better use of the processor cache.
 
 \begin{figure}[h]
 \centering
@@ -182,7 +181,7 @@ From the figure we observe that the transposed version is faster. We can conclud
 \end{figure}
 
 We can also observe higher variation in the running times of the non-transposed version. Although the results may look noisy, running more tests revealed the variation is consistent. In Figure \ref{fig:classic_var} we can see the results of running $10$ tests for $10$ consecutive values of $n$. We can see that for each $n$ we get consistent results, but changing $n$ by one can change the results significantly.  
-%%TODO: dodamo se classic_tranposed na figure 2 + bluzenje o tem kako predictor zna al pa ne zna.
+%%TODO: dodamo se classic_tranposed na Figure 2 + bluzenje o tem kako predictor zna al pa ne zna.
 
 \begin{figure}[h]
 \centering
@@ -194,18 +193,18 @@ We can also observe higher variation in the running times of the non-transposed 
 
 \subsection{Implementation with Vectors}
 
+For comparison we also implemented the classic algorithms with a nested vector implementation in \cpp (\verb$vector<vector<double>>$). This implementation allocates each row of the matrix separately, and the outer vector stores only references to the rows. In Figure \ref{fig:classic_old} we can see the same comparison as in Figure \ref{fig:classic}, but using the nested vector data structure. Again the transposed version is faster, but this time the difference is more significant. If we compare the nested vector implementations to the linearized row-major implementations we observe that the untransposed classic multiplication is slower, but the transposed version is not.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{img/classic_old.pdf}
-
-\section{TODO mogoce vseeno malo o stari implementaciji}
-TODO Bi lahko pokazali stare slike, kjer je vec razlike.
-
-\caption{TODO tudi to bi rada imela v barvah mogoce bi celo se enkrat pognala teste za te, da je vseeno isti interface class le da je narejeno z vektorji; tako se res dobi le primerjava en array ali vektor vektorjev}
+\caption{Running-time comparison of classic multiplication algorithms using a nested vector implementation: without (\textsf{vec\_classic}) and with (\textsf{vec\_classicT}) transposition. }
 \label{fig:classic_old}
 \end{figure}
 
+
+
 \section{Recursive Algorithm}
+\label{section:recursive}
 
 Matrix multiplication can also be implemented with a divide and conquer approach\cite{Cormen2009}. We divide the matrices from the multiplication $C=AB$ into four blocks
 %%
@@ -238,7 +237,7 @@ C_{2,2} &= A_{1,2}B_{1,2} + A_{2,2}B_{2,2}
 
 Each recursive step reduces the problem size and eventually the matrices are small enough that additional recursive steps are no longer optimal and it is more efficient to use the classic algorithm for such matrices. The minimal size of the matrix for which additional recursive steps are taken is analogous to the block size in the block algorithm. Additionally, such scheme also enables straightforward parallelization since the subproblems can be computed by multiple threads.
 
-Since we use the classic algorithm in the final stages of recursion, we can also try transposing the matrix first as in section \ref{classic_transposed}. 
+Since we use the classic algorithm in the final stages of recursion, we can also try transposing the matrix first as in Section \ref{classic_transposed}. 
 This can be also written in the form of $C = A \times X$ where $X$ represents transposed matrix $B$ and $\times$ corresponding transposed product. 
 At this point we write block partition in different style to avoid confusion with untransposed version of algorithm. 
 So we can partition matrices $A$ and $X$ on blocks as
@@ -254,15 +253,16 @@ X =
 X_{1} & X_{2} \\
 Y_{1} & Y_{2}
 \end{bmatrix}
+.
 \end{align*}
-and the resulting matrix $C$ can be computed as
+And the resulting matrix $C$ can be computed as
 \begin{align*}
 C_{1,1} &= A_{1} \times X_{1} + A_{2}  \times X_{2} \\
 C_{1,2} &= A_{1} \times Y_{1} + A_{2}  \times Y_{2} \\
 C_{2,1} &= B_{1} \times X_{1} + B_{2}  \times X_{2} \\
 C_{2,2} &= B_{1} \times Y_{1} + B_{2}  \times Y_{2}.
 \end{align*}
-In Figure \ref{fig:recursive} we compare these two versions. The blocks now fit in cache and the gains from memory access patterns withing blocks are not as significant as in the completely classical approach.
+In Figure \ref{fig:recursive} we compare these two versions. The blocks now fit in the cache and the gains from memory access patterns withing blocks are not as significant as in the completely classical approach.
 
 \subsection{Implementation Details} 
 It is important to note that recursion in this algorithm is only used to control the flow of computation. No matrices are copied or created in the recursive step as all operations happen in-place. 
@@ -276,7 +276,10 @@ To select the point where the algorithm switches from recursive to classic multi
 \label{fig:recursive}
 \end{figure}
 
+
+
 \section{Strassen Algorithm}
+\label{section:strassen}
 
 The Strassen algorithm can be derived from the recursive algorithm, as it is only an additional idea on the top of the recursive algorithm.
 The idea is to get the block matrices of matrix $C$ with less block products then in the recursive algorithm i.e., less than 8.
@@ -345,7 +348,7 @@ M_{5} &= (A_{2} + A_{1}) \times X_{2} \\
 M_{6} &= B_{2} \times (Y_{2} - Y_{1}) \\
 M_{7} &= (B_{1} + B_{2}) \times Y_{1}
 \end{align*}
-In Figure \ref{fig:strassen} we compare our implementations of the Strassen algorithm and its recursive counterpart. As with the recursive algorithm the time gain is not significant. This is because the algorithms switch to the recursive algorithm when block size is lower than 96. As before this threshold was determined experimentally. Since small blocks fit in cache, memory access patterns do not affect performance much.
+In Figure \ref{fig:strassen} we compare our implementations of the Strassen algorithm and its recursive counterpart. As with the recursive algorithm the time gain is not significant. This is because the algorithms switch to the recursive algorithm when block size is lower than 96. As before this threshold was determined experimentally. Since small blocks fit in the cache, memory access patterns do not affect performance much.
 
 % But one should take in to consideration that this is so because the block sizes were also optimized (end block sizes minimal 96 TODO: ce je katerakoli dimenzija bloka manjsa od 96 potem se algoritem preklopi na rekurzivnega).
 
@@ -357,65 +360,96 @@ In Figure \ref{fig:strassen} we compare our implementations of the Strassen algo
 \end{figure}
 
 \section{Numerical Stability}
+\label{section:num_stab}
 
-We also compared numerical stability of our implemented algorithms. For this test we changed our algorithms to perform calculations using single precision floating point arithmetic (float). We generated two random matrices and multiplied them. We also multiplied the same matrices using double precision in uBlas. We then rounded the uBlas result back to a float and calculated the difference between our algorithms' results and the uBlas result and took the max norm of the resulting matrix. Here we assume that the result computed with double precision is correct for all the digits representable in single precision floating point numbers. The results in figure \ref{fig:num_stab} show that the recursive algorithm is the most numerically stable algorithm, followed by classic algorithm and the Strassen algorithm. The transposed Strassen algorithm performs the worst in this test.
+We also compared numerical stability of our implemented algorithms. For this test we changed our algorithms to perform calculations using single-precision floating-point arithmetic (float). We generated two random matrices and multiplied them. We also multiplied the same matrices using double-precision in uBLAS. We then rounded the uBLAS result back to a float and calculated the error estimate as follows
+\begin{align*}
+\max_{i,j}|(C_{\text{blas}} - C_{\text{test}})_{i,j}|.
+\end{align*}
+Here we assume that the result computed with double precision is correct for all the digits representable in single precision floating point numbers.
 
-Although the test shown in figure \ref{fig:num_stab} shows values only for one particular pair of random matrices, testing with different random matrices produces similar results.
+The results in Figure \ref{fig:num_stab} show that the recursive algorithm is the most numerically stable algorithm, followed by classic algorithm and the Strassen algorithm. The transposed Strassen algorithm performs the worst in this test. Although the test shown in Figure \ref{fig:num_stab} shows values only for one particular pair of random matrices, testing with different random matrices produces similar results.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.48\textwidth]{img/numerical_stability.pdf}
-\caption{Maximum absolute error comparing single precision computation for a 2000x2000 matrix multiplication with a double precision computation on the same matrix. }
+\caption{Maximum absolute error comparing single-precision computation for a $2000 \times 2000$ matrix multiplication with a double-precision computation on the same matrix. }
 \label{fig:num_stab}
 \end{figure}
 
+%%The Classic algorithm is not perfectly numerically stable because the summation from left to right of $n$ elements in a vector is not perfectly numerically stable.
+The Classic algorithm is not perfectly numerically stable, because 
+adding arbitrary floating point numbers will usually give some rounding error, which will be proportional to the size of the result. 
+%(TODO citat O(n) stabilnost).
+We can accomplish better results by applying some smart and expensive numerically stable algorithm like Kahan summation 
+\cite{Kahan}
+%(TODO citat O(1) stabilnost).
+or using a recursive strategy where we first sum pair-wise elements of the vector and continue the procedure until only one element remains.
+%(TODO citat O(logn) stabilnost).
+%If the beginning elements are of the same magnitude order then also the pairs in this procedure are and so there is not so many digits from one number lost. 
+%We should stress that the best practice for summation of the array of numbers is to always sum the numbers of the same size. This can be accomplished by sorting the array, 
 
-(TODO: premisljen plan dela za numericno stabilnost:
-uporaba float za vsa razlicna mnozenja
-classicT,
-recursiveT,
-strassen,
-strassenMT [mozno ime modified transposed strassen].
-Vse to primerjamo z izracunom iz knjiznice boost z 
-natancnostjo double [pomembno, da se ta poskus izide je, 
-da dejansko na racunalniku kjer se izvaja je razlika med 
-double in float!!!]
-za safe check boosta pa probamo z dvojno natancnostjo tudi ostale metode.
-Poanta pa je vzamemo da je boost z double popolnoma natancen [ceprav v resnici ni] potem pa to primerjamo z nasimi algoritmi, ki uporabljajo float
-se vedno pa bo veljalo, da je boost z dvojno natancnostjo veliko bolj natancen zato...
+The recursive algorithm's way of summation is most similar to recursive summation, however our implementation violates the recursive algorithm scheme by:
+\begin{itemize}
+\item 
+stopping the recursion early and performing the classic multiplication algorithm for sufficiently small blocks and
+\item 
+adding the values from the small blocks calculated with the classical algorithm directly to the corresponding matrix entries and not first adding the blocks together pair-wise.  
+\end{itemize}
+This two differences both lower the numerical stability compared to a more strictly implemented recursive algorithm.
 
-Dodatno: 
-Zanimivo je tole: Numerical stability
-%%https://en.wikipedia.org/wiki/Kahan_summation_algorithm 
-tu so predstavljene vse pomembne in zanimive ideje kar se tice sestevanja stevil. Meni je originalni algoritem zelo vsec, 
-ce sem videl pravilno pa je v "izboljsani verziji" napaka, ki lahko povzroci neke numericne napake.
+Strassen and Strassen-like algorithms are less numerically stable, because if we expand the formula for one matrix entry we see that in the Strassen algorithm the formula is much larger. Some elements are first added and then subtracted, which reduces numerical stability.
 
-Je tudi notri ideja o rekurzivnem sestevanju, ki pa sem jo jaz ze imel. Oziroma obstaja se boljsa ideja, ki sem jo imel: 
-vedno zaporedno sestevaj stevila, ki so cimbolj enakega velikostnega ranga, kako to dejansko dobro narediti je drug problem. Nek priblizek je seveda lahko sortiranje stevil po velikosti in nato sestevanje lahko to tudi v kombinaciji z rekurzivnim, nek dober program se v seminarju. 
-Mogoce je to tako zanimivo, da bi tudi objavili zraven v svoji mapi numericna stabilnost...
 
-Sem veliko razmisljal, teoreticno je to podrocje skoraj nemogoce pokriti. 
-Prakticno, bi za vsako mnozenje lahko naredil primere, da daluje najbolje oziroma najslabse, to velja omeniti, bi pa dejanska izvedba mocno zmotila jasnost clanka zato TEGA NE BI DAL NOTRI.
-Se mi zdi, da bo se najboljsi prakticni preizkus za nakljucna stevila med -1 in 1. Se mi zdi, da je primerno da damo tudi negativna. Okoli 0 je tudi najvecja natancnost double stevil, torej ta standard je najbolj natancen za stevia blizu 0...
 
-No in pojavi se vprasanje s cim primerjati dobljen rezultat ce ga v bistvu ne ves. Zato gremo en korak nazaj na float in predpostavimo, da je rezultat z double bolj natancen. Ostale algoritme nato primerjamo s tem rezultatom.
 
-Zdi se mi smiselno, da je velikost matrik 2000 v obe dimenziji. Neke rezultate bomo dobili, prevec pa se s tem ni za obremenjevati,.. 
-Bolj podamo da smo iskali ce je na tem podrocju kaj drasticnega ugotovitev pa bo da ni
 
-Pa se to pravilnosti ne bomo prevejali samo za en element ampak po neki normi. Najbolje kar maksimalni, ki pogleda kateri element v matriki razlike najbolj odstopa od 0. Torej gleda kriticni element.
+% (TODO: premisljen plan dela za numericno stabilnost:
+% uporaba float za vsa razlicna mnozenja
+% classicT,
+% recursiveT,
+% strassen,
+% strassenMT [mozno ime modified transposed strassen].
+% Vse to primerjamo z izracunom iz knjiznice boost z 
+% natancnostjo double [pomembno, da se ta poskus izide je, 
+% da dejansko na racunalniku kjer se izvaja je razlika med 
+% double in float!!!]
+% za safe check boosta pa probamo z dvojno natancnostjo tudi ostale metode.
+% Poanta pa je vzamemo da je boost z double popolnoma natancen [ceprav v resnici ni] potem pa to primerjamo z nasimi algoritmi, ki uporabljajo float
+% se vedno pa bo veljalo, da je boost z dvojno natancnostjo veliko bolj natancen zato...
 
-DODATNO TODO; sem se spomnil, da nekje v clanku lepo omeniti, da se za casovno zahtevnost vedno splaca, da ima mnozenje z vektorjem predost pred mnozenjem matrik, ce hocemo hitro delovanje. Treba je se premisliti, kam to umestiti.
-)
+% Dodatno: 
+% Zanimivo je tole: Numerical stability
+% %%https://en.wikipedia.org/wiki/Kahan_summation_algorithm 
+% tu so predstavljene vse pomembne in zanimive ideje kar se tice sestevanja stevil. Meni je originalni algoritem zelo vsec, 
+% ce sem videl pravilno pa je v "izboljsani verziji" napaka, ki lahko povzroci neke numericne napake.
 
-First thing we noticed was that numerical stabilitiy is not a major problem for matrix multiplication problem.
-(TODO tole bom pa jaz se preveril na zelo velikih matrikah, 
-vseeno je res, da ko vecamo velikost matrik se natacnost strassna za en element manjsa, seveda se prav tako manjsa tudi natancnost klasicnega mnozenja matrik, rekurzivno mnozeje v splosnem trpi se najmanj posledic pri tem problemu. Vseeno pa jih. Zato je res celo naslednje, za vsako metodo obstaja razred matrik, ki jih bo ta metoda izracunala bolje od ostalih [saj se lahko v najboljsem primeru numericne napake celo odstejejo], velja pa poudariti, da je seveda rekurzivno mnozenje najboljse za najvecje stevilo matrik. 
-Mogoce bi bilo tu celo najbolj korektno, da za vsako mnozenje podamo nek tip matrik, za katerega je to mnozenje najbolj ucinkovito, 
-ja tako res pokazemo, da je to lahko povsod problem, in mogoce se utemeljitev zakaj je za matrike z nakljucnimi elementi med 0 in 1 rekurzivno mnozenje najboljse.
-Ampak to so matematicno zelo zahtevne teme.)
+% Je tudi notri ideja o rekurzivnem sestevanju, ki pa sem jo jaz ze imel. Oziroma obstaja se boljsa ideja, ki sem jo imel: 
+% vedno zaporedno sestevaj stevila, ki so cimbolj enakega velikostnega ranga, kako to dejansko dobro narediti je drug problem. Nek priblizek je seveda lahko sortiranje stevil po velikosti in nato sestevanje lahko to tudi v kombinaciji z rekurzivnim, nek dober program se v seminarju. 
+% Mogoce je to tako zanimivo, da bi tudi objavili zraven v svoji mapi numericna stabilnost...
 
-(TODO na tem mestu mogoce vseeno vsaj nekaj komentarja o numericni stabilnosti, mi smo namrec algoritem testirali za realna stevila zato je to vprasanje relavantno, ce bi testirali za int to ne bi bilo tako pomembno, bi pa tam pri nekaterih algoritmih lahko prislo do overflow-a, ki pa ne bi bil problematicen ce racunamo po modulu)
+% Sem veliko razmisljal, teoreticno je to podrocje skoraj nemogoce pokriti. 
+% Prakticno, bi za vsako mnozenje lahko naredil primere, da daluje najbolje oziroma najslabse, to velja omeniti, bi pa dejanska izvedba mocno zmotila jasnost clanka zato TEGA NE BI DAL NOTRI.
+% Se mi zdi, da bo se najboljsi prakticni preizkus za nakljucna stevila med -1 in 1. Se mi zdi, da je primerno da damo tudi negativna. Okoli 0 je tudi najvecja natancnost double stevil, torej ta standard je najbolj natancen za stevia blizu 0...
+
+% No in pojavi se vprasanje s cim primerjati dobljen rezultat ce ga v bistvu ne ves. Zato gremo en korak nazaj na float in predpostavimo, da je rezultat z double bolj natancen. Ostale algoritme nato primerjamo s tem rezultatom.
+
+% Zdi se mi smiselno, da je velikost matrik 2000 v obe dimenziji. Neke rezultate bomo dobili, prevec pa se s tem ni za obremenjevati,.. 
+% Bolj podamo da smo iskali ce je na tem podrocju kaj drasticnega ugotovitev pa bo da ni
+
+% Pa se to pravilnosti ne bomo prevejali samo za en element ampak po neki normi. Najbolje kar maksimalni, ki pogleda kateri element v matriki razlike najbolj odstopa od 0. Torej gleda kriticni element.
+
+% DODATNO TODO; sem se spomnil, da nekje v clanku lepo omeniti, da se za casovno zahtevnost vedno splaca, da ima mnozenje z vektorjem predost pred mnozenjem matrik, ce hocemo hitro delovanje. Treba je se premisliti, kam to umestiti.
+% )
+
+% First thing we noticed was that numerical stabilitiy is not a major problem for matrix multiplication problem.
+% (TODO tole bom pa jaz se preveril na zelo velikih matrikah, 
+% vseeno je res, da ko vecamo velikost matrik se natacnost strassna za en element manjsa, seveda se prav tako manjsa tudi natancnost klasicnega mnozenja matrik, rekurzivno mnozeje v splosnem trpi se najmanj posledic pri tem problemu. Vseeno pa jih. Zato je res celo naslednje, za vsako metodo obstaja razred matrik, ki jih bo ta metoda izracunala bolje od ostalih [saj se lahko v najboljsem primeru numericne napake celo odstejejo], velja pa poudariti, da je seveda rekurzivno mnozenje najboljse za najvecje stevilo matrik. 
+% Mogoce bi bilo tu celo najbolj korektno, da za vsako mnozenje podamo nek tip matrik, za katerega je to mnozenje najbolj ucinkovito, 
+% ja tako res pokazemo, da je to lahko povsod problem, in mogoce se utemeljitev zakaj je za matrike z nakljucnimi elementi med 0 in 1 rekurzivno mnozenje najboljse.
+% Ampak to so matematicno zelo zahtevne teme.)
+
+% (TODO na tem mestu mogoce vseeno vsaj nekaj komentarja o numericni stabilnosti, mi smo namrec algoritem testirali za realna stevila zato je to vprasanje relavantno, ce bi testirali za int to ne bi bilo tako pomembno, bi pa tam pri nekaterih algoritmih lahko prislo do overflow-a, ki pa ne bi bil problematicen ce racunamo po modulu)
 
 %%TODO
 %%TODO to je treba se dobro premisliti kako lepo napisati, celo to poglavje
@@ -433,12 +467,13 @@ Ampak to so matematicno zelo zahtevne teme.)
 % for the positive number of the same order the second is more numerically stable.
 
 \section{Experimental Comparison}
+\label{section:experim}
 
 \subsection{Implementation}
-We implemented the algorithms in \cpp. We tried to optimize each algorithm as much as possible. Although all our comparisons were performed on square matrices we also tested correctness on non-square matrices. Implementation of our algorithms is available on Github at \texttt{https://github.com/mihic/matrix-article}.
+We implemented the algorithms in C\texttt{++}. We tried to optimize each algorithm as much as possible. Although all our comparisons were performed on square matrices we also tested correctness on non-square matrices. Implementation of our algorithms is available on Github at \texttt{https://github.com/mihic/matrixmul}.
 
-\subsection{uBlas Library}
-In order to compare our implementations with an existing state-of-the-art implementations we chose uBLAS, the implementation of matrix multiplication from the Boost library in the C++ programming language. We chose it for its ease of use and simplicity. Other libraries such as Eigen \cite{eigen} or Intel Math Kernel Library \cite{mkl} are vigorously optimized in order to be able to use multiple cores and advanced vector instructions of modern processors. We chose uBlas since our goal was to compare generic optimization techniques, not specific to particular processor architecture.
+\subsection{uBLAS Library}
+In order to compare our implementations with an existing state-of-the-art implementations we chose uBLAS, the implementation of matrix multiplication from the Boost library in the \cpp programming language. We chose it for its ease of use and simplicity. Other libraries such as Eigen \cite{eigen} or Intel Math Kernel Library \cite{mkl} are vigorously optimized in order to be able to use multiple cores and advanced vector instructions of modern processors. We chose uBLAS since our goal was to compare generic optimization techniques, not specific to particular processor architecture.
 
 We used the \texttt{block\_prod} function from \texttt{boost::numeric::ublas} with a block size of $32$. As before we determined the optimal block size experimentally.
 
@@ -447,25 +482,13 @@ We used the \texttt{block\_prod} function from \texttt{boost::numeric::ublas} wi
 %% -DBOOST UBLAS NDEBUG
 
 \subsection{Testing Environment}
-All our tests were run on a computer with 16 GBs of RAM on Intel's Core i7-6700HQ locked to 3.1GHz. The operating system was Arch Linux using kernel version 4.13. We used \textit{gcc} version \texttt{7.2.0}, with the following compilation flags: \texttt{-O3 -march=native -DNDEBUG -DBOOST\_UBLAS\_NDEBUG}. \texttt{O3} and \texttt{march=native} flags enable compiler optimizations. The other two flags disable checking for errors inside the uBlas library. Without those flags the uBLAS library checks the numbers in the calculation and warns the user if it finds that the computation is loosing too much precision. The flags disable this overhead and significantly improve the performance of uBLAS. 
+All our tests were run on a computer with 16 GBs of RAM on Intel's Core i7-6700HQ locked to 3.1GHz. The operating system was Arch Linux using kernel version 4.13. We used \textit{gcc} version \texttt{7.2.0}, with the following compilation flags: \texttt{-O3 -march=native -DNDEBUG -DBOOST\_UBLAS\_NDEBUG}. \texttt{O3} and \texttt{march=native} flags enable compiler optimizations. The other two flags disable checking for errors inside the uBLAS library. Without those flags the uBLAS library checks the numbers in the calculation and warns the user if it finds that the computation is loosing too much precision. The flags disable this overhead and significantly improve the performance of uBLAS. 
 
  All the compared algorithms used a single thread of execution and calculated a product of two $n \times n$ randomly generated matrices. 
 
 %%TODO: govor o vplivu cache na vse skupi
 
-\subsection{Results and Conclusion}
-
-In Figure \ref{fig:all_algorithms} we compare the faster versions of all described algorithms. As expected transposed classic algorithm is slowest, followed by transposed recursive and uBLAS. Since uBLAS uses a block algorithm we can confirm our prediction, that recursive algorithm should behave similarly to a block algorithm. The best algorithm in this comparison is modified strassen. 
-%%(TODO: Brez expected ker sva preklop 96 nastimala tako da sva vedela da bo bolje; to se lahko tudi omeni? Pisalo bi nekaj takega: These results show that modified strassen is notably [?? a je to ok] faster even for smaller $n$.)
-%% To vejetno ostane tako kot je bolje se tezko pove
-Although this was expected for large $n$, these results show that the transposed Strassen algorithm is faster even for smaller $n$. From this we can conclude that the Strassen-like algorithm does not have a significant constant hindering its performance for practically sized matrices. This would suggest that this method could be implemented even in general purpose libraries with little downsides.
-%% TODO a je to res pravilno da se tako napise? Kaj je misljeno z little downsides? Pa se to midva sva tako nastimala z preklopom algoritmov da bo Strassen nujno hitrejsi. Ko pri neki konstanti menja na rekurzivnega. Nekaj o tem morava napisati, kje in kako pa je treba razmisliti?
-%% Mogoce bi tu vseeno dala se en enak graf le do 1000?? Lahko se tudi z besedami stevilcno navede nekaj rezultatov (ki se jih sicer da razbrati z grafa)
-%% Sem pogledal v program konstanta za preklop iz strassna na rekurzivnega je 96
-%% Pogoj izgleda takole:
-% if(std::min({aD, bD, cD})<96){
-%         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
-% }
+\subsection{Results}
 
 \begin{figure}[h]
 \centering
@@ -474,267 +497,35 @@ Although this was expected for large $n$, these results show that the transposed
 \label{fig:all_algorithms}
 \end{figure}
 
-(TODO to je sicer malo grdo ampak jaz bi dal celo nek marketinski stavek v takem smislu: for matrices of size larger than 5000 we can see that the use of the strassen method gives us 100 \%  (percent) faster time performance comperd to simple multiplication methods)
+In Figure \ref{fig:all_algorithms} we compare the faster versions of all described algorithms. As expected transposed classic algorithm is slowest, followed by transposed recursive and uBLAS. Since uBLAS uses a block algorithm we can confirm our prediction, that recursive algorithm should behave similarly to a block algorithm. The best algorithm in this comparison is modified strassen. 
+%%(TODO: Brez expected ker sva preklop 96 nastimala tako da sva vedela da bo bolje; to se lahko tudi omeni? Pisalo bi nekaj takega: These results show that modified strassen is notably [?? a je to ok] faster even for smaller $n$.)
+%% To vejetno ostane tako kot je bolje se tezko pove
+Although this was expected for large $n$, these results show that the transposed Strassen algorithm is faster even for smaller $n$.
+%% TODO a je to res pravilno da se tako napise? Kaj je misljeno z little downsides? Pa se to midva sva tako nastimala z preklopom algoritmov da bo Strassen nujno hitrejsi. Ko pri neki konstanti menja na rekurzivnega. Nekaj o tem morava napisati, kje in kako pa je treba razmisliti?
+%% Mogoce bi tu vseeno dala se en enak graf le do 1000?? Lahko se tudi z besedami stevilcno navede nekaj rezultatov (ki se jih sicer da razbrati z grafa)
+%% Sem pogledal v program konstanta za preklop iz strassna na rekurzivnega je 96
+%% Pogoj izgleda takole:
+% if(std::min({aD, bD, cD})<96){
+%         rek_tra_mno_pomozna(mat1, mat4, mat3, a1, a2,  b1, b2, c1, c2);
+% }
+
+\section{Conclusion}
+We described a few practical matrix multiplication methods and discussed their implementation details, numerical stability and performance. We can conclude that the Strassen-like algorithm does not have a significant constant hindering its performance for practically sized matrices. This would suggest that this method could be implemented even in general purpose libraries with the only downside being lower numerical stability. The library could provide a fast Strassen based algorithm and a fall-back recursive algorithm for cases when numerical stability is very important. 
+
+Our work could be extended to include processor specific optimizations such as SIMD (Single Instruction Multiple Data) instructions. This would allow us to compare the Strassen algorithm with highly optimized libraries such as Eigen or Intel MKL. 
+\balance
+
+
+%% (TODO to je sicer malo grdo ampak jaz bi dal celo nek marketinski stavek v takem smislu: for matrices of size larger than 5000 we can see that the use of the strassen method gives us 100 \%  (percent) faster time performance comperd to simple multiplication methods)
+\section*{Acknowledgements}
+The authors would like to thank Jurij Mihelič, because our work began as an assignment during his MSc course \textit{Algorithm Engineering} and he encouraged and helped us expanding it into an article.
 
 \bibliographystyle{plain}
 \bibliography{viri}
 
+
+
+
 \end{document}
 
 
-
-Here we briefly describe the dataflow architecture as implemented by the Maxeler. As opposed to the control-flow architecture, where the operations to be executed by the processor are delegated by the sequence of the instructions, in the data-flow architecture, the operation is executed when its operands are available. Hence, one of the main dataflow programming challenges is to organize the data in such a way that it is readily available and processed by the data-flow processor.
-
-In general, Maxeler's dataflow architecture consists of a set of dataflow engines. Each engine executes one or more \vic{kernels}, i.e., self-contained computing modules with specified input and output. The execution of kernels is controlled from the control-flow computer, and a dataflow engines may be viewed at as a co-processors.
-
-Consequently, the algorithm designer must carefully think about the separation of work between the control-flow and the dataflow part. Considering the former, her job is to implement the code (usually in the C programming language) which controls the whole computation process, e.g., to read the input from the user, to pre-process the data, to send the data to the dataflow engine, to execute the dataflow computation, to transfer the results back to the memory of the control-flow part, and finally, to print the results to the user.
-
-Considering the dataflow part, her job is to implement each kernel (in the MaxJ programming language similar to Java), which can be viewed at as a construction of the dataflow graph, where nodes corresponds to operations and edges connect inputs and outputs of particular operations. Additionally, the implementor must also provide an implementation of the so-called \vic{manager} part, which configures dataflow engine, i.e., specifies the interface to interact with the control-flow part, connects the data streams and interconnects the implemented kernels.
-
-There are two main parallelization mechanisms available in the dataflow engines. The first is in the pipeline, which is hidden behind each dataflow operation, and the second is the parallelization via \vic{pipes}, which is like executing several kernels of the same type at once, each with its own element from the input data stream. Other acceleration mechanism consists of using the large memory available for each dataflow unit or using the fast memory, which is part of each kernel.
-
-
-\section{Conducting Experiments}
-\label{sec:expconduct}
-
-In this section we first give a few reasons for performing experiments, then we present an overall perspective of the experimental process, next we discuss important experimental principles in a dataflow setting, followed by some examples of experimental goals for dataflow algorithms.
-
-In what follows we always assume that at least one of the algorithms examined in the experiments is utilizing the dataflow architecture; such utilization may be partial, the rest of the algorithm may be control-flow based.
-
-The purpose and motivation behind experimental evaluation of dataflow algorithms may be justified with several reasons; to name just a few:
-\begin{itemize}
-\item as a proof of concept that a problem can be solved in practice by a dataflow algorithm,
-\item to improve upon the state of the art algorithm for solving a problem,
-\item to compare different dataflow programming techniques.
-\end{itemize}
-
-\subsection{Experimental Process}
-
-When conducting the experiments, the desig\-ner of experiments, i.e., the experimenter, customarily follows a process, which is depicted in Figure \ref{fig:process}.
-It consists of two phases, i.e., planning and execution of an experiment.
-The first phase begins with formulation of the goals of the experiment, and is followed by definition of measures and factors of influence, preparation of tests and setting up the experimental tools.
-Afterwards, the experiment is executed and the obtained results are analyzed.
-Finally, the results, if beneficial, are reported.
-See also \cite{McGeoch12,Muller10} for more detailed discussion on this topic.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{fig-process.pdf}
-\caption{Experimental process}
-\label{fig:process}
-\end{figure}
-
-Usually the main experiments (also known as workhorse experiments) are preceded by a preliminary study, which is of exploratory nature. It enables the experimenter to plan the experiment by checking basic assumptions and learning about the test environment.
-This process is not strictly linear,  and some steps may be customized, repeated, and/or omitted.
-
-\subsection{Experimental Principles}
-Several general experimental principles need to be followed when planning any experiment.
-In what follows we enlist these principles and discuss their particularities regarding the data\-flow environment considerations.
-
-\paragraph{Reproducibility.}
-Retaking the same experiment should produce similar results.
-The performance of control-flow algorithms is often susceptible to environmental or noise parameters, which cannot be explicitly manipulated.
-For example, the load of computer system, the behavior of operating system.
-Often the performance depends on the actual data in the input, e.g., insertion sort or quicksort, which may taint the results.
-
-In contrast, the performance of dataflow algorithms is more predictable. The system executes one process at a time.
-Additionally, dataflow kernels cannot contain branch instructions, and their execution takes exactly the same number of clock ticks.
-
-\paragraph{Correctness.}
-Indicators obtained from the experiment must accurately reflect the properties being studied.
-Performance indicators that are less influenced by external or noisy factors should be used.
-
-In the dataflow experimentation running time, space and power consumption are often measured.
-The last one is the hardest to measure accurately. 
-
-\paragraph{Validity.}
-Conclusions drawn from the experimental results are based on the correct interpretations of data.
-
-The dataflow architecture has many speci\-fics that must be taken into account when analyzing data.
-For example, a root cause for not achieving desired speedups may be in low throughput of the fetched input data from the host or in low parallelism.
-In the former case, one may increase throughput by pre-fetching the data into the large memory, and in the latter one increase the number of pipes.
-
-\paragraph{Generality.}
-Analysis of the results and conclusions should apply broadly.
-The experiment should be carefully designed by choosing proper performance measures as well as producing explanatory test scenarios.
-
-The experimenter should be able to deduce which dataflow techniques have a positive effect on the selected measures.
-Test scenarios should allow for the control of parameters and isolation of components by focusing on one artifact at one time.
-
-\paragraph{Efficiency.}
-To produce correct results without wasting time and other resources, i.e., maximize information gained per unit of experimental effort.
-
-Dataflow programs are known to have long compile times.
-Hence, the use of simulator to check correctness and obtain preliminary results -- before performing the workhorse experiments -- is a must.
-Additionally, the test program must be flexible enough to support testing in various experimental settings.
-To achieve this usually the best is to support test configuration via a command line arguments.
-
-\paragraph{Newsworthiness.}
-To produce interesting results and conclusions.
-The designer of the experiment should look forward to create an experiment which is worth performing in order to provide new insights into the problem and/or the algorithm.
-Notice that, this is important in academic, i.e., to publish the results, as well as industrial setting, i.e., to create better products.
-
-
-\subsection{Experimental Goals}
-
-The first planning step, which is necessary for good experimental research, is to define experimental goals.
-The experimenter needs to think about and define
-the motivation for the experiments, questions needing answers, statements needed to be verified, and newsworthiness of the experiment.
-
-Obviously, the common goal of all papers presenting an experimentally successful implementation of a dataflow algorithm satisfy the goal of showing suitability of a particular algorithm for the dataflow architecture.
-Besides that, several additional goals are usually pursued within the paper.
-Here we give several examples of goals from the literature on experiments with dataflow algorithms.
-\begin{itemize}
-%\cite{Rankovic13bitonic,kos2015chapter,CibejSimplex,Kenter14Stereo,Niu12Stencil}.
-\item To compare performance of an algorithm for a dataflow architecture to the state-of-the-art (sequential) control flow algorithms, e.g., bitonic sort vs. quicksort \cite{kos2015chapter}, fast Fourier transform \cite{FFT}.
-\item To compare performance of an algorithm for a dataflow architecture to the algorithm on other parallel architectures, such as general purpose graphics processing units (GPGPU), e.g., FPGA, GPGPU \cite{Niu12Stencil}, multi-core \cite{Guo14SetCover,Weston12Derivatives}.
-\item To compare performance (and resource consumption) of both control flow and dataflow version of the same algorithm, e.g., simplex algorithm \cite{CibejSimplex}, fast Fourier transform \cite{FFT}.
-\item To rank different variants of a dataflow algorithm, e.g., main memory vs. dataflow large memory, number of pipes \cite{CibejSimplex}.
-\item To show the relevance of an algorithm for a specific application, e.g., seismic imaging \cite{Niu12Stencil}, solving dense linear programs \cite{CibejSimplex}, stereo matching \cite{Kenter14Stereo}, credit derivatives \cite{Weston12Derivatives}.
-\item To evaluate an estimation model for dataflow resource consumption \cite{Niu12Stencil}.
-\item To determine energy efficiency and compare power consumption \cite{Niu12Stencil}.
-\item To compare performance for a standard rack unit (1U) compute nodes \cite{Weston12Derivatives}.
-\item Qualitative comparison \cite{Guo14SetCover}.
-\end{itemize}
-
-
-\section{Algorithm as a Test Subject}
-
-%\subsection{Test subject}
-Before the experiments are actually performed, the experimenter must determine the test subject, which, in our case, is the algorithm (and accompanying data structures) in its broad interpretation.
-
-In general, there are two options concerning the preparation of the test subject: it may be a real application or a dedicated test program \cite{McGeoch12}.
-The former usually exhibits many difficulties comparing to the latter.
-For example, it may be hard to obtain accurate results measuring the algorithm since the application may contain additional code unrelated to the algorithm.
-On the other hand, the test program interface is designed to support experiments, measure performance, and print statistics.
-
-In practice, to perform the experiments, a test program is most often used and the dataflow experimentation is no exception.
-The test program on the dataflow architecture consists of two parts: the CPU code and the dataflow code (containing one or more kernels and their manager).
-The former implements the main program and controls the process by utilizing the dataflow part at least once, and the latter implements the critical parts of the algorithm that are expected to be accelerated.
-
-\subsection{Semantic Hierarchy}
-Observe that the experiment is actually not performed with the algorithm but with the process running on a particular platform and created from the corresponding implementation.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.9]{fig-semanticgaps}
-\caption{Semantic hierarchy of the algorithm as a test subject.}
-\label{fig:semantichierarchy}
-\end{figure}
-
-See Figure \ref{fig:semantichierarchy} for an overview of the semantic hierarchy relating to the algorithm as a test subject.
-When solving a computational problem, there are many ways to represent the algorithm for solving the problem and each offering distinct level of abstraction.
-First, usually an idea for an algorithm is explored, which is, if applicable, then transformed through many levels of abstraction, i.e., from formal specification (e.g., pseudo-code), implementation (e.g., source code), and executable (e.g., machine code), to the last level containing the executing process.
-
-As the dataflow model of computation is a very specific one, there are a few peculiarities to observe.
-At the top level of semantic hierarchy one may explore the following ideas \cite{Milutinovic15guide}:
-\begin{itemize}
-\item appropriate algorithmic modifications
-\item exploiting pipelining concepts
-\item appropriate input data choreography
-\item exploiting FPGA possibility for arbitrary floating-point precision
-\end{itemize}
-Notice that the top two levels basically correspond to algorithm design, which is already well explored in the literature on classical (control-flow) algorithms \cite{CLRS}.
-Often, the main challenge is not in designing a new algorithm but in finding an existing control-flow algorithm suitable to be used as a basis for the dataflow algorithm.
-See \cite{KorolijaControl,MaxTutorial,Milutinovic15guide} for more on this topic as well as \cite{creativity} for systematic approach on generating new ideas.
-
-\subsection{Implementation Efficiency}
-
-An important aspect of the correctness principle in the experimental process is to ensure fairness of comparison to all engaging algorithms.
-In particular, besides obtaining efficient dataflow implementation, one must also be careful when implementing a control-flow algorithm or any other competing algorithm.
-
-As discussed in \cite{Johnson02} this aspect is somewhat controversial: at first the aim for efficiency seems to be obvious (at least for the algorithm to be exemplified), but efficiency often requires a non-negligible effort of a skilled programmer.
-When implementing competing algorithms, often other factors influence the implementation process; e.g., lack of their documentation or their high complexity. 
-Hence, algorithms examined by the experimental evaluation should have publicly available implementations.
-This increases trust in the results and analysis of the experiment and also makes any further experimental research easier. In such cases it is advisable to take the original implementation.
-
-On the other hand, one must be careful not to dig too much into the efficiency issues and perform too much code tuning, which is best summarized with the following Johnson's principle: \q{Use Reasonably Efficient Implementations} \cite{Johnson02}.
-
-\paragraph{Code tuning.}
-In the remainder of this section we present and discuss several examples of the above code optimization issues. To start with a simple example, concerning the level of compiler optimization, one should use the same level in all algorithms tested, e.g., enable the \id{-O3} option in C compiler.
-
-Observe also, that even a few simple optimizations can greatly improve a particular implementation.
-As an illustrative example, see Figure \ref{fig:comparecpu} showing comparison of running times for several implementations of the classical simplex algorithm for solving linear programs.
-The worst implementation, denoted with \id{cpu-cache}, is accessing the data in a cache unfriendly manner; the second worst, \id{cpu-div} is not particularly careful with the use of  floating-point division operations, whereas the best implementation (\id{cpu}) is optimized by moving the divisions out of the body loop and pre-calculating the inverse of the pivot.
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.35]{cpu-times.png}
-\caption{Comparison of (in-)efficient implementations}
-\label{fig:comparecpu}
-\end{figure}
-
-Straightforward implementions  of textbook algorithms often produce programs which are not useful in practice.
-A significant amount of engineering needs to be put into a particular algorithm before its implementation is considered efficient.
-A classical example of this is the well-known Quicksort algorithm and its carefully optimized implementation in the standard C library \cite{BentleyQS}.
-
-\subsection{Implementation Generality}
-
-Besides efficiency, generality of the implementation is another concern of the correctness principle.
-By generality we mean the algorithm (or to be more concrete, its implementation and respective compiled code) is able to solve (in principle) all instances (limited only with the available memory and possibly other resources) of the corresponding problem.
-
-\paragraph{Parametrization of kernel construction.}
-Usually, from this perspective, control-flow implementations are prone to be as general as possible.
-On the other hand, dataflow implementations are sometimes usable only on a specific subset of problem instances.
-One of the reasons behind this is that the construction of dataflow kernels is often parameterized, with the constructor parameters describing the allowed subset of problem instances.
-To avoid confusion, notice the difference between the kernel construction parameter (e.g., specified as an argument of the kernel constructor) and the input parameter of the kernel (e.g., read by \id{io.input($\cdot$)} function).
-
-For the ease of explanation let us consider the size of an input as the kernel construction parameter.
-When such kernel is compiled, it produces a dataflow graph which is able to be run only for the instances of the specified size.
-A straightforward example of such specificity would be an implementation of fast Fourier transform described in \cite{FFT} or bitonic sort \cite{kos2015chapter}.
-In order to solve instances of different size, a new kernel has to be compiled.
-
-An example of a general implementation can be found in \cite{CibejSimplex}. Here, any input up to a given size (determined by the available FPGA resources) can be solved.
-Notice that, there is still a kernel construction parameter, but here it specifies only the upper bound on the input size.
-
-\paragraph{Alignment constraints.}
-Another interesting aspect of fairness are also alignment constraints, arising when implementing algorithms for the dataflow architecture, i.e., the size of input data streams must be divisible by a particular architecture-dependent number.
-In contrast, such constraints are usually not present in a control flow architecture, but may be inherently present in some algorithms such as \cite{FFT}.
-Now, the designer of experiments is faced with several dilemmas about the test data such as:
-\begin{itemize}
-\item Should it be constrained to fit the dataflow architecture?
-\item Should it be transformed with the respect to the alignment constraints?
-\item Should it be transformed before the actual experiment or on-the-fly?
-\item Should the transformation time be considered as a part of the performance measure?
-\end{itemize}
-
-Our answer would be that the implementation should be as general as possible and to clearly and correctly show the behavior of the algorithm.
-When the alignment transformation is complex and apparently influence the results, then we firmly believe that it must be done and also considered when measuring the performance.
-The decision may depend on the application of the algorithm: if misaligned inputs are not appearing in practice or are the constraint of the algorithm, than this issue might be ignored.
-
-
-
-\section{Conclusion}
-
-Concerning the experimental process presented in Figure \ref{fig:process} we mostly discussed the process in general, its main principles and guidelines as well as the algorithm as a test subject with a focus on implementation efficiency and generality.
-Additionally, we presented the first step of the process, i.e., formulation of experimental goals.
-
-There are many issues of experimental algorithmics with a focus on experiments with algorithms for the dataflow architecture that we did not dwell into.
-Concerning planning of experiments and performances measures we completely leave out an important discussion on performance measures and their indicators which are used in dataflow experimentation, to name a few: wall-clock running time, energy efficiency, robustness, and scalability.
-
-Another important part of planning for experimentation is the definition of parameters and factors influencing the experiment.
-According to the experimental algorithmics terminology, a \vic{parameter} is a property affecting performance indicators, it is assigned a value, which is usually called \vic{level}.
-A factor is a parameter that is explicitly manipulated in the experiment.
-
-There are many kinds of parameters.
-For example, algorithmic parameters are concerned with affecting the behavior of the algorithm.
-In the dataflow perspective such parameters are: size of fast memory to reserve, number of pipes, precision of integer numbers representation, precision of floating-point numbers representation, clock frequency, etc.
-
-Another important issue is generation of test instances and specifics to the dataflow setting.
-An important observation to be discussed is also that the running time of dataflow algorithms is often independent on the actual data in the input instance, i.e., it depends only on the instance size.
-And, finally, the experiment execution, analyzing results and reporting them is also an issue to be discussed from a dataflow perspective.
-
-\section*{Acknowledgements}
-Authors would like to thank to prof. Veljko Milutinovi\'{c} and the guys at Maxeler, Serbia.
-
-
-\bibliographystyle{plain}
-\bibliography{main}
-
-\vskip 1em
-\noindent\textbf{Jurij Mihelič} received his doctoral degree in Computer Science from the University of Ljubljana in 2006. Currently, he is with the Laboratory of Algorithms and Data Structures, Faculty of Computer and Information Science, University of Ljubljana, Slovenia, as an assistant professor. His research interests include algorithm engineering, combinatorial optimization, heuristics, approximation algorithms, and uncertainty in optimization problems.
-
-\vskip 1em
-\noindent\textbf{Uroš Čibej} received his doctoral degree in Computer Science from the University of Ljubljana in 2007. Currently, he is with the Laboratory of Algorithms and Data Structures. His research interests include location problems, distributed systems, computational
-models, halting probability, graph algorithms, and computational complexity.
-
-\balance
