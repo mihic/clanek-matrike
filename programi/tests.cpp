@@ -64,14 +64,14 @@ int main(int ac, const char **av) {
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "Display this message")
-        ("method,m", po::value<string>()->default_value("subcubic"), "Method to benchmark \n"
+        ("method,m", po::value<string>()->default_value("strassen"), "Method to benchmark \n"
             "Available methods:\n"
             "  classic\n"
             "  classic_transposed\n"
             "  recursive\n"
             "  recursive_transposed\n"
-            "  subcubic \n"
             "  strassen \n"
+            "  strassen_transposed \n"
             "  blas \n"
         )
         ("a,a", po::value<int>()->default_value(512), "A in (A,B)x(B,C) mutiplication  \n ")
