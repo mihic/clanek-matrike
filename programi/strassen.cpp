@@ -22,8 +22,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
       MultiplicationRecursivePart(mat1, mat2, mat3, a1, a2, b1, b2, c1, c2);
     }
     else{
-        //std::cout << "abc" << aD << " " << bD << " " << cD << std::endl;
-        //std::cout << "M1" << std::endl;
         //M1
         Tmat mA11A22 = Add(mat1, mat1,
             //A11
@@ -33,7 +31,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            aP, a2,
                            bP, b2);
 
-        //std::cout << "MM" << std::endl;
         Tmat mB11B22 = Add(mat2, mat2,
             //B11
                            b1, bP,
@@ -41,8 +38,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
             //B22
                            bP, b2,
                            cP, c2);
-
-        //std::cout << "M2" << std::endl;
         //M2
         Tmat mA21A22 = Add(mat1, mat1,
             //A21
@@ -52,13 +47,11 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            aP, a2,
                            bP, b2);
 
-        //std::cout << "MM" << std::endl;
         Tmat maB11 = Slice(mat2,
             //B11
                            b1, bP,
                            c1, cP);
 
-        //std::cout << "M3" << std::endl;
         //M3
         Tmat maA11 = Slice(mat1,
             //A11
@@ -73,7 +66,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            bP, b2,
                            cP, c2);
 
-        //std::cout << "M4" << std::endl;
         //M4
         Tmat maA22 = Slice(mat1,
             //A22
@@ -88,7 +80,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            b1, bP,
                            c1, cP);
 
-        //std::cout << "M5" << std::endl;
         //M5
         Tmat mA11A12 = Add(mat1, mat1,
             //A11
@@ -104,7 +95,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            cP, c2);
 
 
-        //std::cout << "M6" << std::endl;
         //M6
         Tmat mA21A11 = Sub(mat1, mat1,
             //A21
@@ -124,7 +114,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            cP, c2);
 
 
-        //std::cout << "M7" << std::endl;
         //M7
         Tmat mA12A22 = Sub(mat1, mat1,
             //A12
@@ -134,7 +123,6 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            aP, a2,
                            bP, b2);
 
-        //std::cout << "MM" << std::endl;
         Tmat mB21B22 = Add(mat2, mat2,
             //B21
                            bP, b2,
@@ -143,55 +131,30 @@ void MultiplicationStrassenPart2(Tmat &mat1, Tmat &mat2, Tmat &mat3,
                            bP, b2,
                            cP, c2);
 
-        //std::cout << "MM AAA" << std::endl;
 
         Tmat matM1 = MultiplicationStrassenPart1(mA11A22, mB11B22);
-        //std::cout << "MM AAA1" << std::endl;
-        ////std::cout << mA21A22.size() << " AA " << mA21A22[0].size() << std::endl;
-        ////std::cout << maB11.size() << " BB " << maB11[0].size() << std::endl;
-        
         Tmat matM2 = MultiplicationStrassenPart1(mA21A22, maB11);
-        //std::cout << "MM AAA2" << std::endl;
         Tmat matM3 = MultiplicationStrassenPart1(maA11, mB12B22);
-        //std::cout << "MM AAA3" << std::endl;
         Tmat matM4 = MultiplicationStrassenPart1(maA22, mB21B11);
-        //std::cout << "MM AAA4" << std::endl;
         Tmat matM5 = MultiplicationStrassenPart1(mA11A12, maB22);
-        //std::cout << "MM AAA5" << std::endl;
         Tmat matM6 = MultiplicationStrassenPart1(mA21A11, mB11B12);
-        //std::cout << "MM AAA6" << std::endl;
         Tmat matM7 = MultiplicationStrassenPart1(mA12A22, mB21B22);
-        //std::cout << "MM AAA7" << std::endl;
-        
-        //std::cout << "MM BBB" << std::endl;
-
         //C11
-      AddToResult(matM1, mat3, a1, c1);
-      AddToResult(matM4, mat3, a1, c1);
-      SubFromResult(matM5, mat3, a1, c1);
-      AddToResult(matM7, mat3, a1, c1);
-        
-        //std::cout << "MM BBB1" << std::endl;
-
+        AddToResult(matM1, mat3, a1, c1);
+        AddToResult(matM4, mat3, a1, c1);
+        SubFromResult(matM5, mat3, a1, c1);
+        AddToResult(matM7, mat3, a1, c1);
         //C12
-      AddToResult(matM3, mat3, a1, cP);
-      AddToResult(matM5, mat3, a1, cP);
-        
-        //std::cout << "MM BBB2" << std::endl;
-
+        AddToResult(matM3, mat3, a1, cP);
+        AddToResult(matM5, mat3, a1, cP);
         //C21
-      AddToResult(matM2, mat3, aP, c1);
-      AddToResult(matM4, mat3, aP, c1);
-        
-        //std::cout << "MM BBB3" << std::endl;
-
+        AddToResult(matM2, mat3, aP, c1);
+        AddToResult(matM4, mat3, aP, c1);
         //C22
-      AddToResult(matM1, mat3, aP, cP);
-      SubFromResult(matM2, mat3, aP, cP);
-      AddToResult(matM3, mat3, aP, cP);
-      AddToResult(matM6, mat3, aP, cP);
-        
-        //std::cout << "MM BBB4" << std::endl;
+        AddToResult(matM1, mat3, aP, cP);
+        SubFromResult(matM2, mat3, aP, cP);
+        AddToResult(matM3, mat3, aP, cP);
+        AddToResult(matM6, mat3, aP, cP);
     }
 }
 

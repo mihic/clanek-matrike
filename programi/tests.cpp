@@ -57,7 +57,7 @@ static map<string, Method> methodMap{
 int main(int ac, const char **av) {
   int a, b, c;
   int repeat;
-  int seed = 2; //totaly random
+  int seed = 2; //random
   int max_time;
   Method method;
   try {
@@ -171,7 +171,7 @@ int main(int ac, const char **av) {
   }
 
   if (max_time == -99) {
-    if (TestCorrectness(f, a, b, c)) {
+    if (TestCorrectnessSimple(f, a, b, c)) {
       cout << "Test passed." << std::endl;
     } else {
       cout << "Test failed." << std::endl;
@@ -179,7 +179,7 @@ int main(int ac, const char **av) {
     return 0;
   }
   if (max_time == -999) {
-    if (CompleteTestForCorrectness(f)) {
+    if (TestCorrectnessComplete(f)) {
       cout << "Test passed." << std::endl;
     } else {
       cout << "Test failed." << std::endl;

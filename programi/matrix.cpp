@@ -73,26 +73,3 @@ void MultiplicationClassicTransposedPart(Tmat &mat1, Tmat &mat2, Tmat &mat3,
         }
     }
 }
-
-//Legacy code
-//
-//void PrintMatrix(Tmat &mat) {
-//  for (auto &vrstica : mat) {
-//    //std::cout << "|";
-//    for (auto &element : vrstica) {
-//      //std::cout << std::setw(8) << element;
-//    }
-//    //std::cout << "|" << std::endl;
-//  }
-//  //std::cout << std::endl;
-//}
-//
-//Tmat newMat(int a, int b){
-//    std::vector<double> nicelni(a, 0.0);
-//    Tmat mat(b, nicelni);
-//    return mat;
-//}
-//std::cout << "MCTP a1=" << a1 << " a2=" << a2 << " b1=" << b1 << " b2=" << b2 << " c1=" << c1 << " c2=" << c2 << std::endl;
-//std::cout << " mat3.m=" << mat3.m << " mat3.n=" << mat3.n << std::endl;
-//std::cout << " mat2.m=" << mat2.m << " mat2.n=" << mat2.n << std::endl;
-//std::cout << " mat1.m=" << mat1.m << " mat1.n=" << mat1.n << std::endl;

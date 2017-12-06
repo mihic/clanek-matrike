@@ -1,12 +1,10 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <string>
 #include <iostream>
 #include <fstream>
 #include <functional>
 #include <iomanip>
-#include <cmath>
 #include "matrix.h"
 
 Tmat PsevdoId(int m, int n) {
@@ -90,7 +88,7 @@ bool ZeroMatrix(Tmat mat) {
   return true;
 }
 
-bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
+bool TestCorrectnessSimple(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, int c) {
   double eps = 0.001;
   bool correct = true;
   std::cout << "Testing correctess of algorithm." << std::endl;
@@ -105,7 +103,7 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
 
   for (int i = 0; i < mat3.m; i += 1) {
     for (int j = 0; j < mat3.n; j += 1) {
-      if (i == j and i < minabc){
+      if (i == j && i < minabc){
         if (std::abs(mat3(i,j) - 1) > eps){
           std::cout << "Critical error: Multiplication classic transposed failed 1: " << "i=" << i << " j=" << j << " mat3(i,j)=" << mat3(i,j) << std::endl;
           throw;
@@ -171,35 +169,16 @@ bool TestCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg, int a, int b, 
     correct = false;
   }
 
-  //PrintMatrix(mat1);
-  //PrintMatrix(mat2);
-  //PrintMatrix(mat3);
-  //PrintMatrix(mat4);
-
-//
-//  cout << "zacetek" << endl;
-//  Tmat nova = RandomMatrix(3,3);
-//  Tmat nova2 = RandomMatrix(3,3);
-//  PrintMatrix(nova2);
-//  nova = nova2;
-//  Tmat nova3 = std::move(nova2);
-//  PrintMatrix(nova3);
-//  //nova2(1,1) = 0;
-//  //PrintMatrix(nova2);
-//  PrintMatrix(nova3);
-
-
-  return true;
-  //return correct;
+  return correct;
 
 }
 
-bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
+bool TestCorrectnessComplete(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   bool correct = true;
   for (int i = 7; i < 500; i += 31) {
     for (int j = 5; j < 500; j += 51) {
       for (int k = 3; k < 500; k += 41) {
-        correct = correct and TestCorrectness(TestAlg, i, j, k);
+        correct = correct && TestCorrectnessSimple(TestAlg, i, j, k);
       }
     }
   }
@@ -207,7 +186,7 @@ bool CompleteTestForCorrectness(std::function<Tmat(Tmat &, Tmat &)> TestAlg) {
   for (int i = 2117; i < 2123; i += 31) {
     for (int j = 2115; j < 2123; j += 51) {
       for (int k = 2113; k < 2123; k += 41) {
-        correct = correct and TestCorrectness(TestAlg, i, j, k);
+        correct = correct && TestCorrectnessSimple(TestAlg, i, j, k);
       }
     }
   }

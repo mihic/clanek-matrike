@@ -62,29 +62,13 @@ Tmat Add(Tmat &mat1, Tmat &mat2,
 
     int iMax = std::max({x1D, y1D});
     int jMax = std::max({x2D, y2D});
-    /*
-    ////std::cout << mat1.size() << " size " << mat1[0].size() << std::endl;
-    ////std::cout << "x1" << " " << "x1max" << std::endl;
-    ////std::cout << x1 << " " << x1max << std::endl;
-    ////std::cout << "x2" << " " << "x2max" << std::endl;
-    ////std::cout << x2 << " " << x2max << std::endl;
-    ////std::cout << "y1" << " " << "y1max" << std::endl;
-    ////std::cout << y1 << " " << y1max << std::endl;
-    ////std::cout << "y2" << " " << "y2max" << std::endl;
-    ////std::cout << y2 << " " << y2max << std::endl;
-    ////std::cout << "iMax" << " " << "jMax" << std::endl;
-    ////std::cout << iMax << " " << jMax << std::endl;
-    */
 
     Tmat mat3(iMax,jMax);
-    //std::cout << "AAAfff" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
-
-    //std::cout << "BBBfff" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) += mat2(y1+i,y2+j);
@@ -109,13 +93,11 @@ Tmat Sub(Tmat &mat1, Tmat &mat2,
     int jMax = std::max({x2D, y2D});
 
     Tmat mat3(iMax,jMax);
-    //std::cout << "AAAhhh" << std::endl;
     for (int i = 0; i<x1D; i+=1){
         for (int j = 0; j<x2D; j+=1){
             mat3(i,j) += mat1(x1+i,x2+j);
         }
     }
-    //std::cout << "BBBhhh" << std::endl;
     for (int i = 0; i<y1D; i+=1){
         for (int j = 0; j<y2D; j+=1){
             mat3(i,j) -= mat2(y1+i,y2+j);
@@ -139,14 +121,10 @@ void MultiplicationStrassenTransposedPart1(Tmat &mat1, Tmat &mat4, Tmat &mat3,
     int bP = b1+bD/2;
     int cP = c1+cD/2;
 
-    //std::cout << "ABC " << aD << " " << bD << " " << cD << std::endl;
     if(std::min({aD, bD, cD})<96){
-      //MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
-      MultiplicationClassicTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
-      //std::cout << "Prva ABC " << aD << " " << bD << " " << cD << std::endl;
+        MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
     }
     else{
-        //std::cout << "Druga ABC " << aD << " " << bD << " " << cD << std::endl;
         Tmat matA1B1 = Add(mat1, mat1,
             //A1
                            a1, aP,
@@ -249,8 +227,6 @@ void MultiplicationStrassenTransposedPart1(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                            cP, c2,
                            b1, bP);
 
-      //std::cout << "Druga1 ABC " << aD << " " << bD << " " << cD << std::endl;
-
         Tmat matM1 = MultiplicationStrassenTransposedPart2(matA1B1, matX1Y1);
         Tmat matM2 = MultiplicationStrassenTransposedPart2(matA2B2, matX2Y2);
         Tmat matM3 = MultiplicationStrassenTransposedPart2(matA1mB2, matX2Y1);
@@ -259,27 +235,25 @@ void MultiplicationStrassenTransposedPart1(Tmat &mat1, Tmat &mat4, Tmat &mat3,
         Tmat matM6 = MultiplicationStrassenTransposedPart2(matB2, matY2mY1);
         Tmat matM7 = MultiplicationStrassenTransposedPart2(matB1b2, matY1);
 
-      //std::cout << "Druga2 ABC " << aD << " " << bD << " " << cD << std::endl;
-
         //A1*
-      AddToResult(matM4, mat3, a1, c1);
-      AddToResult(matM5, mat3, a1, c1);
+        AddToResult(matM4, mat3, a1, c1);
+        AddToResult(matM5, mat3, a1, c1);
 
         //A2*
-      AddToResult(matM2, mat3, a1, cP);
-      SubFromResult(matM6, mat3, a1, cP);
-      AddToResult(matM3, mat3, a1, cP);
-      SubFromResult(matM5, mat3, a1, cP);
+        AddToResult(matM2, mat3, a1, cP);
+        SubFromResult(matM6, mat3, a1, cP);
+        AddToResult(matM3, mat3, a1, cP);
+        SubFromResult(matM5, mat3, a1, cP);
 
         //B1*
-      AddToResult(matM1, mat3, aP, c1);
-      SubFromResult(matM4, mat3, aP, c1);
-      SubFromResult(matM3, mat3, aP, c1);
-      SubFromResult(matM7, mat3, aP, c1);
+        AddToResult(matM1, mat3, aP, c1);
+        SubFromResult(matM4, mat3, aP, c1);
+        SubFromResult(matM3, mat3, aP, c1);
+        SubFromResult(matM7, mat3, aP, c1);
 
         //B2*
-      AddToResult(matM6, mat3, aP, cP);
-      AddToResult(matM7, mat3, aP, cP);
+        AddToResult(matM6, mat3, aP, cP);
+        AddToResult(matM7, mat3, aP, cP);
     }
 }
 
@@ -289,13 +263,15 @@ Tmat MultiplicationStrassenTransposedPart2(Tmat &mat1, Tmat &mat4){
     int c = mat4.m;
 
     Tmat mat3(a,c);
-  MultiplicationStrassenTransposedPart1(mat1, mat4, mat3, 0, a, 0, b, 0, c);
+    MultiplicationStrassenTransposedPart1(mat1, mat4, mat3, 0, a, 0, b, 0, c);
 
     return mat3;
 }
 
 Tmat MultiplicationStrassenTransposed(Tmat &mat1, Tmat &mat2){
-    if (DimensionCheckFailed(mat1,mat2)){std::exit(-1);}
+    if (DimensionCheckFailed(mat1,mat2)){
+        std::exit(-1);
+    }
     Tmat mat4 = Transpose(mat2);
     return MultiplicationStrassenTransposedPart2(mat1, mat4);
 }
