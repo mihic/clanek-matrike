@@ -146,7 +146,7 @@ Tmat MultiplicationClassicTransposed(Tmat &, Tmat &);
 Tmat MultiplicationClassic(Tmat &, Tmat &);
 Tmat MultiplicationRecursive(Tmat &, Tmat &);
 Tmat MultiplicationRecursiveTransposed(Tmat &, Tmat &);
-Tmat MultiplicationSubcubic(Tmat &, Tmat &);
+Tmat MultiplicationStrassenTransposed(Tmat &, Tmat &);
 void MultiplicationRecursiveTransposedPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
                                            int a1, int a2,
                                            int b1, int b2,

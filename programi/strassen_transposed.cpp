@@ -125,12 +125,12 @@ Tmat Sub(Tmat &mat1, Tmat &mat2,
     return mat3;
 }
 
-Tmat MultiplicationSubcubicPart2(Tmat &, Tmat &);
+Tmat MultiplicationStrassenTransposedPart2(Tmat &, Tmat &);
 
-void MultiplicationSubcubicPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
-                                int a1, int a2,
-                                int b1, int b2,
-                                int c1, int c2){
+void MultiplicationStrassenTransposedPart1(Tmat &mat1, Tmat &mat4, Tmat &mat3,
+                                           int a1, int a2,
+                                           int b1, int b2,
+                                           int c1, int c2){
 
     int aD = a2-a1;
     int bD = b2-b1;
@@ -251,13 +251,13 @@ void MultiplicationSubcubicPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
 
       //std::cout << "Druga1 ABC " << aD << " " << bD << " " << cD << std::endl;
 
-        Tmat matM1 = MultiplicationSubcubicPart2(matA1B1, matX1Y1);
-        Tmat matM2 = MultiplicationSubcubicPart2(matA2B2, matX2Y2);
-        Tmat matM3 = MultiplicationSubcubicPart2(matA1mB2, matX2Y1);
-        Tmat matM4 = MultiplicationSubcubicPart2(matA1, matX1mX2);
-        Tmat matM5 = MultiplicationSubcubicPart2(matA2A1, matX2);
-        Tmat matM6 = MultiplicationSubcubicPart2(matB2, matY2mY1);
-        Tmat matM7 = MultiplicationSubcubicPart2(matB1b2, matY1);
+        Tmat matM1 = MultiplicationStrassenTransposedPart2(matA1B1, matX1Y1);
+        Tmat matM2 = MultiplicationStrassenTransposedPart2(matA2B2, matX2Y2);
+        Tmat matM3 = MultiplicationStrassenTransposedPart2(matA1mB2, matX2Y1);
+        Tmat matM4 = MultiplicationStrassenTransposedPart2(matA1, matX1mX2);
+        Tmat matM5 = MultiplicationStrassenTransposedPart2(matA2A1, matX2);
+        Tmat matM6 = MultiplicationStrassenTransposedPart2(matB2, matY2mY1);
+        Tmat matM7 = MultiplicationStrassenTransposedPart2(matB1b2, matY1);
 
       //std::cout << "Druga2 ABC " << aD << " " << bD << " " << cD << std::endl;
 
@@ -283,19 +283,19 @@ void MultiplicationSubcubicPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
     }
 }
 
-Tmat MultiplicationSubcubicPart2(Tmat &mat1, Tmat &mat4){
+Tmat MultiplicationStrassenTransposedPart2(Tmat &mat1, Tmat &mat4){
     int a = mat1.m;
     int b = std::min({mat1.n,mat4.n});
     int c = mat4.m;
 
     Tmat mat3(a,c);
-    MultiplicationSubcubicPart(mat1, mat4, mat3, 0, a, 0, b, 0, c);
+  MultiplicationStrassenTransposedPart1(mat1, mat4, mat3, 0, a, 0, b, 0, c);
 
     return mat3;
 }
 
-Tmat MultiplicationSubcubic(Tmat &mat1, Tmat &mat2){
+Tmat MultiplicationStrassenTransposed(Tmat &mat1, Tmat &mat2){
     if (DimensionCheckFailed(mat1,mat2)){std::exit(-1);}
     Tmat mat4 = Transpose(mat2);
-    return MultiplicationSubcubicPart2(mat1, mat4);
+    return MultiplicationStrassenTransposedPart2(mat1, mat4);
 }

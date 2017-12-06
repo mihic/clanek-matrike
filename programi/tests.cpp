@@ -18,7 +18,7 @@ Tmat RandomMatrix(int m, int n) {
   Tmat mat(m, n);
   for (int i = 0; i < m; i += 1) {
     for (int j = 0; j < n; j += 1) {
-      mat(i,j) = urd(re);
+      mat(i, j) = urd(re);
     }
   }
   return mat;
@@ -30,7 +30,7 @@ boost::numeric::ublas::matrix<double> TmatToBlas(Tmat mat) {
   boost::numeric::ublas::matrix<double> bmat(m1, n1);
   for (int i = 0; i < m1; i += 1) {
     for (int j = 0; j < n1; j += 1) {
-      bmat(i, j) = mat(i,j);
+      bmat(i, j) = mat(i, j);
     }
   }
   return bmat;
@@ -42,15 +42,15 @@ boost::numeric::ublas::matrix<double> MultiplicationBlas(boost::numeric::ublas::
 }
 
 enum Method {
-  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, SUBCUBIC, STRASSEN, BLAS
+  CLASSIC, CLASSIC_T, RECURSIVE, RECURSIVE_T, STRASSEN, STRASSEN_T, BLAS
 };
 static map<string, Method> methodMap{
     {"classic",              CLASSIC},
     {"classic_transposed",   CLASSIC_T},
     {"recursive",            RECURSIVE},
     {"recursive_transposed", RECURSIVE_T},
-    {"subcubic",             SUBCUBIC},
     {"strassen",             STRASSEN},
+    {"strassen_transposed",  STRASSEN_T},
     {"blas",                 BLAS}
 };
 
@@ -92,7 +92,7 @@ int main(int ac, const char **av) {
     if (vm.count("method")) {
       string m = vm["method"].as<string>();
       if (methodMap.count(m) > 0) {
-        //cout << "testing with method " << m << '\n';
+        cout << "testing with method " << m << '\n';
         method = methodMap[m];
       } else {
         cout << m << " is not a valid method, use --help for a list of available methods.";
@@ -105,7 +105,7 @@ int main(int ac, const char **av) {
 
     if (vm.count("a")) {
       a = vm["a"].as<int>();
-      //cout << "a = " << a << '\n';
+      cout << "a = " << a << '\n';
 
     } else {
       cout << "a was not set!\n";
@@ -113,7 +113,7 @@ int main(int ac, const char **av) {
     }
     if (vm.count("b")) {
       b = vm["b"].as<int>();
-      //cout << "b = " << b << '\n';
+      cout << "b = " << b << '\n';
 
     } else {
       cout << "b was not set!\n";
@@ -121,7 +121,7 @@ int main(int ac, const char **av) {
     }
     if (vm.count("c")) {
       c = vm["c"].as<int>();
-      // cout << "c = " << c << '\n';
+      cout << "c = " << c << '\n';
 
     } else {
       cout << "c was not set!\n";
@@ -134,9 +134,9 @@ int main(int ac, const char **av) {
 
     repeat = vm["repeat"].as<int>();
     if (max_time == 0) {
-      //cout << "Number of test: " << repeat << endl;
+      cout << "Number of test: " << repeat << endl;
     } else {
-      //cout << "Testing for " << max_time << " ms" << endl;
+      cout << "Testing for " << max_time << " ms" << endl;
     }
 
   } catch (std::exception &e) {
@@ -162,7 +162,7 @@ int main(int ac, const char **av) {
       break;
     case RECURSIVE_T:f = MultiplicationRecursiveTransposed;
       break;
-    case SUBCUBIC:f = MultiplicationSubcubic;
+    case STRASSEN_T:f = MultiplicationStrassenTransposed;
       break;
     case STRASSEN: f = MultiplicationStrassen;
       break;
@@ -171,23 +171,23 @@ int main(int ac, const char **av) {
   }
 
   if (max_time == -99) {
-    if (TestCorrectness(f, a, b, c)){
-      cout << "Test passed."  << std::endl;
+    if (TestCorrectness(f, a, b, c)) {
+      cout << "Test passed." << std::endl;
     } else {
-      cout << "Test failed."  << std::endl;
+      cout << "Test failed." << std::endl;
     }
     return 0;
   }
   if (max_time == -999) {
-    if (CompleteTestForCorrectness(f)){
-      cout << "Test passed."  << std::endl;
+    if (CompleteTestForCorrectness(f)) {
+      cout << "Test passed." << std::endl;
     } else {
-      cout << "Test failed."  << std::endl;
+      cout << "Test failed." << std::endl;
     }
     return 0;
   }
 
-  if (max_time == 1) {
+  if (max_time == -1) {
     //placeholder for testing
     int n = 512;
     Tmat mat1(n, n);
@@ -195,15 +195,14 @@ int main(int ac, const char **av) {
     double konst = 100000000.000002;
     for (int i = 0; i < n; i += 1) {
       for (int j = 0; j < n; j += 1) {
-        mat1(i,j) = konst;
-        mat2(i,j) = konst;
+        mat1(i, j) = konst;
+        mat2(i, j) = konst;
       }
     }
     Tmat mat3 = f(mat1, mat2);
-    //prikaz1(mat3);
     cout << setprecision(24);
-    cout << konst * konst * n << endl << mat3(0,0) << endl;
-    cout << mat3(n / 2,n / 2) - konst * konst * n << endl;
+    cout << konst * konst * n << endl << mat3(0, 0) << endl;
+    cout << mat3(n / 2, n / 2) - konst * konst * n << endl;
   } else {
 
     if (max_time > 0) {
@@ -219,13 +218,13 @@ int main(int ac, const char **av) {
         }
         time_end = std::chrono::steady_clock::now();
         auto time_of_test = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-//cout << time_of_test.count() << endl;
+        cout << time_of_test.count() << endl;
         time_total += time_of_test;
         count++;
         if (time_total.count() > max_time || count > 10000) {
-//cout << "Total time:" << time_total.count() << "ms" << endl;
-//cout << "Iteration time:" << time_total.count() / count << "ms" << endl;
-          cout << time_total.count() / count << endl;
+          cout << "Total time: " << time_total.count() << " ms" << endl;
+          cout << "Iteration time: " << time_total.count() / count << " ms" << endl;
+          //cout << time_total.count() / count << endl;
           break;
         }
       }
@@ -245,7 +244,9 @@ int main(int ac, const char **av) {
 
       time_end = std::chrono::steady_clock::now();
       auto time_total = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start);
-      std::cout << time_total.count() / repeat << endl;
+      cout << "Total time: " << time_total.count() << " ms" << endl;
+      cout << "Iteration time: " << time_total.count() / repeat << " ms" << endl;
+      //std::cout << time_total.count() / repeat << endl;
     }
   }
 }
