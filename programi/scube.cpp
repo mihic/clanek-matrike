@@ -141,8 +141,8 @@ void MultiplicationSubcubicPart(Tmat &mat1, Tmat &mat4, Tmat &mat3,
 
     //std::cout << "ABC " << aD << " " << bD << " " << cD << std::endl;
     if(std::min({aD, bD, cD})<96){
-      //MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
-      MultiplicationClassicTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
+      MultiplicationRecursiveTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
+      //MultiplicationClassicTransposedPart(mat1, mat4, mat3, a1, a2, b1, b2, c1, c2);
       //std::cout << "Prva ABC " << aD << " " << bD << " " << cD << std::endl;
     }
     else{
